@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IELTS Listening Test 3</title>
   <style>
-  <style>
     :root {
       --bg-main: #f5f5f5;
       --bg-soft: #ececec;
@@ -1924,166 +1923,14 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
   </div>
   </div>
 
-<div id="result-modal-overlay" onclick="handleOverlayClick(event)">
-    <div id="result-modal">
-      <button id="modal-close-btn" onclick="closeModal()">X</button>
-      <div class="modal-header">
-        <div class="modal-title">Your Results</div>
-      </div>
-
-      <!-- Band score -->
-      <div class="band-display">
-        <div class="band-label">Estimated IELTS Band</div>
-        <div class="band-score" id="modal-band">—</div>
-        <div class="band-desc" id="modal-band-desc"></div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-val" id="modal-correct" style="color:#34d399;">—</div>
-          <div class="stat-lbl">Correct Answers / Raw Score</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="modal-wrong" style="color:#f87171;">—</div>
-          <div class="stat-lbl">Incorrect Answers</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="modal-skipped" style="color:#fbbf24;">—</div>
-          <div class="stat-lbl">Unanswered</div>
-        </div>
-      </div>
-
-      <!-- Per-part breakdown -->
-      <div class="parts-breakdown">
-        
-        <div class="parts-breakdown-title">Results by Part</div>
-        <div class="part-row">
-          <div class="part-row-label">Part 1</div>
-          <div class="part-row-bar-wrap"><div class="part-row-bar" id="bar-p1" style="width:0%"></div></div>
-          <div class="part-row-score" id="score-p1">—</div>
-        </div>
-        <div class="part-row">
-          <div class="part-row-label">Part 2</div>
-          <div class="part-row-bar-wrap"><div class="part-row-bar" id="bar-p2" style="width:0%"></div></div>
-          <div class="part-row-score" id="score-p2">—</div>
-        </div>
-        <div class="part-row">
-          <div class="part-row-label">Part 3</div>
-          <div class="part-row-bar-wrap"><div class="part-row-bar" id="bar-p3" style="width:0%"></div></div>
-          <div class="part-row-score" id="score-p3">—</div>
-        </div>
-        <div class="part-row">
-          <div class="part-row-label">Part 4</div>
-          <div class="part-row-bar-wrap"><div class="part-row-bar" id="bar-p4" style="width:0%"></div></div>
-          <div class="part-row-score" id="score-p4">—</div>
-        </div>
-      </div>
-
-      <!-- Wrong answers table -->
-      <div class="wrong-section" id="wrong-section">
-        <div class="wrong-section-title">Incorrect or Empty Answers</div>
-        <div id="wrong-table-wrap"></div>
-      </div>
-      <button class="retake-btn" onclick="retakeTest()">&#8635; Retake Test</button>
-    </div>
-  </div>
-
-  <!-- ===== MAIN CONTENT ===== -->
-  <div class="max-w-7xl mx-auto px-4 pb-16 main-content" id="main-content">
-
-    
-
-
-
-
-
-    
-
-
-        <div id="part-1" class="part-section">
-      <div class="part-card">
-        <div class="part-title">PART 1 <span>Questions 1-10</span></div>
-        <p class="text-slate-400 text-sm mb-6 leading-relaxed">Complete the notes below. Write <strong class="text-sky-300">NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.</p>
-        <h3 class="text-white font-bold text-xl mb-6 text-center">Accommodation for Countryside Holiday</h3>
-        <div class="bg-slate-800 bg-opacity-60 rounded-xl p-5 space-y-3">
-          <h4 class="text-white font-bold text-base mb-1">Holiday Details</h4>
-          <div class="q-row items-center"><span class="q-label">Q1</span><span class="q-text">Preferred location: </span><input class="answer-input mx-2" data-answer="northeast" data-part="1" placeholder="..." id="q1" /><span class="q-score-badge" id="badge-q1">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q2</span><span class="q-text">Try to avoid: </span><input class="answer-input mx-2" data-answer="peak season" data-part="1" placeholder="..." id="q2" style="width:120px;" /><span class="q-score-badge" id="badge-q2">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q3</span><span class="q-text">Length of stay: a </span><input class="answer-input mx-2" data-answer="weekend" data-part="1" placeholder="..." id="q3" /><span class="q-score-badge" id="badge-q3">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Special Requirements</h4>
-          <div class="q-row items-center"><span class="q-label">Q4</span><span class="q-text">Must be </span><input class="answer-input mx-2" data-answer="quiet" data-part="1" placeholder="..." id="q4" /><span class="q-score-badge" id="badge-q4">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q5</span><span class="q-text">A good </span><input class="answer-input mx-2" data-answer="beach" data-part="1" placeholder="..." id="q5" /><span class="q-text"> for children</span><span class="q-score-badge" id="badge-q5">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q6</span><span class="q-text">A </span><input class="answer-input mx-2" data-answer="restaurant" data-part="1" placeholder="..." id="q6" /><span class="q-text"> nearby</span><span class="q-score-badge" id="badge-q6">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Additional Requirements</h4>
-          <div class="q-row"><span class="q-text text-slate-400">• No stairs</span></div>
-          <div class="q-row items-center"><span class="q-label">Q7</span><span class="q-text">Prefer a </span><input class="answer-input mx-2" data-answer="garden" data-part="1" placeholder="..." id="q7" /><span class="q-text"> instead of a balcony</span><span class="q-score-badge" id="badge-q7">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Personal Details</h4>
-          <div class="q-row items-center"><span class="q-label">Q8</span><span class="q-text">Name: Mrs </span><input class="answer-input mx-2" data-answer="Cheffins" data-part="1" placeholder="..." id="q8" /><span class="q-score-badge" id="badge-q8">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q9</span><span class="q-text">Contact number: </span><input class="answer-input mx-2" data-answer="0192477285" data-part="1" placeholder="..." id="q9" style="width:130px;" /><span class="q-score-badge" id="badge-q9">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q10</span><span class="q-text">Source: the ads from the Magazine of </span><input class="answer-input mx-2" data-answer="Countryside Living" data-part="1" placeholder="..." id="q10" style="width:140px;" /><span class="q-score-badge" id="badge-q10">1 pt</span></div>
-        </div>
-      </div>
-    </div>    <div id="part-2" class="part-section hidden">
-      <div class="part-card">
-        <div class="part-title">PART 2 <span>Questions 11-20</span></div>
-        <p class="text-slate-400 text-sm mb-2 leading-relaxed"><strong class="text-sky-300">Questions 11-15:</strong> Choose the correct answer, A, B or C.</p>
-        <h3 class="text-white font-bold text-xl mb-6 text-center">An Electronic Toy Company</h3>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q11</span><span class="q-text">What point is made about the history of the company?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q11" value="A" data-answer="A" data-part="2" /> A&nbsp; It was quickly established.</label><label class="opt-label"><input type="radio" name="q11" value="B" data-answer="A" data-part="2" /> B&nbsp; It took a long time to establish.</label><label class="opt-label"><input type="radio" name="q11" value="C" data-answer="A" data-part="2" /> C&nbsp; It was set up by a relative.</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q12</span><span class="q-text">Why should the company recruit more temporary staff?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q12" value="A" data-answer="A" data-part="2" /> A&nbsp; It plans to develop new products.</label><label class="opt-label"><input type="radio" name="q12" value="B" data-answer="A" data-part="2" /> B&nbsp; The old staff are having an illness.</label><label class="opt-label"><input type="radio" name="q12" value="C" data-answer="A" data-part="2" /> C&nbsp; It aims to meet the new demands of customers.</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q13</span><span class="q-text">How long will the employees work in the company?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q13" value="A" data-answer="B" data-part="2" /> A&nbsp; a few weeks</label><label class="opt-label"><input type="radio" name="q13" value="B" data-answer="B" data-part="2" /> B&nbsp; half a year</label><label class="opt-label"><input type="radio" name="q13" value="C" data-answer="B" data-part="2" /> C&nbsp; indefinitely</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q14</span><span class="q-text">The largest number of positions are in the department of</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q14" value="A" data-answer="C" data-part="2" /> A&nbsp; administration.</label><label class="opt-label"><input type="radio" name="q14" value="B" data-answer="C" data-part="2" /> B&nbsp; production.</label><label class="opt-label"><input type="radio" name="q14" value="C" data-answer="C" data-part="2" /> C&nbsp; package delivery.</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q15</span><span class="q-text">What's the current problem with the company?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q15" value="A" data-answer="C" data-part="2" /> A&nbsp; outdated machines</label><label class="opt-label"><input type="radio" name="q15" value="B" data-answer="C" data-part="2" /> B&nbsp; inadequate skills</label><label class="opt-label"><input type="radio" name="q15" value="C" data-answer="C" data-part="2" /> C&nbsp; late payment</label></div></div>
-        <div class="mt-8"><p class="text-slate-400 text-sm mb-4 leading-relaxed"><strong class="text-sky-300">Questions 16-20:</strong> Responsibility of each temporary staff member. Choose FIVE answers from the box (A-F).</p><div class="bg-slate-800 bg-opacity-60 rounded-xl p-4 mb-5"><div class="text-white font-bold text-sm mb-2">Responsibilities</div><div class="text-slate-300 text-sm"><span class="mr-4"><strong class="text-white">A</strong> computer</span><span class="mr-4"><strong class="text-white">B</strong> wage</span><span class="mr-4"><strong class="text-white">C</strong> production</span><span class="mr-4"><strong class="text-white">D</strong> maintenance</span><br/><span class="mr-4"><strong class="text-white">E</strong> research and development</span><span><strong class="text-white">F</strong> maintaining customer relationship</span></div></div><div class="space-y-3"><div class="q-row items-center"><span class="q-label">Q16</span><span class="q-text" style="min-width:120px">1st person</span><select class="match-select" id="q16" data-answer="B" data-part="2"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q16">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q17</span><span class="q-text" style="min-width:120px">2nd person</span><select class="match-select" id="q17" data-answer="C" data-part="2"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q17">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q18</span><span class="q-text" style="min-width:120px">3rd person</span><select class="match-select" id="q18" data-answer="D" data-part="2"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q18">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q19</span><span class="q-text" style="min-width:120px">4th person</span><select class="match-select" id="q19" data-answer="A" data-part="2"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q19">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q20</span><span class="q-text" style="min-width:120px">5th person</span><select class="match-select" id="q20" data-answer="F" data-part="2"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q20">1 pt</span></div></div></div>
-      </div>
-    </div>    <div id="part-3" class="part-section hidden">
-      <div class="part-card">
-        <div class="part-title">PART 3 <span>Questions 21-30</span></div>
-        <p class="text-slate-400 text-sm mb-2 leading-relaxed"><strong class="text-sky-300">Questions 21-26:</strong> Choose the correct answer, A, B or C.</p>
-        <h3 class="text-white font-bold text-xl mb-6 text-center">Project on Sports Shoes</h3>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q21</span><span class="q-text">What did the students get from the website?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q21" value="A" data-answer="C" data-part="3" /> A&nbsp; advice from others</label><label class="opt-label"><input type="radio" name="q21" value="B" data-answer="C" data-part="3" /> B&nbsp; ideas to fulfil the project requirements</label><label class="opt-label"><input type="radio" name="q21" value="C" data-answer="C" data-part="3" /> C&nbsp; relevant information about the case</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q22</span><span class="q-text">What did Martin use as an example of the research?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q22" value="A" data-answer="B" data-part="3" /> A&nbsp; He downloaded a diagram from the internet.</label><label class="opt-label"><input type="radio" name="q22" value="B" data-answer="B" data-part="3" /> B&nbsp; He took apart his old shoes.</label><label class="opt-label"><input type="radio" name="q22" value="C" data-answer="B" data-part="3" /> C&nbsp; He borrowed a sample from the tutor.</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q23</span><span class="q-text">According to Martin, what other factors should be considered while designing shoes?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q23" value="A" data-answer="B" data-part="3" /> A&nbsp; foot shape</label><label class="opt-label"><input type="radio" name="q23" value="B" data-answer="B" data-part="3" /> B&nbsp; foot movement</label><label class="opt-label"><input type="radio" name="q23" value="C" data-answer="B" data-part="3" /> C&nbsp; raw materials</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q24</span><span class="q-text">What proportion of the essay does Martin suggest Rosie do?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q24" value="A" data-answer="B" data-part="3" /> A&nbsp; half</label><label class="opt-label"><input type="radio" name="q24" value="B" data-answer="B" data-part="3" /> B&nbsp; almost all</label><label class="opt-label"><input type="radio" name="q24" value="C" data-answer="B" data-part="3" /> C&nbsp; every part</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q25</span><span class="q-text">What will Martin and Rosie do this weekend?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q25" value="A" data-answer="C" data-part="3" /> A&nbsp; carry out a plan</label><label class="opt-label"><input type="radio" name="q25" value="B" data-answer="C" data-part="3" /> B&nbsp; do some face-to-face interviews</label><label class="opt-label"><input type="radio" name="q25" value="C" data-answer="C" data-part="3" /> C&nbsp; answer the questions</label></div></div>
-        <div class="mb-6"><div class="q-row mb-2"><span class="q-label">Q26</span><span class="q-text">What help can the students get from the tutor?</span></div><div class="pl-6 space-y-1"><label class="opt-label"><input type="radio" name="q26" value="A" data-answer="A" data-part="3" /> A&nbsp; borrow equipment</label><label class="opt-label"><input type="radio" name="q26" value="B" data-answer="A" data-part="3" /> B&nbsp; get some advice</label><label class="opt-label"><input type="radio" name="q26" value="C" data-answer="A" data-part="3" /> C&nbsp; have a tutorial</label></div></div>
-        <div class="mt-8"><p class="text-slate-400 text-sm mb-4 leading-relaxed"><strong class="text-sky-300">Questions 27-30:</strong> What decision do the students make about each part of their essay? Choose FOUR answers (A-F).</p><div class="bg-slate-800 bg-opacity-60 rounded-xl p-4 mb-5"><div class="text-white font-bold text-sm mb-2">Decisions</div><div class="text-slate-300 text-sm"><span class="mr-4"><strong class="text-white">A</strong> change the layout</span><span class="mr-4"><strong class="text-white">B</strong> write it longer</span><span class="mr-4"><strong class="text-white">C</strong> give a detailed example</span><br/><span class="mr-4"><strong class="text-white">D</strong> change to another part</span><span class="mr-4"><strong class="text-white">E</strong> use simple language</span><span><strong class="text-white">F</strong> write in the last part</span></div></div><div class="space-y-3"><div class="q-row items-center"><span class="q-label">Q27</span><span class="q-text" style="min-width:120px">Summary</span><select class="match-select" id="q27" data-answer="F" data-part="3"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q27">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q28</span><span class="q-text" style="min-width:120px">Result</span><select class="match-select" id="q28" data-answer="D" data-part="3"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q28">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q29</span><span class="q-text" style="min-width:120px">Conclusion</span><select class="match-select" id="q29" data-answer="E" data-part="3"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q29">1 pt</span></div><div class="q-row items-center"><span class="q-label">Q30</span><span class="q-text" style="min-width:120px">Discussion</span><select class="match-select" id="q30" data-answer="A" data-part="3"><option value="">-</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option><option value="F">F</option></select><span class="q-score-badge" id="badge-q30">1 pt</span></div></div></div>
-      </div>
-    </div>    <div id="part-4" class="part-section hidden">
-      <div class="part-card">
-        <div class="part-title">PART 4 <span>Questions 31-40</span></div>
-        <p class="text-slate-400 text-sm mb-6 leading-relaxed">Complete the notes below. Write <strong class="text-sky-300">ONE WORD ONLY</strong> for each answer.</p>
-        <h3 class="text-white font-bold text-xl mb-6 text-center">African Clawed Frog (Xenopus Laevis)</h3>
-        <div class="bg-slate-800 bg-opacity-60 rounded-xl p-5 space-y-3">
-          <h4 class="text-white font-bold text-base mb-1">Description</h4>
-          <div class="q-row"><span class="q-text text-slate-400">• They have no tongue or external ears.</span></div>
-          <div class="q-row items-center"><span class="q-label">Q31</span><span class="q-text">• Their skin is </span><input class="answer-input mx-2" data-answer="smooth" data-part="4" placeholder="..." id="q31" /><span class="q-score-badge" id="badge-q31">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q32</span><span class="q-text">• The mucus on their skin is for </span><input class="answer-input mx-2" data-answer="protection" data-part="4" placeholder="..." id="q32" /><span class="q-score-badge" id="badge-q32">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q33</span><span class="q-text">• Male frogs are </span><input class="answer-input mx-2" data-answer="half" data-part="4" placeholder="..." id="q33" style="width:70px;" /><span class="q-text"> the size of female frogs.</span><span class="q-score-badge" id="badge-q33">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Habitats</h4>
-          <div class="q-row items-center"><span class="q-label">Q34</span><span class="q-text">• They prefer </span><input class="answer-input mx-2" data-answer="still" data-part="4" placeholder="..." id="q34" style="width:70px;" /><span class="q-text"> water.</span><span class="q-score-badge" id="badge-q34">1 pt</span></div>
-          <div class="q-row"><span class="q-text text-slate-400">• They live in oases or glacier-covered lakes.</span></div>
-          <div class="q-row items-center"><span class="q-label">Q35</span><span class="q-text">• They live in a condition with a high level of </span><input class="answer-input mx-2" data-answer="salt" data-part="4" placeholder="..." id="q35" style="width:70px;" /><span class="q-score-badge" id="badge-q35">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q36</span><span class="q-text">• In drought, they can survive in </span><input class="answer-input mx-2" data-answer="mud" data-part="4" placeholder="..." id="q36" style="width:70px;" /><span class="q-text"> for a long period.</span><span class="q-score-badge" id="badge-q36">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Diet</h4>
-          <div class="q-row items-center"><span class="q-label">Q37</span><span class="q-text">• They use the sense of </span><input class="answer-input mx-2" data-answer="smell" data-part="4" placeholder="..." id="q37" style="width:70px;" /><span class="q-text"> to capture food.</span><span class="q-score-badge" id="badge-q37">1 pt</span></div>
-          <div class="q-row"><span class="q-text text-slate-400">• They use their claws to tear apart ample food.</span></div>
-          <div class="q-row items-center"><span class="q-label">Q38</span><span class="q-text">• They use a unique </span><input class="answer-input mx-2" data-answer="pump" data-part="4" placeholder="..." id="q38" style="width:70px;" /><span class="q-text"> system when feeding.</span><span class="q-score-badge" id="badge-q38">1 pt</span></div>
-          <h4 class="text-white font-bold text-base mt-4 mb-1">Other information</h4>
-          <div class="q-row items-center"><span class="q-label">Q39</span><span class="q-text">• People in some states of the USA regard them as </span><input class="answer-input mx-2" data-answer="pest" data-part="4" placeholder="..." id="q39" style="width:70px;" /><span class="q-score-badge" id="badge-q39">1 pt</span></div>
-          <div class="q-row items-center"><span class="q-label">Q40</span><span class="q-text">• The mucus on their skin has </span><input class="answer-input mx-2" data-answer="antibiotic" data-part="4" placeholder="..." id="q40" style="width:90px;" /><span class="q-text"> properties.</span><span class="q-score-badge" id="badge-q40">1 pt</span></div>
-        </div>
-      </div>
-    </div>
-  <div id="keyword-toolbar" aria-hidden="true">
-    <span class="keyword-toolbar-label">highlight</span>
-    <button class="keyword-color-btn" type="button" data-color="yellow" title="Yellow"></button>
-    <button class="keyword-color-btn" type="button" data-color="green" title="Green"></button>
-    <button class="keyword-color-btn" type="button" data-color="pink" title="Pink"></button>
-    <button class="keyword-color-btn" type="button" data-color="blue" title="Blue"></button>
-    <button class="keyword-remove-btn" id="keyword-remove-btn" type="button">Remove</button>
-  </div>
-
+<div id="keyword-toolbar" aria-hidden="true">
+  <span class="keyword-toolbar-label">highlight</span>
+  <button class="keyword-color-btn" type="button" data-color="yellow" title="Yellow"></button>
+  <button class="keyword-color-btn" type="button" data-color="green" title="Green"></button>
+  <button class="keyword-color-btn" type="button" data-color="pink" title="Pink"></button>
+  <button class="keyword-color-btn" type="button" data-color="blue" title="Blue"></button>
+  <button class="keyword-remove-btn" id="keyword-remove-btn" type="button">Remove</button>
+</div>
 <script>
 
     // ===== ANSWERED COUNTER =====
@@ -3127,4 +2974,3 @@ window.addEventListener('pageshow', function(e) {
 
 </script>
 </body>
-</html>
