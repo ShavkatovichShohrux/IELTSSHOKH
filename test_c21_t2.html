@@ -1644,7 +1644,6 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       </div>
       <!-- Part 1 Footer -->
       <div class="part-footer">
-        <button class="check-btn" onclick="checkAnswers(1)">Submit &amp; Check</button>
         <button class="nav-btn" onclick="showPart(2)">Part 2 &#8594;</button>
       </div>
     </div>
@@ -1800,7 +1799,6 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       <!-- Part 2 Footer -->
       <div class="part-footer">
         <button class="nav-btn" onclick="showPart(1)">&#8592; Part 1</button>
-        <button class="check-btn" onclick="checkAnswers(2)">Submit &amp; Check</button>
         <button class="nav-btn" onclick="showPart(3)">Part 3 &#8594;</button>
       </div>
     </div>
@@ -1928,7 +1926,6 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       <!-- Part 3 Footer -->
       <div class="part-footer">
         <button class="nav-btn" onclick="showPart(2)">&#8592; Part 2</button>
-        <button class="check-btn" onclick="checkAnswers(3)">Submit &amp; Check</button>
         <button class="nav-btn" onclick="showPart(4)">Part 4 &#8594;</button>
       </div>
     </div>
@@ -1942,81 +1939,74 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       <div class="bg-slate-800 bg-opacity-50 rounded-xl p-4 mb-5">
         <h3 style="text-align:center;font-weight:800;font-size:1rem;margin-bottom:18px;color:#111827;">Challenges facing the cruise ship industry</h3>
 
-        <!-- Environmental challenges -->
-        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Environmental challenges</p>
+        <!-- Over-tourism section -->
+        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Problems caused by over-tourism</p>
         <ul style="list-style:disc;padding-left:28px;margin-bottom:16px;">
           <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
             <span class="q-label">Q31</span>
             <input class="answer-input" id="q31" data-answer="pollution" data-part="4" style="width:100px;" placeholder="..." />
-            from ships' engines harms sea life
+            is a major threat to many tourist destinations
           </li>
           <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Cruise ships do not pay
+            Some cities, e.g. Barcelona, impose a
             <span class="q-label">Q32</span>
             <input class="answer-input" id="q32" data-answer="tax" data-part="4" style="width:70px;" placeholder="..." />
-            on their fuel
+            on cruise passengers
           </li>
-          <li class="q-text" style="margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Over-tourism: large numbers of tourists can destroy the
+          <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            Bruges: shops only selling
             <span class="q-label">Q33</span>
             <input class="answer-input" id="q33" data-answer="chocolate" data-part="4" style="width:95px;" placeholder="..." />
-            industry in destination cities
+            and souvenirs
           </li>
-        </ul>
-
-        <!-- Operational challenges -->
-        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Operational challenges</p>
-        <ul style="list-style:disc;padding-left:28px;margin-bottom:16px;">
-          <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+          <li class="q-text" style="margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            Dubrovnik: controls the
             <span class="q-label">Q34</span>
             <input class="answer-input" id="q34" data-answer="timing" data-part="4" style="width:80px;" placeholder="..." />
-            of repairs is difficult to plan
+            of all cruise ship entries
           </li>
-          <li class="q-text" style="margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            High
+        </ul>
+
+        <!-- Younger passengers section -->
+        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Attracting younger passengers</p>
+        <p class="q-text" style="margin-bottom:6px;font-style:italic;font-size:0.87rem;color:#475569;">Barriers:</p>
+        <ul style="list-style:disc;padding-left:28px;margin-bottom:12px;">
+          <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
             <span class="q-label">Q35</span>
             <input class="answer-input" id="q35" data-answer="cost" data-part="4" style="width:70px;" placeholder="..." />
-            of training new crew members
-          </li>
-        </ul>
-
-        <!-- Legal challenges -->
-        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Legal challenges</p>
-        <ul style="list-style:disc;padding-left:28px;margin-bottom:16px;">
-          <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Different countries have different
-            <span class="q-label">Q36</span>
-            <input class="answer-input" id="q36" data-answer="rules" data-part="4" style="width:75px;" placeholder="..." />
-            for dealing with crimes on board
+            is a major factor putting younger groups off
           </li>
           <li class="q-text" style="margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Injuries while
-            <span class="q-label">Q37</span>
-            <input class="answer-input" id="q37" data-answer="diving" data-part="4" style="width:80px;" placeholder="..." />
-            are common among passengers
+            perception that cruises have lots of
+            <span class="q-label">Q36</span>
+            <input class="answer-input" id="q36" data-answer="rules" data-part="4" style="width:75px;" placeholder="..." />
+            about dress and behaviour
           </li>
         </ul>
-
-        <!-- Commercial challenges -->
-        <p class="q-text" style="font-weight:800;margin-bottom:8px;color:#1e3a5f;">Commercial challenges</p>
+        <p class="q-text" style="margin-bottom:6px;font-style:italic;font-size:0.87rem;color:#475569;">New ships now offer:</p>
         <ul style="list-style:disc;padding-left:28px;margin-bottom:6px;">
           <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Growth of
-            <span class="q-label">Q38</span>
-            <input class="answer-input" id="q38" data-answer="vegan" data-part="4" style="width:80px;" placeholder="..." />
-            passengers requires new catering strategies
+            most ships offer
+            <span class="q-label">Q37</span>
+            <input class="answer-input" id="q37" data-answer="diving" data-part="4" style="width:80px;" placeholder="..." />
+            expeditions
           </li>
           <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Provision of
+            <span class="q-label">Q38</span>
+            <input class="answer-input" id="q38" data-answer="vegan" data-part="4" style="width:80px;" placeholder="..." />
+            dishes are now standard
+          </li>
+          <li class="q-text" style="margin-bottom:10px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            companies must guarantee reliable
             <span class="q-label">Q39</span>
             <input class="answer-input" id="q39" data-answer="wifi" data-part="4" style="width:70px;" placeholder="..." />
-            is now expected by passengers
+            at all times
           </li>
           <li class="q-text" style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
-            Sharing of negative
+            cruise lines produce first-rate
             <span class="q-label">Q40</span>
             <input class="answer-input" id="q40" data-answer="videos" data-part="4" style="width:80px;" placeholder="..." />
-            by passengers on social media can damage the company's image
+            for social media channels
           </li>
         </ul>
       </div>
@@ -2024,7 +2014,6 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       <!-- Part 4 Footer -->
       <div class="part-footer">
         <button class="nav-btn" onclick="showPart(3)">&#8592; Part 3</button>
-        <button class="check-btn" onclick="checkAnswers(4)">Submit &amp; Check</button>
       </div>
     </div>
   </div>
@@ -2466,47 +2455,78 @@ document.addEventListener('change', updateAnsweredCount);
     // ===== PER-QUESTION FEEDBACK DATA =====
     const FEEDBACK = {
   // ===== PART 1 — Steynford College one-day classes =====
-  1:  '<strong>Answer: 13 January (also accepted: 13.01 / 13.1)</strong><br>The table asks for the date of the Vietnamese food class. The speaker announces it takes place on the 13th of January. Both numerical formats and "13 January" are accepted.',
-  2:  '<strong>Answer: 48 (£48)</strong><br>The table shows the cost of the bread making class. The speaker says it costs £48. Write only the number after the printed £ sign.',
-  3:  '<strong>Answer: pizza</strong><br>The notes column lists what participants make: white bread, sourdough, and pizza. All three types are mentioned in the audio.',
-  4:  '<strong>Answer: India</strong><br>The notes say "The teacher trained in ___". The speaker states the face massage teacher trained in India.',
-  5:  '<strong>Answer: mirror</strong><br>Participants are told to bring a mirror to the face massage class so they can see the techniques being demonstrated.',
-  6:  '<strong>Answer: 6 April (also accepted: 06.04 / 6.4)</strong><br>The date of the candle making class is the 6th of April. Any standard date format for 6 April is accepted.',
-  7:  '<strong>Answer: natural</strong><br>The notes for candle making say only natural ingredients are used — this is highlighted as a feature of the class.',
-  8:  '<strong>Answer: 67.50 (£67.50)</strong><br>The silk painting class costs £67.50. Write only the number after the printed £ sign. Both 67.50 and 67.5 are accepted.',
-  9:  '<strong>Answer: shirt</strong><br>The notes say "Bring an apron or old ___". The speaker tells participants to bring an apron or an old shirt to protect their clothing.',
-  10: '<strong>Answer: hammer</strong><br>The DIY class teaches how to use a drill, a saw, and a hammer. The third tool listed in the audio is hammer.',
+  1:  '<strong>Answer: 13 January</strong><br>Audio: <em>&#8220;I think that was on the 13th of January.&#8221;</em> &#8212; The caller guesses the date, and the adviser confirms: <em>&#8220;Yes, you\'re right about the date.&#8221;</em><br>&#9888;&#65039; <strong>Trap:</strong> the caller also guessed £60 but actual cost is £59 &#8212; only the date is asked here.',
 
-  // ===== PART 2 — Coastal walks + Map =====
-  'q11_12': '<strong>Answers: B and E</strong> (either order)<br><strong>B correct</strong> — Don\'t miss the ruins of a certain building: the guide specifically advises walkers not to miss the ruins of the old castle.<br><strong>E correct</strong> — Don\'t worry about getting lost: the path is well-marked and the guide reassures walkers they won\'t lose their way.<br><strong>A wrong</strong> — Lunch in an ancient town is not mentioned as advice.<br><strong>C wrong</strong> — No boat is required for this walk.<br><strong>D wrong</strong> — Steep and rocky paths are not specifically warned about.',
-  'q13_14': '<strong>Answers: C and D</strong> (either order)<br><strong>C correct</strong> — This is a circular walk: the Melby Heritage Walk starts and ends at the same point.<br><strong>D correct</strong> — A tower stands on the site of an older structure: the speaker explains the tower was built on the foundations of an earlier building.<br><strong>A wrong</strong> — The walk is not described as mostly downhill.<br><strong>B wrong</strong> — Paths being busy is not mentioned.<br><strong>E wrong</strong> — Far-reaching views are only available at certain points, not the whole way.',
-  15: '<strong>Answer: F</strong><br>On the map, the Exhibition is located at position F — the building near the Main visitor centre on the left side.',
-  16: '<strong>Answer: B</strong><br>The Baths are at position B — the building in the top-left area of the mine site.',
-  17: '<strong>Answer: D</strong><br>Tools are displayed in building D — the structure at the top-centre of the map.',
-  18: '<strong>Answer: A</strong><br>The Vehicles collection is housed in building A — the large structure in the bottom-left of the site.',
-  19: '<strong>Answer: H</strong><br>The Ponies area is at position H — the building in the top-right of the mine site.',
-  20: '<strong>Answer: E</strong><br>The Education centre is at position E — the building in the centre of the map.',
+  2:  '<strong>Answer: 48 (£48)</strong><br>Audio: <em>&#8220;The actual cost is £48, but then there\'s an extra charge as well as that for the ingredients.&#8221;</em> &#8212; Write only the number after the printed £ sign. The ingredients charge is <em>additional</em> to £48, not included.',
 
-  // ===== PART 3 — Food safety / food fraud =====
-  'q21_22': '<strong>Answers: B and E</strong> (either order)<br><strong>B correct</strong> — The number of diseases caused by contaminated food was new and surprising to both students.<br><strong>E correct</strong> — The result of treating animals with antibiotics (antibiotic resistance) was something neither student had fully considered before.<br><strong>A wrong</strong> — Plastic in the ocean is widely reported; not new information.<br><strong>C wrong</strong> — Food waste statistics are commonly known.<br><strong>D wrong</strong> — Obesity figures are frequently cited in media.',
-  'q23_24': '<strong>Answers: C and D</strong> (either order)<br><strong>C correct</strong> — The use of multiple tests on food items: Fergus was impressed by how the project ran several different analyses on each sample.<br><strong>D correct</strong> — The variety of dietary requirements included: the project covered a wide range of food types relevant to different diets.<br><strong>A wrong</strong> — The new technology was not specifically what impressed Fergus.<br><strong>B wrong</strong> — Publicity was not mentioned as impressive.<br><strong>E wrong</strong> — Making information widely accessible was not highlighted.',
-  'q25_26': '<strong>Answers: A and C</strong> (either order)<br><strong>A correct</strong> — Sustainable fishing: both students agreed this topic should be included in the course.<br><strong>C correct</strong> — Global differences in consumption: both felt understanding how different cultures eat is important.<br><strong>B wrong</strong> — Targeted nutrition was only recommended by one student.<br><strong>D wrong</strong> — Sustainable agriculture was not agreed on by both.<br><strong>E wrong</strong> — Digital technology and food was not mutually recommended.',
-  27: '<strong>Answer: C — This was easy to decide on.</strong><br>The initial aim (what the project would focus on) was easy for both students to agree on from the start. No long debate was needed.',
-  28: '<strong>Answer: D — This was helped by the guidelines provided.</strong><br>The literature review stage was made easier because the course provided clear guidelines on what sources to use and how to structure the review.',
-  29: '<strong>Answer: F — This involved selecting a new ingredient.</strong><br>During product development, the students had to choose a new ingredient to incorporate into their food product — this was the defining feature of this stage.',
-  30: '<strong>Answer: A — This was challenging but enjoyable.</strong><br>The product production stage (actually making the food product) was physically demanding and technically difficult, but both students found it rewarding and enjoyable.',
+  3:  '<strong>Answer: pizza</strong><br>Audio: <em>&#8220;I think they make white bread and then they make sourdough&#8230; And they learn how to make pizza, which is apparently really good.&#8221;</em> &#8212; Three items in sequence: white bread &#8594; sourdough &#8594; pizza. The blank is the third type.',
 
-  // ===== PART 4 — Challenges facing the cruise ship industry =====
-  31: '<strong>Answer: pollution</strong><br>The first environmental challenge mentioned is pollution from ships\' engines, which harms marine life in the seas where cruise ships operate.',
-  32: '<strong>Answer: tax</strong><br>Cruise ships do not pay tax on their fuel — this is an environmental and economic issue because it means they are not incentivised to reduce emissions.',
-  33: '<strong>Answer: chocolate</strong><br>Over-tourism caused by cruise ships can damage local industries. In one specific example, the speaker mentions the chocolate industry in a destination city is harmed when thousands of day-trippers arrive.',
-  34: '<strong>Answer: timing</strong><br>Planning when to carry out repairs is an operational challenge — ships must be taken out of service, which affects scheduling and revenue.',
-  35: '<strong>Answer: cost</strong><br>The high cost of training new crew members is cited as a significant operational challenge for cruise ship companies.',
-  36: '<strong>Answer: rules</strong><br>Different countries have different legal rules for dealing with crimes committed on board ships, making jurisdiction a complex legal challenge.',
-  37: '<strong>Answer: diving</strong><br>Injuries sustained while diving are a common legal issue — passengers on excursions get injured, leading to liability concerns for the cruise companies.',
-  38: '<strong>Answer: vegan</strong><br>The growing number of vegan passengers presents a commercial challenge: catering teams must develop new menus and stocking strategies.',
-  39: '<strong>Answer: wifi</strong><br>Passengers now expect reliable wifi on board — providing good internet connectivity at sea is technically challenging and expensive.',
-  40: '<strong>Answer: videos</strong><br>When passengers share negative videos on social media (showing poor conditions, accidents, or bad service), it can seriously damage the cruise company\'s reputation.'
+  4:  '<strong>Answer: India</strong><br>Audio: <em>&#8220;The type of massage done is a traditional technique used in India and she actually did her training there.&#8221;</em> &#8212; Paraphrase: <em>&#8220;did her training there&#8221;</em> = <em>&#8220;trained in India&#8221;</em>.',
+
+  5:  '<strong>Answer: mirror</strong><br>Audio: <em>&#8220;You practise it on yourself. So you have to take a mirror to the class so you can see what you\'re doing.&#8221;</em> &#8212; The massage is self-applied, so students need to see their own face. Paraphrase: &#8220;take a mirror&#8221; = &#8220;bring a mirror&#8221;.',
+
+  6:  '<strong>Answer: 6 April</strong><br>Audio: <em>&#8220;Yes, that\'s sometime in April, I think. Let me check. Yes, it\'s on the 6th.&#8221;</em><br>&#9888;&#65039; <strong>Trap:</strong> <em>&#8220;It was on the 23rd of January, but they had to change the date.&#8221;</em> &#8212; The ORIGINAL date was January 23rd; it was rescheduled to April 6th. Many students write January &#8212; classic date-change trap.',
+
+  7:  '<strong>Answer: natural</strong><br>Audio: <em>&#8220;I think one reason why people like it is because the candles are all made out of natural products.&#8221;</em> &#8212; Paraphrase: <em>&#8220;natural products&#8221;</em> = <em>&#8220;natural ingredients&#8221;</em>.',
+
+  8:  '<strong>Answer: 67.50</strong><br>Audio: <em>&#8220;It\'s 67 pounds 50, which is really good value.&#8221;</em> &#8212; Write only the number after the printed £ sign.<br>&#9888;&#65039; <strong>Trap:</strong> a comparable class at another venue costs £110 &#8212; don\'t write that number.',
+
+  9:  '<strong>Answer: shirt</strong><br>Audio: <em>&#8220;everyone has to bring something to protect their clothing, like an apron, if you\'ve got one, or a shirt that you don\'t use anymore because the dye can really stain your clothes.&#8221;</em> &#8212; Two options: apron OR old shirt. The note already says &#8220;Bring an apron or old ___&#8221; so the blank = shirt.',
+
+  10: '<strong>Answer: hammer</strong><br>Audio: <em>&#8220;You learn how to use an electric drill and a saw&#8230; And I even need to learn how to use a hammer because I always end up hitting my fingers.&#8221;</em> &#8212; Three tools: drill &#8594; saw &#8594; hammer. The blank is the third tool.',
+
+  // ===== PART 2 — Coastal walks =====
+  'q11_12': '<strong>Answers: B and E</strong> (either order)<br><br><strong>B &#10003; &#8212; Ruins of a building</strong><br>Audio: <em>&#8220;At one point, the route goes inland slightly and passes a castle built in the 1400s near to a now vanished market town. The castle\'s now just a pile of stones, but it\'s a great place to take photos.&#8221;</em> &#8594; <em>&#8220;a pile of stones&#8221;</em> = ruins. Paraphrase: <em>&#8220;ruins of a certain building&#8221;</em> = the old castle ruins.<br><br><strong>E &#10003; &#8212; No need to worry about getting lost</strong><br>Audio: <em>&#8220;there are clear signposts all along the way. You don\'t even need to take a map with you.&#8221;</em> &#8594; clear signposts + no map needed = don\'t worry about getting lost.<br><br><strong>A &#10007;</strong> &#8212; Lunch stop in the ancient town: never mentioned as advice.<br><strong>C &#10007;</strong> &#8212; Ferry goes to Hooker Island for fishing; not related to starting the walk.<br><strong>D &#10007;</strong> &#8212; Audio says <em>&#8220;suitable for all the family as there are no strenuous climbs&#8221;</em> = the OPPOSITE of steep and rocky.',
+
+  'q13_14': '<strong>Answers: C and D</strong> (either order)<br><br><strong>C &#10003; &#8212; Circular walk</strong><br>Audio: <em>&#8220;The route continues along the tops of the hills and brings you back down to the starting point, the car park at Melby Coal Mine.&#8221;</em> &#8594; Starts and ends at the same car park = circular.<br><br><strong>D &#10003; &#8212; Tower on the site of an older structure</strong><br>Audio: <em>&#8220;those with lots of energy can climb the tower that\'s situated where there was once a 17th century hunting lodge.&#8221;</em> &#8594; The tower replaced a 17th-century hunting lodge = &#8220;stands on the site of an older structure&#8221;.<br><br><strong>A &#10007;</strong> &#8212; Route climbs to hilltops before coming down; never described as &#8220;mostly downhill&#8221;.<br><strong>B &#10007;</strong> &#8212; Busy or crowded paths never mentioned.<br><strong>E &#10007;</strong> &#8212; Views only at <em>&#8220;the highest point&#8221;</em> &#8212; not the whole way.',
+
+  15: '<strong>Answer: F &#8212; Exhibition</strong><br>Audio: <em>&#8220;you go from the car park via a covered walkway to the main visitor centre, go through the ticket office to an area where there are lockers to leave heavy bags in&#8230; Beyond that room is the exhibition.&#8221;</em> &#8594; Route: Car park &#8594; covered walkway &#8594; Main visitor centre &#8594; Ticket office (G) &#8594; locker room &#8594; Exhibition (F). F is the room <em>beyond</em> the locker room.',
+
+  16: '<strong>Answer: B &#8212; Baths</strong><br>Audio: <em>&#8220;There\'s a small bath house where miners used to wash after their shift underground. You can see that in the building directly to the north of the engine house.&#8221;</em> &#8594; <em>&#8220;directly to the north of the engine house&#8221;</em> = B on the map.',
+
+  17: '<strong>Answer: D &#8212; Tools</strong><br>Audio: <em>&#8220;There\'s a display of early mining tools from the days before mechanization&#8230; in a small L-shaped building in the middle of the northern boundary of the site.&#8221;</em> &#8594; <em>&#8220;middle of the northern boundary&#8221;</em> = D on the map (top-centre L-shaped building).',
+
+  18: '<strong>Answer: A &#8212; Vehicles</strong><br>Audio: <em>&#8220;The vehicle shed&#8230; is in the southwest corner of the site and can be accessed via a covered walkway.&#8221;</em> &#8594; <em>&#8220;southwest corner&#8221;</em> = A on the map (large building, bottom-left). Accessed via covered walkway.',
+
+  19: '<strong>Answer: H &#8212; Ponies</strong><br>Audio: <em>&#8220;There is a field with ponies which are always popular with children on the north eastern boundary of the site, not approached via a covered walkway.&#8221;</em> &#8594; <em>&#8220;north eastern boundary&#8221;</em> = H (top-right). Key: <strong>NOT via covered walkway</strong> &#8212; distinguishes it from surrounding buildings.',
+
+  20: '<strong>Answer: E &#8212; Education centre</strong><br>Audio: <em>&#8220;the other building to mention is the education centre which runs workshops for school groups&#8230; The centre is connected to the ticket office via a short section of covered walkway.&#8221;</em> &#8594; Connected to G (Ticket office) via covered walkway = E on the map.',
+
+  // ===== PART 3 — Food safety & food science =====
+  'q21_22': '<strong>Answers: B and E</strong> (either order)<br><br><strong>B &#10003; &#8212; 200+ diseases from contaminated food (new to BOTH)</strong><br>Audio: <em>&#8220;I hadn\'t realised that unsafe food causes more than 200 different diseases. No, I\'d no idea it was that many.&#8221;</em> &#8594; Nadia: &#8220;hadn\'t realised&#8221;; Fergus: &#8220;I\'d no idea&#8221; &#8212; both surprised = new information for both students.<br><br><strong>E &#10003; &#8212; Antibiotics in animals enter human food chain (new to BOTH)</strong><br>Audio: <em>&#8220;I knew resistance to antibiotics is on the increase, but I didn\'t know why&#8230; treating animals with antibiotics, then consumed by humans, the antibiotics get into the food chain. I had no idea about that either then.&#8221;</em> &#8594; Nadia didn\'t know WHY; Fergus: &#8220;no idea&#8230; either&#8221; = new for both.<br><br><strong>A &#10007;</strong> &#8212; Plastic in ocean: <em>&#8220;most of us were already aware of that&#8221;</em> = ALREADY KNOWN.<br><strong>C &#10007;</strong> &#8212; Food waste was <em>&#8220;only mentioned in passing&#8221;</em> &#8212; not highlighted as surprising.<br><strong>D &#10007;</strong> &#8212; Obesity rates: <em>&#8220;that\'s been in the news a lot&#8221;</em> = widely reported.',
+
+  'q23_24': '<strong>Answers: C and D</strong> (either order)<br><br><strong>C &#10003; &#8212; Multiple tests at different stages</strong><br>Audio: <em>&#8220;what the researchers succeeded in doing was to ensure that these tests were carried out at different stages in the food\'s journey from the producer to the consumer.&#8221;</em> &#8594; Tests at multiple stages of the supply chain.<br><br><strong>D &#10003; &#8212; Covers a variety of dietary requirements</strong><br>Audio: <em>&#8220;it was really good to address a problem that\'s faced by so many different groups. People with special religious rules, as well as vegetarians and vegans and those with allergies.&#8221;</em> &#8594; Religious + vegetarian + vegan + allergy needs = variety of dietary requirements.<br><br><strong>A &#10007;</strong> &#8212; New technology: <em>&#8220;we\'ve had effective ways of analysing DNA for some time now&#8221;</em> = NOT new, already existed.<br><strong>B &#10007;</strong> &#8212; Publicity: <em>&#8220;Well, I thought there were some problems with that, actually.&#8221;</em> = Fergus was NOT impressed.<br><strong>E &#10007;</strong> &#8212; Making information accessible was not specifically praised.',
+
+  'q25_26': '<strong>Answers: A and C</strong> (either order)<br><br><strong>A &#10003; &#8212; Sustainable fishing / seafood industry</strong><br>Audio &#8212; Nadia: <em>&#8220;not so much on the seafood industry, where stocks are in danger of being overexploited as a food source.&#8221;</em> Fergus: <em>&#8220;Yes, that\'d be a good topic.&#8221;</em> &#8594; Both agree.<br><br><strong>C &#10003; &#8212; Global differences in food and eating habits</strong><br>Audio &#8212; Nadia: <em>&#8220;sessions on the variety of food and eating habits around the world?&#8221;</em> Fergus: <em>&#8220;Yes, I think the whole class would be interested in that.&#8221;</em> &#8594; Both enthusiastically agree.<br><br><strong>B &#10007;</strong> &#8212; Personalised nutrition: Nadia: <em>&#8220;That sounds more like a medical topic than food science.&#8221;</em> = she REJECTS it.<br><strong>D &#10007;</strong> &#8212; Sustainable agriculture: <em>&#8220;we\'ve already done quite a bit on that&#8221;</em> = already covered.<br><strong>E &#10007;</strong> &#8212; Digital technology in food: <em>&#8220;Mmm, maybe too specialist.&#8221;</em> = not agreed upon.',
+
+  27: '<strong>Answer: C &#8212; Easy to decide on</strong><br>Audio: <em>&#8220;We decided we wanted to create something people could eat on the go rather than in a restaurant&#8230; So we chose falafel&#8230; We made up our minds about that pretty quickly. I know some students found it a lot harder to choose and wasted a lot of time.&#8221;</em> &#8594; <em>&#8220;made up our minds pretty quickly&#8221;</em> = easy to decide. Contrast: other students struggled.',
+
+  28: '<strong>Answer: D &#8212; Helped by guidelines provided</strong><br>Audio: <em>&#8220;We hadn\'t done one of these before, so the handout with Advice for the project was very useful here. Yes. Especially the advice on how to present the information.&#8221;</em> &#8594; <em>&#8220;handout with Advice&#8221;</em> = guidelines. Paraphrase: <em>&#8220;very useful&#8221;</em> = <em>&#8220;helped by guidelines&#8221;</em>.',
+
+  29: '<strong>Answer: F &#8212; Involved selecting a new ingredient</strong><br>Audio: <em>&#8220;actually deciding what we\'d use to make the falafel&#8230; we wanted it to be something a bit different&#8230; We really made the right choice when we finally decided to use jackfruit, even though it wasn\'t something that either of us had ever tasted before.&#8221;</em> &#8594; Jackfruit = ingredient neither had ever tried. Paraphrase: <em>&#8220;hadn\'t ever tasted before&#8221;</em> = <em>&#8220;new ingredient&#8221;</em>.',
+
+  30: '<strong>Answer: A &#8212; Challenging but enjoyable</strong><br>Audio: <em>&#8220;Working out how to make the falafel was harder than I expected&#8230; It was mostly trial and error&#8230; when it went wrong, which it did a lot of the time, we just moved on and kept adapting it. And in the end it turned out fine and we had a lot of fun.&#8221;</em> &#8594; <em>&#8220;harder than expected&#8221;</em> + <em>&#8220;trial and error&#8221;</em> = challenging; <em>&#8220;a lot of fun&#8221;</em> = enjoyable.',
+
+  // ===== PART 4 — Cruise ship industry =====
+  31: '<strong>Answer: pollution</strong><br>Audio: <em>&#8220;Pollution, for example, is among the greatest threats to many popular tourist destinations.&#8221;</em> &#8212; The very first challenge the speaker raises. Paraphrase: <em>&#8220;among the greatest threats&#8221;</em> = &#8220;a major threat&#8221;.',
+
+  32: '<strong>Answer: tax</strong><br>Audio: <em>&#8220;Several cities, such as Barcelona, have responded by imposing a tax which all visitors to the city from cruise ships have to pay.&#8221;</em> &#8212; Cities impose a TAX on cruise passengers (not on fuel). Paraphrase: &#8220;imposing a tax&#8230; on visitors from cruise ships&#8221; = &#8220;impose a ___ on cruise passengers&#8221;.',
+
+  33: '<strong>Answer: chocolate</strong><br>Audio: <em>&#8220;The city was becoming like a theme park, with shops only catering for tourists, selling chocolate, which Belgium is famous for, and other souvenirs.&#8221;</em> &#8212; Bruges example: cruise over-tourism turned local shops into souvenir outlets selling mainly chocolate. The blank: &#8220;shops only selling ___ and souvenirs&#8221;.',
+
+  34: '<strong>Answer: timing</strong><br>Audio: <em>&#8220;What it does now is control the timing of all cruise ship entries to the city\'s port.&#8221;</em> &#8212; Dubrovnik\'s response: it controls <em>when</em> ships can arrive. Paraphrase: &#8220;controls the timing of all cruise ship entries&#8221; = &#8220;controls the ___ of all cruise ship entries&#8221;.',
+
+  35: '<strong>Answer: cost</strong><br>Audio: <em>&#8220;a recent survey showed that cost is also a major factor in putting younger groups off going on a cruise.&#8221;</em> &#8212; Cost is a BARRIER for young people. Paraphrase: &#8220;major factor putting younger groups off&#8221; = &#8220;___ is a major factor putting younger groups off&#8221;.',
+
+  36: '<strong>Answer: rules</strong><br>Audio: <em>&#8220;another perception is that cruises have lots of rules about what to wear and how to behave. But these days, most cruises are no longer very formal.&#8221;</em> &#8212; Young people PERCEIVE cruises as having too many rules about dress and behaviour.',
+
+  37: '<strong>Answer: diving</strong><br>Audio: <em>&#8220;There\'s even a boxing ring on one ship and most offer diving expeditions.&#8221;</em> &#8212; New ships attract younger passengers by offering activities. Paraphrase: &#8220;most ships offer ___ expeditions&#8221; = diving.',
+
+  38: '<strong>Answer: vegan</strong><br>Audio: <em>&#8220;cruise ships have had to radically update their menus to suit the tastes of their younger customers. Vegan dishes are standard, for example.&#8221;</em> &#8212; To attract younger passengers, vegan food is now standard. Paraphrase: &#8220;Vegan dishes are standard&#8221; = &#8220;___ dishes are now standard&#8221;.',
+
+  39: '<strong>Answer: wifi</strong><br>Audio: <em>&#8220;companies have to guarantee wi fi that can be relied upon at all times.&#8221;</em> &#8212; Young passengers expect reliable internet everywhere. Paraphrase: &#8220;wi fi that can be relied upon at all times&#8221; = &#8220;reliable ___ at all times&#8221;. Also accepted: wi-fi.',
+
+  40: '<strong>Answer: videos</strong><br>Audio: <em>&#8220;Leading cruise lines now employ top agencies to produce first rate videos for social media channels.&#8221;</em> &#8212; Cruise companies invest in professional social media VIDEOS for marketing. Paraphrase: &#8220;produce first rate videos for social media&#8221; = &#8220;produce first-rate ___ for social media&#8221;.'
 };
 
 
