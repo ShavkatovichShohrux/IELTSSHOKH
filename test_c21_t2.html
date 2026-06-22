@@ -548,6 +548,8 @@
       padding: 36px 32px 32px;
       max-width: 680px;
       width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
       position: relative;
       box-shadow: 0 30px 80px rgba(37,99,235,0.12);
       animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
@@ -1406,6 +1408,11 @@ body.dark-mode input[type="radio"], body.dark-mode input[type="checkbox"] { acce
   border-radius: 8px; font-size: 0.78rem; color: #cbd5e1; line-height: 1.55;
 }
 .why-panel.open { display: block; }
+.modal-fb-item { background:rgba(30,41,59,0.92); border:1px solid rgba(251,191,36,0.22); border-radius:8px; padding:10px 13px; font-size:0.78rem; color:#cbd5e1; }
+.modal-fb-item .fb-qno { font-weight:700; color:#fbbf24; margin-bottom:4px; }
+.modal-fb-item em { color:#7dd3fc; font-style:normal; }
+.modal-fb-item strong { color:#fbbf24; }
+.modal-fb-item u { color:#34d399; text-decoration:underline; }
 .why-panel em { color: #7dd3fc; font-style: normal; }
 .why-panel strong { color: #fbbf24; }
 body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
@@ -1544,6 +1551,10 @@ body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
       <div class="wrong-section" id="wrong-section">
         <div class="wrong-section-title">Incorrect or Empty Answers</div>
         <div id="wrong-table-wrap"></div>
+      </div>
+      <div style="margin-top:18px;">
+        <div style="font-weight:700;font-size:0.85rem;color:#fbbf24;margin-bottom:10px;letter-spacing:0.04em;">📝 QUESTION-BY-QUESTION FEEDBACK</div>
+        <div id="modal-feedback-wrap" style="display:flex;flex-direction:column;gap:10px;max-height:340px;overflow-y:auto;padding-right:4px;"></div>
       </div>
       <button class="retake-btn" onclick="retakeTest()">&#8635; Retake Test</button>
     </div>
@@ -2548,44 +2559,30 @@ document.addEventListener('change', updateAnsweredCount);
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
       document.querySelectorAll('.why-wrap').forEach(el => el.remove());
 
-      // Text inputs
+      // Text inputs — show for ALL questions
       document.querySelectorAll('.answer-input').forEach(inp => {
         const qno = parseInt(inp.id.replace('q', ''));
-        if (!wrongNos.has(qno)) return;
         if (!FEEDBACK[qno]) return;
         const nx = inp.nextElementSibling;
         const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : inp;
         _insertWhy(anchor, qno, false);
       });
 
-      // Select dropdowns
+      // Select dropdowns — show for ALL
       document.querySelectorAll('.match-select').forEach(sel => {
         const qno = parseInt(sel.id.replace('q', ''));
-        if (!wrongNos.has(qno)) return;
         if (!FEEDBACK[qno]) return;
         const nx = sel.nextElementSibling;
         const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : sel;
         _insertWhy(anchor, qno, false);
       });
 
-      // Radio groups
-      const radioNames = [...new Set([...document.querySelectorAll('input[type="radio"]')].map(r => r.name))];
-      radioNames.forEach(name => {
-        const qno = parseInt(name.replace('q', ''));
-        if (!wrongNos.has(qno)) return;
-        if (!FEEDBACK[qno]) return;
-        const last = [...document.querySelectorAll(`input[name="${name}"]`)].pop();
-        const container = last ? last.closest('.pl-6') || last.closest('.space-y-1') : null;
-        if (container) _insertWhy(container, qno, true);
-      });
-
-      // Checkbox groups
-      ['q11_12','q13_14','q21_22','q23_24','q25_26'].forEach(name => { const fkey = name;
-        if (!cbGroupWrong[name]) return;
-        if (!FEEDBACK[fkey]) return;
+      // Checkbox groups — show for ALL
+      ['q11_12','q13_14','q21_22','q23_24','q25_26'].forEach(name => {
+        if (!FEEDBACK[name]) return;
         const last = [...document.querySelectorAll(`input[name="${name}"]`)].pop();
         const container = last ? last.closest('.bg-slate-800') || last.closest('.rounded-xl') : null;
-        if (container) _insertWhy(container, fkey, true);
+        if (container) _insertWhy(container, name, true);
       });
     }
 
@@ -2726,6 +2723,41 @@ document.addEventListener('change', updateAnsweredCount);
         });
         html += '</tbody></table>';
         wrap.innerHTML = html;
+      }
+
+      // Build modal feedback section for ALL 40 questions
+      const modalFbWrap = document.getElementById('modal-feedback-wrap');
+      if (modalFbWrap) {
+        modalFbWrap.innerHTML = '';
+        const cbLabels = {'q11_12':'11-12','q13_14':'13-14','q21_22':'21-22','q23_24':'23-24','q25_26':'25-26'};
+        const wrongNosInner = new Set(wrongList.map(w => w.qno));
+        const allEntries = [
+          {q:1},{q:2},{q:3},{q:4},{q:5},{q:6},{q:7},{q:8},{q:9},{q:10},
+          {cb:'q11_12'},{cb:'q13_14'},{q:15},{q:16},{q:17},{q:18},{q:19},{q:20},
+          {cb:'q21_22'},{cb:'q23_24'},{cb:'q25_26'},{q:27},{q:28},{q:29},{q:30},
+          {q:31},{q:32},{q:33},{q:34},{q:35},{q:36},{q:37},{q:38},{q:39},{q:40}
+        ];
+        allEntries.forEach(entry => {
+          if (entry.cb) {
+            const fbKey = entry.cb;
+            const fbHtml = FEEDBACK[fbKey];
+            if (!fbHtml) return;
+            const isWrong = !!cbGroupWrong[fbKey];
+            const div = document.createElement('div');
+            div.className = 'modal-fb-item';
+            div.innerHTML = '<div class="fb-qno">' + (isWrong ? '❌' : '✅') + ' Q' + cbLabels[fbKey] + '</div>' + fbHtml;
+            modalFbWrap.appendChild(div);
+          } else {
+            const qno = entry.q;
+            const fbHtml = FEEDBACK[qno];
+            if (!fbHtml) return;
+            const isWrong = wrongNosInner.has(qno);
+            const div = document.createElement('div');
+            div.className = 'modal-fb-item';
+            div.innerHTML = '<div class="fb-qno">' + (isWrong ? '❌' : '✅') + ' Q' + qno + '</div>' + fbHtml;
+            modalFbWrap.appendChild(div);
+          }
+        });
       }
 
       openModal();
