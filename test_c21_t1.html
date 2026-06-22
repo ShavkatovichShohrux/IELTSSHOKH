@@ -2731,10 +2731,8 @@ function navPart(dir) {
     const p = a.play();
     if (p) p.then(() => { a.pause(); a.currentTime = 0; }).catch(() => {});
     document.removeEventListener('touchstart', unlock, true);
-    document.removeEventListener('click', unlock, true);
   }
   document.addEventListener('touchstart', unlock, { once: true, capture: true });
-  document.addEventListener('click', unlock, { once: true, capture: true });
 })();
 
 // ===== KEYBOARD SHORTCUTS =====
