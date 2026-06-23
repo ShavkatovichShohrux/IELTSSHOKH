@@ -2425,6 +2425,7 @@ document.addEventListener('change', updateAnsweredCount);
       // Remove correct-answer hint spans and feedback toggles
       document.querySelectorAll('.correct-ans').forEach(el => el.remove());
       document.querySelectorAll('.why-wrap').forEach(el => el.remove());
+      document.querySelectorAll('.fb-section').forEach(el => el.remove());
       // Uncheck radios & checkboxes, reset their label colors
       document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(inp => {
         inp.checked = false;
@@ -2454,7 +2455,7 @@ document.addEventListener('change', updateAnsweredCount);
 
     // ===== CHECK ANSWERS =====
     // ===== PER-QUESTION FEEDBACK DATA =====
-    const FEEDBACK = {
+    window.FEEDBACK = {
   // ===== PART 1 =====
   1:  '<strong>Answer: 13 January</strong><br>Audio: <em>"I think that was on the <u>13th of January</u>."</em><br>Caller also guessed the cost (£60) but the actual cost is £59 — only the date is asked. Adviser confirms: "Yes, you\'re right about the date."',
 
@@ -2534,72 +2535,47 @@ document.addEventListener('change', updateAnsweredCount);
 
 
 
-    function toggleWhy(btn) {
-      const panel = btn.nextElementSibling;
-      const open = panel.classList.toggle('open');
-      btn.textContent = open ? '💡 Hide explanation' : '💡 Why this answer?';
-    }
-
-    function _makeWhyBox(key) {
-      var w = document.createElement('div');
-      w.className = 'why-wrap why-block';
-      w.style.cssText = 'margin-top:8px;margin-bottom:4px;';
-      var btn = document.createElement('button');
-      btn.className = 'why-btn';
-      btn.textContent = 'Why was this answer?';
-      btn.onclick = function() { toggleWhy(btn); };
-      var panel = document.createElement('div');
-      panel.className = 'why-panel open';
-      panel.innerHTML = FEEDBACK[key] || '';
-      w.appendChild(btn);
-      w.appendChild(panel);
-      return w;
-    }
+    var FB_PART_KEYS = {
+      1: [1,2,3,4,5,6,7,8,9,10],
+      2: ['q11_12','q13_14',15,16,17,18,19,20],
+      3: ['q21_22','q23_24','q25_26',27,28,29,30],
+      4: [31,32,33,34,35,36,37,38,39,40]
+    };
 
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
-      document.querySelectorAll('.why-wrap').forEach(function(el) { el.remove(); });
+      document.querySelectorAll('.fb-section').forEach(function(el) { el.remove(); });
 
-      // Text inputs — find parent <tr> and add after it, or parent <p>/<div>
-      document.querySelectorAll('.answer-input').forEach(function(inp) {
-        var qno = parseInt(inp.id.replace('q', ''));
-        if (!FEEDBACK[qno]) return;
-        var box = _makeWhyBox(qno);
-        // Find best container: tr → insert new tr; otherwise insert after parent
-        var tr = inp.closest('tr');
-        if (tr) {
-          var newTr = document.createElement('tr');
-          var td = document.createElement('td');
-          td.colSpan = 10;
-          td.style.cssText = 'padding:0 8px 6px;border:none;';
-          td.appendChild(box);
-          newTr.appendChild(td);
-          tr.parentNode.insertBefore(newTr, tr.nextSibling);
-        } else {
-          var parent = inp.closest('p') || inp.closest('div') || inp.parentNode;
-          parent.appendChild(box);
+      for (var p = 1; p <= 4; p++) {
+        var partEl = document.getElementById('part-' + p);
+        if (!partEl) continue;
+
+        var sec = document.createElement('div');
+        sec.className = 'fb-section';
+        sec.style.cssText = 'margin-top:24px;padding:18px 20px;background:rgba(15,23,42,0.75);border-radius:14px;border:1px solid rgba(251,191,36,0.35);';
+
+        var title = document.createElement('div');
+        title.style.cssText = 'font-weight:700;font-size:0.88rem;color:#fbbf24;margin-bottom:16px;letter-spacing:0.06em;text-transform:uppercase;';
+        title.textContent = 'Answer Explanations — Part ' + p;
+        sec.appendChild(title);
+
+        var keys = FB_PART_KEYS[p] || [];
+        var addedAny = false;
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i];
+          var content = window.FEEDBACK[key];
+          if (!content) continue;
+          addedAny = true;
+          var label = (typeof key === 'string')
+            ? key.replace('q','Q').replace('_','/')
+            : 'Q' + key;
+          var item = document.createElement('div');
+          item.style.cssText = 'margin-bottom:12px;padding:11px 14px;background:rgba(30,41,59,0.8);border-radius:8px;border-left:3px solid rgba(251,191,36,0.55);font-size:0.78rem;color:#cbd5e1;line-height:1.6;';
+          item.innerHTML = '<div style="font-weight:700;color:#60a5fa;font-size:0.82rem;margin-bottom:6px;">' + label + '</div>' + content;
+          sec.appendChild(item);
         }
-      });
 
-      // Select dropdowns
-      document.querySelectorAll('.match-select').forEach(function(sel) {
-        var qno = parseInt(sel.id.replace('q', ''));
-        if (!FEEDBACK[qno]) return;
-        var box = _makeWhyBox(qno);
-        var parent = sel.closest('div') || sel.parentNode;
-        parent.appendChild(box);
-      });
-
-      // Checkbox groups
-      ['q11_12','q13_14','q21_22','q23_24','q25_26'].forEach(function(name) {
-        if (!FEEDBACK[name]) return;
-        var container = document.getElementById('group-' + name) ||
-                        (document.querySelector('input[name="' + name + '"]') &&
-                         document.querySelector('input[name="' + name + '"]').closest('.bg-slate-800'));
-        if (container) {
-          var box = _makeWhyBox(name);
-          container.appendChild(box);
-        }
-      });
+        if (addedAny) partEl.appendChild(sec);
+      }
     }
 
 
@@ -2615,6 +2591,7 @@ document.addEventListener('change', updateAnsweredCount);
       document.querySelectorAll('.match-select').forEach(s => s.style.borderColor = '');
       document.querySelectorAll('.correct-ans').forEach(el => el.remove());
       document.querySelectorAll('.why-wrap').forEach(el => el.remove());
+      document.querySelectorAll('.fb-section').forEach(el => el.remove());
 
       // Text inputs
       document.querySelectorAll('.answer-input').forEach(inp => {
