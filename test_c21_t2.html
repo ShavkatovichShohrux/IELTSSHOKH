@@ -1418,6 +1418,13 @@ body.dark-mode input[type="radio"], body.dark-mode input[type="checkbox"] { acce
 .why-panel em { color: #7dd3fc; font-style: normal; }
 .why-panel strong { color: #fbbf24; }
 body.dark-mode .why-panel { background: rgba(15,23,42,0.97); }
+.why-panel table { width:100%; border-collapse:collapse; margin:6px 0 4px; font-size:0.71rem; }
+.why-panel table th { background:rgba(251,191,36,0.12); color:#fbbf24; padding:3px 8px; text-align:left; font-weight:600; }
+.why-panel table td { padding:3px 8px; border-bottom:1px solid rgba(100,130,180,0.1); }
+.why-panel table td:first-child { color:#7dd3fc; }
+.why-panel table td:last-child { color:#86efac; }
+.why-panel .fb-trap { color:#fb923c; font-size:0.71rem; display:block; margin-top:5px; }
+.fb-correct { color:#34d399 !important; }
   </style>
 </head>
 <body>
@@ -2455,105 +2462,134 @@ document.addEventListener('change', updateAnsweredCount);
     // ===== CHECK ANSWERS =====
     // ===== PER-QUESTION FEEDBACK DATA =====
     window.FEEDBACK = {
-  // ===== PART 1 =====
-  1:  '<strong>Answer: 13 January</strong><br>Audio: <em>"I think that was on the <u>13th of January</u>."</em><br>Caller also guessed the cost (£60) but the actual cost is £59 — only the date is asked. Adviser confirms: "Yes, you\'re right about the date."',
 
-  2:  '<strong>Answer: 48</strong><br>Audio: <em>"The actual cost is <u>£48</u>, but then there\'s an extra charge as well as that for the ingredients."</em><br>£48 is the base class cost only. Write just the number after the printed £ sign.',
+  // PART 1 — One-day classes at Stainford College
+  1: '<strong>Answer: 13 January</strong><br><em>&quot;I think that was on the <u>13th of January</u>.&quot;</em> — Adviser: <em>&quot;Yes, you\'re right about the <u>date</u>.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>Date [blank]</td><td>&quot;13th of January&quot; → 13 January</td></tr></table><span class="fb-trap">⚠ Trap: Caller guesses cost &quot;about £60&quot; — adviser corrects to £59. Only the DATE is blank here, not the cost.</span>',
 
-  3:  '<strong>Answer: pizza</strong><br>Audio: <em>"they learn how to make <u>pizza</u>, which is apparently really good"</em><br>Three items made in order: white bread → sourdough → pizza. The blank is the third type.',
+  2: '<strong>Answer: 48</strong><br><em>&quot;The <u>actual cost</u> is <u>£48</u>, but then there\'s an extra charge as well as that for the ingredients.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>£ [blank] (class cost)</td><td>&quot;actual cost is £48&quot; = base fee only</td></tr></table><span class="fb-trap">⚠ Trap: Extra ingredient charge is mentioned SEPARATELY — only the base cost £48 goes in the blank.</span>',
 
-  4:  '<strong>Answer: India</strong><br>Audio: <em>"a traditional technique used in <u>India</u> and she actually did her training there"</em><br>Paraphrase: "did her training there" = trained in India.',
+  3: '<strong>Answer: pizza</strong><br><em>&quot;they learn how to make <u>pizza</u>, which is apparently really good.&quot;</em><table><tr><th>Position</th><th>Bread / food type</th></tr><tr><td>1st</td><td>white bread</td></tr><tr><td>2nd</td><td>sourdough</td></tr><tr><td>3rd → blank</td><td>pizza</td></tr></table>Listen for the sequence — pizza is always mentioned last.',
 
-  5:  '<strong>Answer: mirror</strong><br>Audio: <em>"you have to take a <u>mirror</u> to the class so you can see what you\'re doing"</em><br>The massage is self-applied, so students need to see their own face. Paraphrase: "take a mirror" = "bring a mirror".',
+  4: '<strong>Answer: India</strong><br><em>&quot;a traditional technique used in <u>India</u> and she actually did her training there.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>&quot;Teacher trained in [blank]&quot;</td><td>&quot;did her training there&quot; = in India</td></tr></table>',
 
-  6:  '<strong>Answer: 6 April</strong><br>Audio: <em>"Yes, that\'s sometime in April&#8230; it\'s on the <u>6th</u>."</em><br>Trap: "It was on the 23rd of January, but they had to change the date." Original date was 23 January — changed to 6 April. Many students write January.',
+  5: '<strong>Answer: mirror</strong><br><em>&quot;you have to <u>take a mirror</u> to the class so you can see what you\'re doing.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>&quot;Bring a [blank]&quot;</td><td>&quot;take a mirror to the class&quot;</td></tr><tr><td>bring</td><td>take (synonym)</td></tr></table>Context: face massage is self-applied — you need to see your own face.',
 
-  7:  '<strong>Answer: natural</strong><br>Audio: <em>"the candles are all made out of <u>natural</u> products"</em><br>Paraphrase: "natural products" = natural ingredients. The note says "only ___ ingredients are used".',
+  6: '<strong>Answer: 6 April</strong><br><em>&quot;Yes, it\'s on the <u>6th</u>... sometime in <u>April</u>.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>Date [blank] for Candle making</td><td>&quot;the 6th&quot; of April</td></tr></table><span class="fb-trap">⚠ Trap: <em>&quot;It was on the 23rd of January, but they had to <u>change the date</u>.&quot;</em> — 23 January was the ORIGINAL date. Many students write January. The correct answer is 6 April.</span>',
 
-  8:  '<strong>Answer: 67.50</strong><br>Audio: <em>"It\'s <u>67 pounds 50</u>, which is really good value."</em><br>Trap: a comparable class is mentioned at £110 — don\'t write that. Write only the number after the printed £ sign.',
+  7: '<strong>Answer: natural</strong><br><em>&quot;the candles are all made out of <u>natural</u> products.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>&quot;only [blank] ingredients are used&quot;</td><td>&quot;made out of natural products&quot;</td></tr><tr><td>ingredients</td><td>products (paraphrase)</td></tr></table>',
 
-  9:  '<strong>Answer: shirt</strong><br>Audio: <em>"like an apron, if you\'ve got one, or a <u>shirt</u> that you don\'t use anymore"</em><br>Two options given: apron OR old shirt. The note says "Bring an apron or old ___" → shirt.',
+  8: '<strong>Answer: 67.50</strong><br><em>&quot;It\'s <u>67 pounds 50</u>, which is really good value.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>£ [blank]</td><td>&quot;67 pounds 50&quot; = 67.50</td></tr></table><span class="fb-trap">⚠ Trap: A comparable class at £110 is mentioned — that is a DIFFERENT class for comparison only. Write 67.50 after the £ sign.</span>',
 
-  10: '<strong>Answer: hammer</strong><br>Audio: <em>"I even need to learn how to use a <u>hammer</u> because I always end up hitting my fingers"</em><br>Three tools in sequence: drill → saw → hammer. The blank is the third tool.',
+  9: '<strong>Answer: shirt</strong><br><em>&quot;like an apron, if you\'ve got one, or a <u>shirt</u> that you don\'t use anymore — because the dye can really stain your clothes.&quot;</em><table><tr><th>Question language</th><th>Audio language</th></tr><tr><td>&quot;Bring an apron or old [blank]&quot;</td><td>&quot;a shirt that you don\'t use anymore&quot;</td></tr><tr><td>old</td><td>&quot;don\'t use anymore&quot; (paraphrase)</td></tr></table>',
 
-  // ===== PART 2 — Coastal walks =====
-  'q11_12': '<strong>Answers: B and E</strong> (either order)<br><strong>B correct</strong> — ruins of a building: <em>"The castle\'s now just a <u>pile of stones</u>, but it\'s a great place to take photos"</em> = ruins of the old castle.<br><strong>E correct</strong> — don\'t worry about getting lost: <em>"there are clear <u>signposts</u> all along the way. You don\'t even need to take a map with you"</em> = clear signs, no map needed.<br>Wrong: A (lunch in ancient town) — not mentioned as advice; C (ferry) — goes to Hooker Island for fishing, not for this walk; D (steep paths) — audio says "no strenuous climbs" = the opposite.',
+  10: '<strong>Answer: hammer</strong><br><em>&quot;I even need to learn how to use a <u>hammer</u> because I always end up hitting my fingers.&quot;</em><table><tr><th>Position</th><th>Tool</th></tr><tr><td>1st</td><td>electric drill</td></tr><tr><td>2nd</td><td>saw</td></tr><tr><td>3rd → blank</td><td>hammer</td></tr></table>',
 
-  'q13_14': '<strong>Answers: C and D</strong> (either order)<br><strong>C correct</strong> — circular walk: <em>"brings you back down to the <u>starting point</u>, the car park at Melby Coal Mine"</em> = starts and ends at the same place.<br><strong>D correct</strong> — tower on site of older structure: <em>"the tower that\'s situated where there was once a <u>17th century hunting lodge</u>"</em> = tower stands on site of older building.<br>Wrong: A (mostly downhill) — route climbs to hilltops first; B (busy paths) — never mentioned; E (views the whole way) — views only mentioned "at the highest point".',
+  // PART 2 — Coastal walks (Q11–14)
+  'q11_12': '<strong>Answers: B and E</strong> (either order)<br><strong class="fb-correct">✓ B — Don\'t miss ruins of a building:</strong> <em>&quot;The castle\'s now just a <u>pile of stones</u>, but it\'s a great place to take photos.&quot;</em><br><strong class="fb-correct">✓ E — Don\'t worry about getting lost:</strong> <em>&quot;there are <u>clear signposts</u> all along the way. You don\'t even need to take a <u>map</u> with you.&quot;</em><table><tr><th>Option</th><th>Audio evidence / elimination</th></tr><tr><td><span class="fb-correct">✓ B: ruins</span></td><td>&quot;pile of stones&quot; = ruins; &quot;great place to take photos&quot; = don\'t miss</td></tr><tr><td><span class="fb-correct">✓ E: don\'t get lost</span></td><td>&quot;clear signposts&quot; + &quot;don\'t need a map&quot;</td></tr><tr><td>✗ A: stop for lunch</td><td>never mentioned as advice for this walk</td></tr><tr><td>✗ C: catch a boat</td><td>ferries go to Hooker Island for <em>fishing</em> — not route advice</td></tr><tr><td>✗ D: steep/rocky paths</td><td><em>&quot;no strenuous climbs&quot;</em> = OPPOSITE of steep warning</td></tr></table>',
 
-  // ===== PART 2 — Map Q15-20 =====
-  15: '<strong>Answer: F — Exhibition</strong><br>Audio: <em>"go from the car park via a covered walkway to the main visitor centre, go through the ticket office to an area with lockers... <u>Beyond that room</u> is the exhibition"</em><br>Route: car park → covered walkway → main visitor centre → ticket office (G) → lockers → Exhibition (F).',
+  'q13_14': '<strong>Answers: C and D</strong> (either order)<br><strong class="fb-correct">✓ C — Circular walk:</strong> <em>&quot;brings you back down to the <u>starting point</u>, the car park at Melby Coal Mine.&quot;</em><br><strong class="fb-correct">✓ D — Tower stands on site of older structure:</strong> <em>&quot;the tower... situated where there was once a <u>17th century hunting lodge</u>.&quot;</em><table><tr><th>Option</th><th>Audio evidence / elimination</th></tr><tr><td><span class="fb-correct">✓ C: circular</span></td><td>&quot;back to starting point&quot; = starts and ends same place</td></tr><tr><td><span class="fb-correct">✓ D: tower on old site</span></td><td>&quot;17th century hunting lodge&quot; = older structure below tower</td></tr><tr><td>✗ A: mostly downhill</td><td>&quot;They <u>climb</u> to the top of the valley&quot; = uphill first</td></tr><tr><td>✗ B: paths get busy</td><td>never mentioned</td></tr><tr><td>✗ E: views the whole way</td><td><em>&quot;At the <u>highest point</u> you can stop to take in the views&quot;</em> — only at the top, not the whole way</td></tr></table>',
 
-  16: '<strong>Answer: B — Baths</strong><br>Audio: <em>"in the building <u>directly to the north</u> of the engine house"</em><br>B is the building immediately above (north of) the Engine house on the map.',
+  // PART 2 — Map matching (Q15–20)
+  15: '<strong>Answer: F — Exhibition</strong><br><em>&quot;go from the car park via a <u>covered walkway</u> to the main visitor centre, go through the <u>ticket office</u> to an area where there are <u>lockers</u>... <u>Beyond that room</u> is the exhibition.&quot;</em><table><tr><th>Step</th><th>Location on map</th></tr><tr><td>1. Start</td><td>Car park</td></tr><tr><td>2.</td><td>Covered walkway</td></tr><tr><td>3.</td><td>Main visitor centre</td></tr><tr><td>4.</td><td>Ticket office</td></tr><tr><td>5.</td><td>Locker room</td></tr><tr><td>6. → Exhibition</td><td>Building F (beyond lockers)</td></tr></table>',
 
-  17: '<strong>Answer: D — Tools</strong><br>Audio: <em>"in a small <u>L-shaped building in the middle of the northern boundary</u> of the site"</em><br>D is at the top-centre of the map — L-shaped, middle of the north edge.',
+  16: '<strong>Answer: B — Baths</strong><br><em>&quot;in the building <u>directly to the north</u> of the engine house.&quot;</em><table><tr><th>Key phrase</th><th>Map clue</th></tr><tr><td>&quot;directly to the north&quot;</td><td>B is immediately above the Engine House</td></tr></table>',
 
-  18: '<strong>Answer: A — Vehicles</strong><br>Audio: <em>"in the <u>southwest corner</u> of the site and can be accessed via a covered walkway"</em><br>A is the large building in the bottom-left (southwest) corner.',
+  17: '<strong>Answer: D — Tools</strong><br><em>&quot;in a small <u>L-shaped building</u> in the <u>middle of the northern boundary</u> of the site.&quot;</em><table><tr><th>Key phrase</th><th>Map clue</th></tr><tr><td>&quot;L-shaped building&quot;</td><td>D has a distinct L-shape (not rectangular)</td></tr><tr><td>&quot;middle of northern boundary&quot;</td><td>D is at the top-centre of the site</td></tr></table>',
 
-  19: '<strong>Answer: H — Ponies</strong><br>Audio: <em>"on the <u>north eastern boundary</u> of the site, <u>not</u> approached via a covered walkway"</em><br>H is top-right. Key detail: NOT via covered walkway — distinguishes it from nearby buildings.',
+  18: '<strong>Answer: A — Vehicles</strong><br><em>&quot;in the <u>southwest corner</u> of the site and can be accessed via a <u>covered walkway</u>.&quot;</em><table><tr><th>Key phrase</th><th>Map clue</th></tr><tr><td>&quot;southwest corner&quot;</td><td>A = bottom-left of map</td></tr><tr><td>&quot;covered walkway access&quot;</td><td>A is linked by a covered walkway</td></tr></table>',
 
-  20: '<strong>Answer: E — Education centre</strong><br>Audio: <em>"connected to the <u>ticket office</u> via a short section of covered walkway"</em><br>E is linked to G (Ticket office) by a covered walkway.',
+  19: '<strong>Answer: H — Ponies</strong><br><em>&quot;on the <u>north eastern boundary</u> of the site, <u>not</u> approached via a covered walkway.&quot;</em><table><tr><th>Key phrase</th><th>Map clue</th></tr><tr><td>&quot;north eastern boundary&quot;</td><td>H is at top-right of the map</td></tr><tr><td>&quot;NOT via covered walkway&quot;</td><td>crucial detail: no walkway — unlike A (Vehicles)</td></tr></table>',
 
-  // ===== PART 3 — Food safety =====
-  'q21_22': '<strong>Answers: B and E</strong> (either order)<br><strong>B correct</strong> — 200+ diseases (new to both): <em>"I hadn\'t realised that unsafe food causes more than <u>200 different diseases</u>. No, I\'d no idea it was that many."</em> — both students surprised.<br><strong>E correct</strong> — antibiotics in animals enter food chain (new to both): <em>"I didn\'t know why... treating animals with antibiotics... <u>the antibiotics get into the food chain</u>. I had no idea about that either."</em><br>Wrong: A (plastic in ocean) — "most of us were already aware of that"; C (food waste) — "only mentioned in passing"; D (obesity) — "that\'s been in the news a lot".',
+  20: '<strong>Answer: E — Education centre</strong><br><em>&quot;connected to the <u>ticket office</u> via a short section of <u>covered walkway</u>... contains a <u>library</u> and small <u>gift shop</u>.&quot;</em><table><tr><th>Key phrase</th><th>Map clue</th></tr><tr><td>&quot;connected to ticket office via walkway&quot;</td><td>E is linked to G (Ticket office)</td></tr><tr><td>&quot;library and gift shop&quot;</td><td>accessible to the public</td></tr></table>',
 
-  'q23_24': '<strong>Answers: C and D</strong> (either order)<br><strong>C correct</strong> — use of multiple tests: <em>"tests were carried out at <u>different stages</u> in the food\'s journey from the producer to the consumer"</em> = tests at multiple points.<br><strong>D correct</strong> — variety of dietary requirements: <em>"address a problem faced by people with <u>special religious rules</u>, as well as vegetarians and vegans and those with allergies"</em> = wide range of diets covered.<br>Wrong: A (new tech) — "we\'ve had effective ways of analysing DNA for some time" = not new; B (publicity) — "I thought there were some problems with that" = Fergus NOT impressed; E (accessible info) — not highlighted.',
+  // PART 3 — Seminar on food (Q21–26)
+  'q21_22': '<strong>Answers: B and E</strong> (either order)<br><strong class="fb-correct">✓ B — 200+ diseases from unsafe food (new to both):</strong> <em>&quot;I hadn\'t realised that unsafe food causes more than <u>200 different diseases</u>. No, I\'d no idea it was that many.&quot;</em><br><strong class="fb-correct">✓ E — Antibiotics in animals enter food chain (new to both):</strong> <em>&quot;the <u>antibiotics get into the food chain</u>. I had no idea about that either.&quot;</em><table><tr><th>Option</th><th>Reason correct or wrong</th></tr><tr><td><span class="fb-correct">✓ B</span></td><td>Both: &quot;hadn\'t realised&quot; + &quot;no idea it was that many&quot;</td></tr><tr><td><span class="fb-correct">✓ E</span></td><td>Both: &quot;didn\'t know why&quot; + &quot;had no idea about that either&quot;</td></tr><tr><td>✗ A: plastic in ocean</td><td><em>&quot;most of us were already aware of that&quot;</em></td></tr><tr><td>✗ C: food waste</td><td><em>&quot;only mentioned in passing&quot;</em></td></tr><tr><td>✗ D: obesity</td><td><em>&quot;that\'s been in the news a lot&quot;</em> = already knew</td></tr></table>',
 
-  'q25_26': '<strong>Answers: A and C</strong> (either order)<br><strong>A correct</strong> — sustainable fishing: Nadia: <em>"not so much on the <u>seafood industry</u>, where stocks are in danger of being overexploited"</em>. Fergus: "Yes, that\'d be a good topic." → both agree.<br><strong>C correct</strong> — global food habits: Nadia: <em>"sessions on the <u>variety of food and eating habits</u> around the world?"</em> Fergus: "Yes, I think the whole class would be interested in that." → both agree.<br>Wrong: B (personalised nutrition) — Nadia: "That sounds more like a medical topic"; D (sustainable agriculture) — "we\'ve already done quite a bit on that"; E (digital tech) — "maybe too specialist".',
+  'q23_24': '<strong>Answers: C and D</strong> (either order)<br><strong class="fb-correct">✓ C — Tests at multiple stages:</strong> <em>&quot;tests were carried out at <u>different stages</u> in the food\'s journey from the producer to the consumer.&quot;</em><br><strong class="fb-correct">✓ D — Wide range of dietary requirements:</strong> <em>&quot;address a problem faced by people with <u>special religious rules</u>, as well as <u>vegetarians and vegans</u> and those with <u>allergies</u>.&quot;</em><table><tr><th>Option</th><th>Reason correct or wrong</th></tr><tr><td><span class="fb-correct">✓ C</span></td><td>&quot;different stages&quot; = multiple testing points across the supply chain</td></tr><tr><td><span class="fb-correct">✓ D</span></td><td>religious, vegan, allergy groups = variety of dietary needs</td></tr><tr><td>✗ A: new technology</td><td><em>&quot;we\'ve had effective ways of analysing DNA for some time&quot;</em> = NOT new</td></tr><tr><td>✗ B: publicity system</td><td><em>&quot;I thought there were some problems with that&quot;</em> = Fergus NOT impressed</td></tr><tr><td>✗ E: accessible information</td><td>not highlighted as something Fergus found impressive</td></tr></table>',
 
-  // ===== PART 3 — Flow chart Q27-30 =====
-  27: '<strong>Answer: C — Easy to decide on</strong><br>Audio: <em>"We made up our minds about that <u>pretty quickly</u>. I know some students found it a lot harder to choose."</em><br>Paraphrase: "made up our minds quickly" = easy to decide on.',
+  'q25_26': '<strong>Answers: A and C</strong> (either order)<br><strong class="fb-correct">✓ A — Sustainable fishing:</strong> Nadia proposes; Fergus: <em>&quot;Yes, that\'d be a <u>good topic</u>.&quot;</em> → both agree.<br><strong class="fb-correct">✓ C — Global food habits:</strong> Nadia: <em>&quot;variety of <u>food and eating habits around the world</u>&quot;</em>; Fergus: <em>&quot;the <u>whole class would be interested</u>.&quot;</em><table><tr><th>Option</th><th>Reason correct or wrong</th></tr><tr><td><span class="fb-correct">✓ A: sustainable fishing</span></td><td>&quot;Yes, that\'d be a good topic&quot; — Fergus agrees</td></tr><tr><td><span class="fb-correct">✓ C: global food habits</span></td><td>&quot;whole class would be interested&quot; — both agree</td></tr><tr><td>✗ B: targeted nutrition</td><td><em>&quot;sounds more like a <u>medical</u> topic than food science&quot;</em></td></tr><tr><td>✗ D: sustainable agriculture</td><td><em>&quot;we\'ve already done quite a bit on that&quot;</em></td></tr><tr><td>✗ E: digital technology</td><td><em>&quot;maybe too <u>specialist</u>&quot;</em> — Fergus unenthusiastic</td></tr></table>',
 
-  28: '<strong>Answer: D — Helped by guidelines provided</strong><br>Audio: <em>"the <u>handout with Advice for the project</u> was very useful here. Especially the advice on how to present the information."</em><br>Paraphrase: "handout with Advice... very useful" = helped by guidelines.',
+  // PART 3 — Flowchart (Q27–30)
+  27: '<strong>Answer: C — This was easy to decide on</strong><br><em>&quot;We <u>made up our minds</u> about that <u>pretty quickly</u>.&quot;</em><table><tr><th>Option C says</th><th>Audio says</th></tr><tr><td>&quot;easy to decide on&quot;</td><td>&quot;made up our minds pretty quickly&quot;</td></tr></table><em>&quot;I know some students found it a lot harder to choose&quot;</em> — contrast confirms how easy it was for them.',
 
-  29: '<strong>Answer: F — Involved selecting a new ingredient</strong><br>Audio: <em>"we finally decided to use <u>jackfruit</u>, even though it wasn\'t something that either of us had ever tasted before"</em><br>Jackfruit = ingredient neither had tried. Paraphrase: "never tasted before" = new ingredient.',
+  28: '<strong>Answer: D — This was helped by the guidelines provided</strong><br><em>&quot;the <u>handout with Advice for the project</u> was very useful here. Especially the advice on how to <u>present the information</u>.&quot;</em><table><tr><th>Option D says</th><th>Audio says</th></tr><tr><td>&quot;guidelines provided&quot;</td><td>&quot;handout with Advice&quot; = written guidelines</td></tr><tr><td>&quot;helped by&quot;</td><td>&quot;was very useful here&quot;</td></tr></table>',
 
-  30: '<strong>Answer: A — Challenging but enjoyable</strong><br>Audio: <em>"Working out how to make the falafel was <u>harder than I expected</u>... we just moved on... we had a <u>lot of fun</u>."</em><br>Paraphrase: "harder than expected" + "trial and error" = challenging; "a lot of fun" = enjoyable.',
+  29: '<strong>Answer: F — This involved selecting a new ingredient</strong><br><em>&quot;we finally decided to use <u>jackfruit</u>, even though it wasn\'t something that either of us had <u>ever tasted before</u>.&quot;</em><table><tr><th>Option F says</th><th>Audio says</th></tr><tr><td>&quot;new ingredient&quot;</td><td>jackfruit = &quot;never tasted before&quot; = new to both</td></tr></table>Jackfruit: a fruit that works surprisingly well in savoury dishes.',
 
-  // ===== PART 4 — Cruise ship industry =====
-  31: '<strong>Answer: pollution</strong><br>Audio: <em>"<u>Pollution</u>, for example, is among the greatest threats to many popular tourist destinations."</em><br>First challenge raised. Note: "___ is a major threat to tourist destinations".',
+  30: '<strong>Answer: A — This was challenging but enjoyable</strong><br><em>&quot;Working out how to make the falafel was <u>harder than I expected</u>... we had a <u>lot of fun</u>.&quot;</em><table><tr><th>Option A says</th><th>Audio says</th></tr><tr><td>&quot;challenging&quot;</td><td>&quot;harder than I expected&quot; / trial and error</td></tr><tr><td>&quot;but enjoyable&quot;</td><td>&quot;we had a lot of fun&quot;</td></tr></table>',
 
-  32: '<strong>Answer: tax</strong><br>Audio: <em>"cities, such as Barcelona, have responded by imposing a <u>tax</u> which all visitors to the city from cruise ships have to pay"</em><br>Cities impose a TAX on cruise passengers. Note: "impose a ___ on cruise passengers".',
+  // PART 4 — Challenges facing the cruise ship industry (Q31–40)
+  31: '<strong>Answer: pollution</strong><br><em>&quot;<u>Pollution</u>, for example, is among the greatest threats to many popular tourist destinations.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;[blank] is a major threat to tourist destinations&quot;</td><td>&quot;Pollution... greatest threats... tourist destinations&quot;</td></tr></table>',
 
-  33: '<strong>Answer: chocolate</strong><br>Audio: <em>"shops only catering for tourists, selling <u>chocolate</u>, which Belgium is famous for, and other souvenirs"</em><br>Bruges: local shops turned into tourist souvenir outlets mainly selling chocolate. Note: "shops only selling ___ and souvenirs".',
+  32: '<strong>Answer: tax</strong><br><em>&quot;cities, such as Barcelona, have responded by imposing a <u>tax</u> which all visitors to the city from cruise ships have to pay.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;impose a [blank] on cruise passengers&quot;</td><td>&quot;imposing a tax... have to pay&quot;</td></tr></table>',
 
-  34: '<strong>Answer: timing</strong><br>Audio: <em>"What it does now is control the <u>timing</u> of all cruise ship entries to the city\'s port."</em><br>Dubrovnik controls WHEN ships can arrive. Note: "controls the ___ of all cruise ship entries".',
+  33: '<strong>Answer: chocolate</strong><br><em>&quot;shops only catering for tourists, selling <u>chocolate</u>, which Belgium is famous for, and other souvenirs.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;Bruges: shops only selling [blank] and souvenirs&quot;</td><td>&quot;selling chocolate... and other souvenirs&quot;</td></tr></table>Context: Bruges is in Belgium — famous for chocolate → tourist shops dominated by it.',
 
-  35: '<strong>Answer: cost</strong><br>Audio: <em>"a recent survey showed that <u>cost</u> is also a major factor in putting younger groups off going on a cruise"</em><br>Cost = barrier for young people. Note: "___ is a major factor putting younger groups off".',
+  34: '<strong>Answer: timing</strong><br><em>&quot;What it does now is control the <u>timing</u> of all cruise ship entries to the city\'s port.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;Dubrovnik: controls the [blank] of all cruise ship entries&quot;</td><td>&quot;control the timing... entries to the port&quot;</td></tr></table>Dubrovnik staggers arrival times to prevent crowds building up at once.',
 
-  36: '<strong>Answer: rules</strong><br>Audio: <em>"another perception is that cruises have lots of <u>rules</u> about what to wear and how to behave"</em><br>Young people PERCEIVE cruises as having too many rules. Note: "perception of lots of ___ about dress and behaviour".',
+  35: '<strong>Answer: cost</strong><br><em>&quot;a recent survey showed that <u>cost</u> is also a major factor in putting younger groups off going on a cruise.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;[blank] is a major factor putting younger groups off&quot;</td><td>&quot;cost is... a major factor in putting younger groups off&quot;</td></tr></table>Direct quote match. Cruises are perceived as too expensive for young travellers.',
 
-  37: '<strong>Answer: diving</strong><br>Audio: <em>"most offer <u>diving</u> expeditions"</em><br>New ships offer diving expeditions to attract younger passengers. Note: "most ships offer ___ expeditions".',
+  36: '<strong>Answer: rules</strong><br><em>&quot;another perception is that cruises have lots of <u>rules</u> about what to wear and how to behave.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;perception that cruises have lots of [blank] about dress and behaviour&quot;</td><td>&quot;lots of rules about what to wear and how to behave&quot;</td></tr></table>This is a MISCONCEPTION — audio continues: &quot;most cruises are no longer very formal.&quot;',
 
-  38: '<strong>Answer: vegan</strong><br>Audio: <em>"<u>Vegan</u> dishes are standard, for example."</em><br>Ships update menus for younger passengers. Note: "___ dishes are now standard".',
+  37: '<strong>Answer: diving</strong><br><em>&quot;most offer <u>diving</u> expeditions.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;most ships offer [blank] expeditions&quot;</td><td>&quot;most offer diving expeditions&quot;</td></tr></table>New ships attract younger passengers with adventure activities.',
 
-  39: '<strong>Answer: wifi</strong><br>Audio: <em>"companies have to guarantee <u>wi fi</u> that can be relied upon at all times"</em><br>Young passengers expect reliable internet. Both "wifi" and "wi-fi" accepted. Note: "must guarantee reliable ___".',
+  38: '<strong>Answer: vegan</strong><br><em>&quot;<u>Vegan</u> dishes are standard, for example.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;[blank] dishes are now standard&quot;</td><td>&quot;Vegan dishes are standard&quot;</td></tr></table>Cruise menus updated to reflect younger passengers\' food preferences.',
 
-  40: '<strong>Answer: videos</strong><br>Audio: <em>"produce first rate <u>videos</u> for social media channels"</em><br>Cruise lines invest in professional social media VIDEOS for marketing. Note: "produce first-rate ___ for social media".'
+  39: '<strong>Answer: wifi</strong><br><em>&quot;companies have to guarantee <u>wi fi</u> that can be <u>relied upon</u> at all times.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;must guarantee <u>reliable</u> [blank] at all times&quot;</td><td>&quot;guarantee wi fi that can be relied upon&quot;</td></tr><tr><td>&quot;reliable&quot;</td><td>&quot;can be relied upon&quot; (paraphrase)</td></tr></table>',
+
+  40: '<strong>Answer: videos</strong><br><em>&quot;produce first rate <u>videos</u> for social media channels.&quot;</em><table><tr><th>Notes say</th><th>Audio says</th></tr><tr><td>&quot;produce first-rate [blank] for social media channels&quot;</td><td>&quot;produce first rate videos for social media channels&quot;</td></tr></table>Cruise lines invest in professional social media content to attract younger passengers.'
 };
 
 
 
-    function makeFbWrap(content) {
-      var d = document.createElement('div');
-      d.className = 'fb-inline-wrap';
-      var btn = document.createElement('button');
+    function toggleWhy(btn) {
+      const panel = btn.nextElementSibling;
+      const open = panel.classList.toggle('open');
+      btn.textContent = open ? 'Hide explanation' : 'Why this answer?';
+    }
+
+    function _insertWhy(afterEl, key, block) {
+      const w = document.createElement('div');
+      w.className = 'why-wrap' + (block ? ' why-block' : '');
+      const btn = document.createElement('button');
       btn.className = 'why-btn';
       btn.textContent = 'Why this answer?';
-      var panel = document.createElement('div');
-      panel.className = 'why-panel open';
-      panel.innerHTML = content;
-      btn.addEventListener('click', function() {
-        var o = panel.classList.toggle('open');
-        btn.textContent = o ? 'Hide explanation' : 'Why this answer?';
-      });
-      d.appendChild(btn);
-      d.appendChild(panel);
-      return d;
+      btn.addEventListener('click', () => toggleWhy(btn));
+      const panel = document.createElement('div');
+      panel.className = 'why-panel';
+      panel.innerHTML = window.FEEDBACK[key] || '';
+      w.appendChild(btn);
+      w.appendChild(panel);
+      afterEl.insertAdjacentElement('afterend', w);
     }
 
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
-      // No-op: feedback now injected inline in checkAnswers
+      document.querySelectorAll('.why-wrap').forEach(el => el.remove());
+
+      // Text inputs — show for ALL questions
+      document.querySelectorAll('.answer-input').forEach(inp => {
+        const qno = parseInt(inp.id.replace('q', ''));
+        if (!window.FEEDBACK[qno]) return;
+        const nx = inp.nextElementSibling;
+        const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : inp;
+        _insertWhy(anchor, qno, false);
+      });
+
+      // Select dropdowns — show for ALL questions
+      document.querySelectorAll('.match-select').forEach(sel => {
+        const qno = parseInt(sel.id.replace('q', ''));
+        if (!window.FEEDBACK[qno]) return;
+        const nx = sel.nextElementSibling;
+        const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : sel;
+        _insertWhy(anchor, qno, false);
+      });
+
+      // Checkbox groups — show for ALL groups
+      ['q11_12', 'q13_14', 'q21_22', 'q23_24', 'q25_26'].forEach(name => {
+        if (!window.FEEDBACK[name]) return;
+        const grpEl = document.getElementById('group-' + name);
+        if (grpEl) _insertWhy(grpEl, name, true);
+      });
     }
 
 
@@ -2580,20 +2616,17 @@ document.addEventListener('change', updateAnsweredCount);
 
         if (normalizeAnswer(val) === '') {
           wrongList.push({ qno, your: '', correct: correctDisplay });
-          if (window.FEEDBACK[qno]) inp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
           return;
         }
         if (isAnswerCorrect(val, inp.dataset.answer)) {
           inp.classList.add('right-ans');
           totalCorrect++; partCorrect[part]++;
-          if (window.FEEDBACK[qno]) inp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         } else {
           inp.classList.add('wrong-ans');
           const span = document.createElement('span');
           span.className = 'correct-ans'; span.textContent = 'Correct: ' + correctDisplay;
           inp.insertAdjacentElement('afterend', span);
           wrongList.push({ qno, your: inp.value.trim(), correct: correctDisplay });
-          if (window.FEEDBACK[qno]) span.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         }
       });
       // Checkbox groups
@@ -2606,10 +2639,6 @@ document.addEventListener('change', updateAnsweredCount);
         correct.forEach(ans => { if (checked.includes(ans)) { totalCorrect++; partCorrect[part]++; groupScore++; } });
         if (groupScore < correct.length || checked.some(c => !correct.includes(c))) {
           cbGroupWrong[name] = true;
-        }
-        if (window.FEEDBACK[name]) {
-          const grpEl = document.getElementById('group-' + name);
-          if (grpEl) grpEl.appendChild(makeFbWrap(window.FEEDBACK[name]));
         }
       });
       // Radio buttons — group by name (q11–q25)
@@ -2644,20 +2673,17 @@ document.addEventListener('change', updateAnsweredCount);
 
         if (!sel.value) {
           wrongList.push({ qno, your: '', correct: ans });
-          if (window.FEEDBACK[qno]) sel.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
           return;
         }
         if (sel.value === ans) {
           sel.style.borderColor = '#34d399';
           totalCorrect++; partCorrect[part]++;
-          if (window.FEEDBACK[qno]) sel.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         } else {
           sel.style.borderColor = '#f87171';
           const sp = document.createElement('span');
           sp.className = 'correct-ans'; sp.textContent = 'Correct: ' + ans;
           sel.insertAdjacentElement('afterend', sp);
           wrongList.push({ qno, your: sel.value, correct: ans });
-          if (window.FEEDBACK[qno]) sp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         }
       });
 
