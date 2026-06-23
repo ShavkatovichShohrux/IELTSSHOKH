@@ -2424,8 +2424,7 @@ document.addEventListener('change', updateAnsweredCount);
       });
       // Remove correct-answer hint spans and feedback toggles
       document.querySelectorAll('.correct-ans').forEach(el => el.remove());
-      document.querySelectorAll('.why-wrap').forEach(el => el.remove());
-      document.querySelectorAll('.fb-section').forEach(el => el.remove());
+      document.querySelectorAll('.why-wrap, .fb-inline-wrap, .fb-section').forEach(el => el.remove());
       // Uncheck radios & checkboxes, reset their label colors
       document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(inp => {
         inp.checked = false;
@@ -2535,47 +2534,26 @@ document.addEventListener('change', updateAnsweredCount);
 
 
 
-    var FB_PART_KEYS = {
-      1: [1,2,3,4,5,6,7,8,9,10],
-      2: ['q11_12','q13_14',15,16,17,18,19,20],
-      3: ['q21_22','q23_24','q25_26',27,28,29,30],
-      4: [31,32,33,34,35,36,37,38,39,40]
-    };
+    function makeFbWrap(content) {
+      var d = document.createElement('div');
+      d.className = 'fb-inline-wrap';
+      var btn = document.createElement('button');
+      btn.className = 'why-btn';
+      btn.textContent = 'Why this answer?';
+      var panel = document.createElement('div');
+      panel.className = 'why-panel open';
+      panel.innerHTML = content;
+      btn.addEventListener('click', function() {
+        var o = panel.classList.toggle('open');
+        btn.textContent = o ? 'Hide explanation' : 'Why this answer?';
+      });
+      d.appendChild(btn);
+      d.appendChild(panel);
+      return d;
+    }
 
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
-      document.querySelectorAll('.fb-section').forEach(function(el) { el.remove(); });
-
-      for (var p = 1; p <= 4; p++) {
-        var partEl = document.getElementById('part-' + p);
-        if (!partEl) continue;
-
-        var sec = document.createElement('div');
-        sec.className = 'fb-section';
-        sec.style.cssText = 'margin-top:24px;padding:18px 20px;background:rgba(15,23,42,0.75);border-radius:14px;border:1px solid rgba(251,191,36,0.35);';
-
-        var title = document.createElement('div');
-        title.style.cssText = 'font-weight:700;font-size:0.88rem;color:#fbbf24;margin-bottom:16px;letter-spacing:0.06em;text-transform:uppercase;';
-        title.textContent = 'Answer Explanations — Part ' + p;
-        sec.appendChild(title);
-
-        var keys = FB_PART_KEYS[p] || [];
-        var addedAny = false;
-        for (var i = 0; i < keys.length; i++) {
-          var key = keys[i];
-          var content = window.FEEDBACK[key];
-          if (!content) continue;
-          addedAny = true;
-          var label = (typeof key === 'string')
-            ? key.replace('q','Q').replace('_','/')
-            : 'Q' + key;
-          var item = document.createElement('div');
-          item.style.cssText = 'margin-bottom:12px;padding:11px 14px;background:rgba(30,41,59,0.8);border-radius:8px;border-left:3px solid rgba(251,191,36,0.55);font-size:0.78rem;color:#cbd5e1;line-height:1.6;';
-          item.innerHTML = '<div style="font-weight:700;color:#60a5fa;font-size:0.82rem;margin-bottom:6px;">' + label + '</div>' + content;
-          sec.appendChild(item);
-        }
-
-        if (addedAny) partEl.appendChild(sec);
-      }
+      // No-op: feedback now injected inline in checkAnswers
     }
 
 
@@ -2590,8 +2568,7 @@ document.addEventListener('change', updateAnsweredCount);
       document.querySelectorAll('.answer-input').forEach(inp => inp.classList.remove('wrong-ans','right-ans'));
       document.querySelectorAll('.match-select').forEach(s => s.style.borderColor = '');
       document.querySelectorAll('.correct-ans').forEach(el => el.remove());
-      document.querySelectorAll('.why-wrap').forEach(el => el.remove());
-      document.querySelectorAll('.fb-section').forEach(el => el.remove());
+      document.querySelectorAll('.why-wrap, .fb-inline-wrap, .fb-section').forEach(el => el.remove());
 
       // Text inputs
       document.querySelectorAll('.answer-input').forEach(inp => {
@@ -2603,17 +2580,20 @@ document.addEventListener('change', updateAnsweredCount);
 
         if (normalizeAnswer(val) === '') {
           wrongList.push({ qno, your: '', correct: correctDisplay });
+          if (window.FEEDBACK[qno]) inp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
           return;
         }
         if (isAnswerCorrect(val, inp.dataset.answer)) {
           inp.classList.add('right-ans');
           totalCorrect++; partCorrect[part]++;
+          if (window.FEEDBACK[qno]) inp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         } else {
           inp.classList.add('wrong-ans');
           const span = document.createElement('span');
           span.className = 'correct-ans'; span.textContent = 'Correct: ' + correctDisplay;
           inp.insertAdjacentElement('afterend', span);
           wrongList.push({ qno, your: inp.value.trim(), correct: correctDisplay });
+          if (window.FEEDBACK[qno]) span.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         }
       });
       // Checkbox groups
@@ -2626,6 +2606,10 @@ document.addEventListener('change', updateAnsweredCount);
         correct.forEach(ans => { if (checked.includes(ans)) { totalCorrect++; partCorrect[part]++; groupScore++; } });
         if (groupScore < correct.length || checked.some(c => !correct.includes(c))) {
           cbGroupWrong[name] = true;
+        }
+        if (window.FEEDBACK[name]) {
+          const grpEl = document.getElementById('group-' + name);
+          if (grpEl) grpEl.appendChild(makeFbWrap(window.FEEDBACK[name]));
         }
       });
       // Radio buttons — group by name (q11–q25)
@@ -2660,17 +2644,20 @@ document.addEventListener('change', updateAnsweredCount);
 
         if (!sel.value) {
           wrongList.push({ qno, your: '', correct: ans });
+          if (window.FEEDBACK[qno]) sel.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
           return;
         }
         if (sel.value === ans) {
           sel.style.borderColor = '#34d399';
           totalCorrect++; partCorrect[part]++;
+          if (window.FEEDBACK[qno]) sel.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         } else {
           sel.style.borderColor = '#f87171';
           const sp = document.createElement('span');
           sp.className = 'correct-ans'; sp.textContent = 'Correct: ' + ans;
           sel.insertAdjacentElement('afterend', sp);
           wrongList.push({ qno, your: sel.value, correct: ans });
+          if (window.FEEDBACK[qno]) sp.insertAdjacentElement('afterend', makeFbWrap(window.FEEDBACK[qno]));
         }
       });
 
