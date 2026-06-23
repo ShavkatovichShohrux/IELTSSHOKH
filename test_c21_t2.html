@@ -2540,55 +2540,66 @@ document.addEventListener('change', updateAnsweredCount);
       btn.textContent = open ? '💡 Hide explanation' : '💡 Why this answer?';
     }
 
-    function _insertWhy(afterEl, key, block) {
+    function _makeWhyBox(key) {
       var w = document.createElement('div');
-      w.className = 'why-wrap' + (block ? ' why-block' : '');
+      w.className = 'why-wrap why-block';
+      w.style.cssText = 'margin-top:8px;margin-bottom:4px;';
       var btn = document.createElement('button');
       btn.className = 'why-btn';
       btn.textContent = 'Why was this answer?';
-      btn.addEventListener('click', function() { toggleWhy(btn); });
+      btn.onclick = function() { toggleWhy(btn); };
       var panel = document.createElement('div');
       panel.className = 'why-panel open';
       panel.innerHTML = FEEDBACK[key] || '';
       w.appendChild(btn);
       w.appendChild(panel);
-      afterEl.insertAdjacentElement('afterend', w);
+      return w;
     }
 
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
       document.querySelectorAll('.why-wrap').forEach(function(el) { el.remove(); });
 
-      // Text inputs — ALL questions
+      // Text inputs — find parent <tr> and add after it, or parent <p>/<div>
       document.querySelectorAll('.answer-input').forEach(function(inp) {
         var qno = parseInt(inp.id.replace('q', ''));
         if (!FEEDBACK[qno]) return;
-        var nx = inp.nextElementSibling;
-        var anchor = (nx && nx.classList.contains('correct-ans')) ? nx : inp;
-        _insertWhy(anchor, qno, false);
+        var box = _makeWhyBox(qno);
+        // Find best container: tr → insert new tr; otherwise insert after parent
+        var tr = inp.closest('tr');
+        if (tr) {
+          var newTr = document.createElement('tr');
+          var td = document.createElement('td');
+          td.colSpan = 10;
+          td.style.cssText = 'padding:0 8px 6px;border:none;';
+          td.appendChild(box);
+          newTr.appendChild(td);
+          tr.parentNode.insertBefore(newTr, tr.nextSibling);
+        } else {
+          var parent = inp.closest('p') || inp.closest('div') || inp.parentNode;
+          parent.appendChild(box);
+        }
       });
 
-      // Select dropdowns — ALL questions
+      // Select dropdowns
       document.querySelectorAll('.match-select').forEach(function(sel) {
         var qno = parseInt(sel.id.replace('q', ''));
         if (!FEEDBACK[qno]) return;
-        var nx = sel.nextElementSibling;
-        var anchor = (nx && nx.classList.contains('correct-ans')) ? nx : sel;
-        _insertWhy(anchor, qno, false);
+        var box = _makeWhyBox(qno);
+        var parent = sel.closest('div') || sel.parentNode;
+        parent.appendChild(box);
       });
 
-      // Checkbox groups — ALL groups
+      // Checkbox groups
       ['q11_12','q13_14','q21_22','q23_24','q25_26'].forEach(function(name) {
         if (!FEEDBACK[name]) return;
-        var last = document.querySelector('input[name="' + name + '"]');
-        var container = last ? (last.closest('.bg-slate-800') || last.closest('.rounded-xl')) : null;
-        if (container) _insertWhy(container, name, true);
+        var container = document.getElementById('group-' + name) ||
+                        (document.querySelector('input[name="' + name + '"]') &&
+                         document.querySelector('input[name="' + name + '"]').closest('.bg-slate-800'));
+        if (container) {
+          var box = _makeWhyBox(name);
+          container.appendChild(box);
+        }
       });
-    }
-
-    function buildModalFeedback(wrongNos, cbGroupWrong) {
-      var wrap = document.getElementById("modal-feedback-wrap");
-      if (!wrap) return;
-      wrap.innerHTML = '<div style="text-align:center;padding:10px 0 4px;color:#94a3b8;font-size:0.78rem;">Explanations are shown next to each question below. Close this window to view them.</div>';
     }
 
 
@@ -2732,9 +2743,8 @@ document.addEventListener('change', updateAnsweredCount);
       }
 
       const wrongNos = new Set(wrongList.map(w => w.qno));
-      try { buildModalFeedback(wrongNos, cbGroupWrong); } catch(e) { console.error('feedback err', e); }
       openModal();
-      try { injectFeedbackToggles(wrongNos, cbGroupWrong); } catch(e) { console.error('inject err', e); }
+      injectFeedbackToggles(wrongNos, cbGroupWrong);
     }
     // ===== RIGHT-CLICK HIGHLIGHT SYSTEM =====
 (function() {
