@@ -2548,9 +2548,9 @@ document.addEventListener('change', updateAnsweredCount);
       btn.textContent = open ? 'Hide explanation' : 'Why this answer?';
     }
 
-    function _insertWhy(afterEl, key, block) {
+    function _insertWhy(container, key) {
       const w = document.createElement('div');
-      w.className = 'why-wrap' + (block ? ' why-block' : '');
+      w.className = 'why-wrap why-block';
       const btn = document.createElement('button');
       btn.className = 'why-btn';
       btn.textContent = 'Why this answer?';
@@ -2560,35 +2560,31 @@ document.addEventListener('change', updateAnsweredCount);
       panel.innerHTML = window.FEEDBACK[key] || '';
       w.appendChild(btn);
       w.appendChild(panel);
-      afterEl.insertAdjacentElement('afterend', w);
+      container.appendChild(w);
     }
 
     function injectFeedbackToggles(wrongNos, cbGroupWrong) {
       document.querySelectorAll('.why-wrap').forEach(el => el.remove());
 
-      // Text inputs — show for ALL questions
+      // Text inputs — append to parent container (td/li/div)
       document.querySelectorAll('.answer-input').forEach(inp => {
         const qno = parseInt(inp.id.replace('q', ''));
         if (!window.FEEDBACK[qno]) return;
-        const nx = inp.nextElementSibling;
-        const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : inp;
-        _insertWhy(anchor, qno, false);
+        _insertWhy(inp.closest('td') || inp.closest('li') || inp.parentElement, qno);
       });
 
-      // Select dropdowns — show for ALL questions
+      // Select dropdowns — append to parent container
       document.querySelectorAll('.match-select').forEach(sel => {
         const qno = parseInt(sel.id.replace('q', ''));
         if (!window.FEEDBACK[qno]) return;
-        const nx = sel.nextElementSibling;
-        const anchor = (nx && nx.classList.contains('correct-ans')) ? nx : sel;
-        _insertWhy(anchor, qno, false);
+        _insertWhy(sel.closest('.q-row') || sel.parentElement, qno);
       });
 
-      // Checkbox groups — show for ALL groups
+      // Checkbox groups — append after the group div
       ['q11_12', 'q13_14', 'q21_22', 'q23_24', 'q25_26'].forEach(name => {
         if (!window.FEEDBACK[name]) return;
         const grpEl = document.getElementById('group-' + name);
-        if (grpEl) _insertWhy(grpEl, name, true);
+        if (grpEl) _insertWhy(grpEl, name);
       });
     }
 
