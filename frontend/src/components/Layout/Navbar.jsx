@@ -1,0 +1,61 @@
+import { Link, useNavigate } from 'react-router-dom'
+import { Sun, Moon, LogOut, User, BarChart2, ShieldCheck } from 'lucide-react'
+import { useAuthStore } from '../../store/authStore'
+import toast from 'react-hot-toast'
+
+export default function Navbar() {
+  const { user, theme, toggleTheme, logout } = useAuthStore()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    toast.success('Chiqildi')
+    navigate('/login')
+  }
+
+  return (
+    <nav className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/tests" className="flex items-center gap-2 font-black text-brand text-lg tracking-wide no-underline">
+          <span className="bg-brand text-white px-2 py-0.5 rounded text-sm font-black tracking-widest">IELTS</span>
+          <span className="text-gray-800 dark:text-gray-100 font-bold text-sm">SHOKH</span>
+        </Link>
+
+        {/* Nav links */}
+        <div className="hidden md:flex items-center gap-1">
+          <Link to="/tests" className="btn-ghost text-sm">Bosh sahifa</Link>
+          <Link to="/my-results" className="btn-ghost text-sm flex items-center gap-1">
+            <BarChart2 size={15} />Natijalarim
+          </Link>
+          {user?.role === 'admin' && (
+            <Link to="/admin" className="btn-ghost text-sm flex items-center gap-1 text-brand">
+              <ShieldCheck size={15} />Admin
+            </Link>
+          )}
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            title="Mavzuni o'zgartir"
+          >
+            {theme === 'dark' ? <Sun size={18} className="text-yellow-400" /> : <Moon size={18} className="text-gray-600" />}
+          </button>
+          {user && (
+            <div className="flex items-center gap-2">
+              <span className="hidden md:flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400">
+                <User size={14} />{user.username}
+              </span>
+              <button onClick={handleLogout} className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-brand transition-colors" title="Chiqish">
+                <LogOut size={18} />
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </nav>
+  )
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>IELTSSHOKH — Practice Platform</title>
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <style>
+    /* Global copy protection */
+    body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+    @media print { body * { display: none !important; } body::before { content: "Printing is not allowed."; display: block; text-align: center; font-size: 24px; margin-top: 40px; } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    // Disable right-click
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    // Disable copy/cut/paste shortcuts
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && ['c','C','u','U','s','S','a','A','p','P'].includes(e.key)) e.preventDefault();
+      if (e.key === 'F12') e.preventDefault();
+      if (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) e.preventDefault();
+    });
+    // Disable copy event
+    document.addEventListener('copy', e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
+    document.addEventListener('cut', e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
+    // Disable drag
+    document.addEventListener('dragstart', e => e.preventDefault());
+    // Blur on visibility change (anti-screen-share recording)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) document.title = '— IELTSSHOKH';
+      else document.title = 'IELTSSHOKH — Practice Platform';
+    });
+  </script>
+</body>
+</html>

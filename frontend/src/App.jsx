@@ -1,0 +1,168 @@
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useAuthStore } from './store/authStore'
+import { useCopyProtection } from './hooks/useCopyProtection'
+import { api } from './api/client'
+
+import Navbar from './components/Layout/Navbar'
+import ProtectedRoute from './components/ProtectedRoute'
+
+import Landing from './pages/Landing'
+import Home from './pages/Home'
+import StudentHub from './pages/StudentHub'
+import Vocabulary from './pages/Vocabulary'
+import PdfReader from './pages/PdfReader'
+import AuthGate from './pages/AuthGate'
+import Register from './pages/Register'
+import ListeningTest from './pages/ListeningTest'
+import ReadingTest from './pages/ReadingTest'
+import MyResults from './pages/MyResults'
+
+import AdminLayout from './pages/admin/AdminLayout'
+import Dashboard from './pages/admin/Dashboard'
+import TestList from './pages/admin/TestList'
+import TestEditor from './pages/admin/TestEditor'
+import UserList from './pages/admin/UserList'
+import Statistics from './pages/admin/Statistics'
+import AudioManager from './pages/admin/AudioManager'
+import TopicManager from './pages/admin/TopicManager'
+import SpeakingManager from './pages/admin/SpeakingManager'
+import VocabManager from './pages/admin/VocabManager'
+
+export default function App() {
+  const { theme, user, token, setAuth } = useAuthStore()
+  const location = useLocation()
+  const [windowBlurred, setWindowBlurred] = useState(false)
+
+  // On app startup, refresh user data from server to ensure token is still valid.
+  // If /me returns 401, the interceptor clears session → ProtectedRoute redirects to login.
+  useEffect(() => {
+    if (!token) return
+    api.me().then(res => setAuth(res.data, token)).catch(() => {})
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Admin va login sahifalarida himoya shart emas
+  const isAdminRoute = location.pathname.startsWith('/admin')
+  const isPublicRoute = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/speaking'
+  const isTestRoute = location.pathname.startsWith('/listening/') || location.pathname.startsWith('/reading/')
+
+  useCopyProtection(isAdminRoute)
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [theme])
+
+  // Blur overlay faqat test sahifalarida ishlaydi (screen recording himoyasi)
+  useEffect(() => {
+    if (!isTestRoute) { setWindowBlurred(false); return }
+    const onBlur = () => setWindowBlurred(true)
+    const onFocus = () => setWindowBlurred(false)
+    window.addEventListener('blur', onBlur)
+    window.addEventListener('focus', onFocus)
+    return () => {
+      window.removeEventListener('blur', onBlur)
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [isTestRoute])
+
+  // SVG watermark with username
+  const watermarkBg = user?.username && !isAdminRoute
+    ? `url("data:image/svg+xml,${encodeURIComponent(
+        `<svg xmlns="http://www.w3.org/2000/svg" width="380" height="220">` +
+        `<text x="50%" y="55%" text-anchor="middle" transform="rotate(-28,190,110)" ` +
+        `font-family="sans-serif" font-size="17" fill="rgba(180,0,0,0.06)" font-weight="700" letter-spacing="2">` +
+        `IELTSSHOKH · ${user.username}` +
+        `</text></svg>`
+      )}")`
+    : 'none'
+
+  return (
+    <div className="min-h-screen">
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<AuthGate />} />
+        <Route path="/login" element={<AuthGate />} />
+        <Route path="/speaking" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected user pages */}
+        <Route path="/tests" element={
+          <ProtectedRoute>
+            <StudentHub />
+          </ProtectedRoute>
+        } />
+        <Route path="/tests/speaking" element={
+          <ProtectedRoute>
+            <Navbar /><Home />
+          </ProtectedRoute>
+        } />
+        <Route path="/vocabulary" element={
+          <ProtectedRoute>
+            <Vocabulary />
+          </ProtectedRoute>
+        } />
+        <Route path="/vocabulary/:id" element={
+          <ProtectedRoute>
+            <PdfReader />
+          </ProtectedRoute>
+        } />
+        <Route path="/listening/:id" element={
+          <ProtectedRoute>
+            <ListeningTest />
+          </ProtectedRoute>
+        } />
+        <Route path="/reading/:id" element={
+          <ProtectedRoute>
+            <ReadingTest />
+          </ProtectedRoute>
+        } />
+        <Route path="/my-results" element={
+          <ProtectedRoute>
+            <Navbar /><MyResults />
+          </ProtectedRoute>
+        } />
+
+        {/* Admin */}
+        <Route path="/admin" element={
+          <ProtectedRoute role="admin">
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
+          <Route index element={<Dashboard />} />
+          <Route path="tests" element={<TestList />} />
+          <Route path="tests/new" element={<TestEditor />} />
+          <Route path="tests/:id/edit" element={<TestEditor />} />
+          <Route path="users" element={<UserList />} />
+          <Route path="speaking" element={<SpeakingManager />} />
+          <Route path="vocabulary" element={<VocabManager />} />
+          <Route path="topics" element={<TopicManager />} />
+          <Route path="stats" element={<Statistics />} />
+          <Route path="audio" element={<AudioManager />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      {/* Watermark — faqat foydalanuvchi sahifalarida */}
+      {!isAdminRoute && !isPublicRoute && (
+        <div
+          className="watermark"
+          aria-hidden="true"
+          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '380px 220px' }}
+        />
+      )}
+
+      {/* Blur overlay — FAQAT test sahifalarida (screen recording himoyasi) */}
+      {windowBlurred && isTestRoute && (
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center select-none"
+          style={{ backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', background: 'rgba(15,16,25,0.35)' }}
+        >
+          <p className="text-white/80 text-base font-medium tracking-wide">
+            Davom etish uchun oynaga qayting
+          </p>
+        </div>
+      )}
+    </div>
+  )
+}

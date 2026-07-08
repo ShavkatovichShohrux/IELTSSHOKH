@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded user files (large binary content, not for git)
+backend/uploads/
+backend/speaking_files/
+backend/topic_files/
+backend/vocab_files/
+
+# Frontend build & dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+
+# Env files
+.env
+.env.local
+.env.production
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Media files (large binaries)
+*.mp3
+*.mp4
+*.wav
+*.ogg
+
+# PDF source files at root level
+*.pdf
+
+# Temporary / scratch files
+_*.py
+_*.js
+_*.txt
+message.txt
+icon_base64.txt
+logo_base64.txt
+icon
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
