@@ -1,13 +1,15 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Sun, Moon, LogOut, User, BarChart2, ShieldCheck } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
+import { api } from '../../api/client'
 import toast from 'react-hot-toast'
 
 export default function Navbar() {
   const { user, theme, toggleTheme, logout } = useAuthStore()
   const navigate = useNavigate()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try { await api.logout() } catch (_) {}
     logout()
     toast.success('Chiqildi')
     navigate('/login')
@@ -18,8 +20,8 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         {/* Logo */}
         <Link to="/tests" className="flex items-center gap-2 font-black text-brand text-lg tracking-wide no-underline">
-          <span className="bg-brand text-white px-2 py-0.5 rounded text-sm font-black tracking-widest">IELTS</span>
-          <span className="text-gray-800 dark:text-gray-100 font-bold text-sm">SHOKH</span>
+          <span className="text-white font-black text-sm tracking-widest">IELTS</span>
+          <span className="text-white font-black text-sm tracking-widest">SHOKH</span>
         </Link>
 
         {/* Nav links */}

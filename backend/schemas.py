@@ -61,6 +61,7 @@ class UserResponse(BaseModel):
     username: str
     email: str
     role: str
+    plan: str = "none"
     is_active: bool
     created_at: datetime
     model_config = {"from_attributes": True}
@@ -85,6 +86,7 @@ class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     password: Optional[str] = None
     role: Optional[str] = None
+    plan: Optional[str] = None
     is_active: Optional[bool] = None
 
 

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from database import get_db
 import models, schemas
-from auth import require_admin, require_user, get_user_from_token, get_current_user
+from auth import require_admin, require_user, get_user_from_token, get_current_user, require_basic
 
 router = APIRouter()
 
@@ -27,7 +27,7 @@ def _save_pdf(original_name: str, content: bytes) -> str:
 
 
 @router.get("/", response_model=List[schemas.VocabTopicResponse])
-def list_vocab(db: Session = Depends(get_db), _=Depends(require_user)):
+def list_vocab(db: Session = Depends(get_db), _=Depends(require_basic)):
     return db.query(models.VocabTopic).order_by(models.VocabTopic.name).all()
 
 
@@ -70,6 +70,8 @@ def view_vocab_pdf(
     user = bearer_user or (get_user_from_token(t, db) if t else None)
     if not user or not user.is_active:
         raise HTTPException(status_code=401, detail="Kirish talab qilinadi")
+    if user.role != "admin" and user.plan not in ("basic", "elite"):
+        raise HTTPException(status_code=403, detail="PLAN_REQUIRED:basic")
     vt = db.query(models.VocabTopic).filter(models.VocabTopic.id == vocab_id).first()
     if not vt:
         raise HTTPException(status_code=404, detail="Topilmadi")

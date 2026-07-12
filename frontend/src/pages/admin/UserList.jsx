@@ -1,17 +1,235 @@
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ShieldCheck, Shield, Trash2, ToggleLeft, ToggleRight, Search, Users, Plus, X, Eye, EyeOff } from 'lucide-react'
+import { ShieldCheck, Shield, Trash2, ToggleLeft, ToggleRight, Search, Users, Plus, X, Eye, EyeOff, Crown, Zap, Ban, Monitor, Wifi, WifiOff, Smartphone } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { api } from '../../api/client'
 import { useAuthStore } from '../../store/authStore'
 
+function parseUA(ua) {
+  if (!ua) return { browser: 'Unknown', os: 'Unknown', icon: '💻' }
+  const mobile = /mobile|android|iphone/i.test(ua)
+  let browser = 'Unknown'
+  if (/edg\//i.test(ua)) browser = 'Edge'
+  else if (/opr\/|opera/i.test(ua)) browser = 'Opera'
+  else if (/chrome/i.test(ua)) browser = 'Chrome'
+  else if (/safari/i.test(ua)) browser = 'Safari'
+  else if (/firefox/i.test(ua)) browser = 'Firefox'
+  let os = 'Unknown'
+  if (/iphone/i.test(ua)) os = 'iPhone'
+  else if (/ipad/i.test(ua)) os = 'iPad'
+  else if (/android/i.test(ua)) os = 'Android'
+  else if (/windows/i.test(ua)) os = 'Windows'
+  else if (/mac os/i.test(ua)) os = 'macOS'
+  else if (/linux/i.test(ua)) os = 'Linux'
+  return { browser, os, icon: mobile ? '📱' : '💻' }
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '—'
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000)
+  if (diff < 60) return 'Hozirgina'
+  if (diff < 3600) return `${Math.floor(diff / 60)} daq oldin`
+  if (diff < 86400) return `${Math.floor(diff / 3600)} soat oldin`
+  if (diff < 604800) return `${Math.floor(diff / 86400)} kun oldin`
+  return new Date(dateStr).toLocaleDateString('uz-UZ')
+}
+
+function DevicesModal({ userId, username, onClose }) {
+  const { data: sessions = [], isLoading } = useQuery({
+    queryKey: ['userSessions', userId],
+    queryFn: () => api.userSessions(userId).then(r => r.data),
+    staleTime: 30000,
+  })
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+      onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md">
+        {/* Header */}
+        <div className="flex items-center justify-between p-5 border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-brand/10 flex items-center justify-center">
+              <Monitor size={17} className="text-brand" />
+            </div>
+            <div>
+              <h2 className="text-base font-black text-gray-900 dark:text-gray-100">Ulangan qurilmalar</h2>
+              <p className="text-xs text-gray-400 mt-0.5">@{username}</p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <X size={18} className="text-gray-400" />
+          </button>
+        </div>
+
+        {/* Body */}
+        <div className="p-5 space-y-3 max-h-96 overflow-y-auto">
+          {isLoading ? (
+            <div className="space-y-3 animate-pulse">
+              {[1, 2, 3].map(i => <div key={i} className="h-16 bg-gray-100 dark:bg-gray-800 rounded-xl" />)}
+            </div>
+          ) : sessions.length === 0 ? (
+            <div className="text-center py-10 text-gray-400">
+              <Monitor size={36} className="mx-auto mb-3 opacity-30" />
+              <p className="text-sm font-medium">Qurilma tarixi mavjud emas</p>
+              <p className="text-xs mt-1">Bu foydalanuvchi hali kirmagan</p>
+            </div>
+          ) : (
+            sessions.map(s => {
+              const { browser, os, icon } = parseUA(s.user_agent)
+              return (
+                <div key={s.id} className={`flex items-center justify-between p-3.5 rounded-xl transition-colors ${
+                  s.is_active
+                    ? 'bg-violet-50 dark:bg-violet-900/15 border border-violet-200 dark:border-violet-800/50'
+                    : 'bg-gray-50 dark:bg-gray-800/50 border border-transparent'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{icon}</span>
+                    <div>
+                      <div className="text-sm font-bold text-gray-900 dark:text-gray-100">
+                        {browser} · {os}
+                      </div>
+                      <div className="text-xs text-gray-400 mt-0.5 flex items-center gap-2">
+                        <span>{s.ip_address || '—'}</span>
+                        <span>·</span>
+                        <span>{timeAgo(s.created_at)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {s.is_active ? (
+                    <span className="flex items-center gap-1.5 text-xs font-bold text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/30 px-2.5 py-1 rounded-full">
+                      <Wifi size={11} /> Faol
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-gray-400 dark:text-gray-500">
+                      <WifiOff size={11} /> Tugagan
+                    </span>
+                  )}
+                </div>
+              )
+            })
+          )}
+        </div>
+
+        {sessions.length > 0 && (
+          <div className="px-5 pb-4 pt-0">
+            <p className="text-xs text-gray-400 text-center">
+              So'nggi {sessions.length} ta sessiya ko'rsatilmoqda
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 const ROLE_FILTERS   = ['Barchasi', 'admin', 'user']
 const STATUS_FILTERS = ['Barchasi', 'faol', 'bloklangan']
+const PLAN_FILTERS   = ['Barchasi', 'none', 'basic', 'elite']
+
+const PLAN_META = {
+  none:  { label: 'Free',  color: '#6b7280', bg: 'rgba(107,114,128,0.1)',  border: 'rgba(107,114,128,0.25)', Icon: Ban },
+  basic: { label: 'Basic', color: '#3b82f6', bg: 'rgba(59,130,246,0.1)',   border: 'rgba(59,130,246,0.25)',  Icon: Zap },
+  elite: { label: 'Elite', color: '#7c3aed', bg: 'rgba(124,58,237,0.1)',   border: 'rgba(124,58,237,0.25)',  Icon: Crown },
+}
+
+function PlanBadge({ plan }) {
+  const m = PLAN_META[plan] || PLAN_META.none
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      padding: '2px 8px', borderRadius: 999,
+      background: m.bg, border: `1px solid ${m.border}`,
+      color: m.color, fontSize: 11, fontWeight: 700,
+    }}>
+      <m.Icon size={11} />
+      {m.label}
+    </span>
+  )
+}
+
+function PlanSelector({ userId, currentPlan, onUpdate }) {
+  const [open, setOpen] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  const select = async (plan) => {
+    if (plan === currentPlan) { setOpen(false); return }
+    setSaving(true)
+    try {
+      await api.updateUserPlan(userId, plan)
+      onUpdate()
+      toast.success(`Tarif yangilandi: ${PLAN_META[plan].label}`)
+    } catch {
+      toast.error('Xatolik')
+    } finally {
+      setSaving(false)
+      setOpen(false)
+    }
+  }
+
+  const m = PLAN_META[currentPlan] || PLAN_META.none
+
+  return (
+    <div style={{ position: 'relative' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        disabled={saving}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          padding: '3px 9px', borderRadius: 999, cursor: 'pointer',
+          background: m.bg, border: `1px solid ${m.border}`,
+          color: m.color, fontSize: 11, fontWeight: 700,
+          opacity: saving ? 0.6 : 1,
+        }}
+        title="Tarifni o'zgartirish"
+      >
+        <m.Icon size={11} />
+        {m.label}
+        <span style={{ fontSize: 9, marginLeft: 2 }}>▾</span>
+      </button>
+
+      {open && (
+        <>
+          <div onClick={() => setOpen(false)} style={{ position: 'fixed', inset: 0, zIndex: 40 }} />
+          <div style={{
+            position: 'absolute', top: '100%', left: 0, marginTop: 4, zIndex: 50,
+            background: 'var(--bg-card, #fff)', border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: 10, padding: 4, minWidth: 110,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          }}
+            className="dark:bg-gray-900 dark:border-gray-700"
+          >
+            {Object.entries(PLAN_META).map(([val, meta]) => (
+              <button
+                key={val}
+                onClick={() => select(val)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  width: '100%', padding: '7px 10px', borderRadius: 7,
+                  background: val === currentPlan ? meta.bg : 'transparent',
+                  border: 'none', cursor: 'pointer', textAlign: 'left',
+                  color: val === currentPlan ? meta.color : 'inherit',
+                  fontSize: 12, fontWeight: val === currentPlan ? 700 : 500,
+                }}
+                className="hover:bg-gray-50 dark:hover:bg-gray-800"
+              >
+                <meta.Icon size={13} style={{ color: meta.color }} />
+                {meta.label}
+                {val === currentPlan && <span style={{ marginLeft: 'auto', fontSize: 10 }}>✓</span>}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
 
 function CreateUserModal({ onClose, onCreated }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('user')
+  const [plan, setPlan] = useState('none')
   const [showPass, setShowPass] = useState(false)
   const [saving, setSaving] = useState(false)
 
@@ -20,7 +238,10 @@ function CreateUserModal({ onClose, onCreated }) {
     if (!password.trim()) { toast.error('Parol majburiy'); return }
     setSaving(true)
     try {
-      await api.adminCreateUser({ username: username.trim(), password, role })
+      const res = await api.adminCreateUser({ username: username.trim(), password, role })
+      if (plan !== 'none') {
+        await api.updateUserPlan(res.data.id, plan)
+      }
       toast.success('Foydalanuvchi yaratildi')
       onCreated()
       onClose()
@@ -95,6 +316,29 @@ function CreateUserModal({ onClose, onCreated }) {
               ))}
             </div>
           </div>
+
+          <div>
+            <label className="label text-xs">Tarif</label>
+            <div className="flex gap-2">
+              {Object.entries(PLAN_META).map(([val, meta]) => (
+                <button key={val} type="button"
+                  onClick={() => setPlan(val)}
+                  style={{
+                    flex: 1, padding: '8px 4px', borderRadius: 8, fontSize: 12,
+                    fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s',
+                    border: `2px solid ${plan === val ? meta.color : 'rgba(0,0,0,0.1)'}`,
+                    background: plan === val ? meta.bg : 'transparent',
+                    color: plan === val ? meta.color : '#6b7280',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
+                  }}
+                  className="dark:border-gray-700"
+                >
+                  <meta.Icon size={12} />
+                  {meta.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="flex gap-2 pt-1">
@@ -119,7 +363,9 @@ export default function UserList() {
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState('Barchasi')
   const [statusFilter, setStatusFilter] = useState('Barchasi')
+  const [planFilter, setPlanFilter] = useState('Barchasi')
   const [showCreate, setShowCreate] = useState(false)
+  const [devicesModal, setDevicesModal] = useState(null) // { userId, username }
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['adminUsers'],
@@ -133,7 +379,8 @@ export default function UserList() {
     const matchStatus = statusFilter === 'Barchasi'
       || (statusFilter === 'faol' && u.is_active)
       || (statusFilter === 'bloklangan' && !u.is_active)
-    return matchSearch && matchRole && matchStatus
+    const matchPlan   = planFilter === 'Barchasi' || u.plan === planFilter
+    return matchSearch && matchRole && matchStatus && matchPlan
   })
 
   const update = async (id, data, msg) => {
@@ -163,8 +410,10 @@ export default function UserList() {
     }
   }
 
-  const adminCount = users.filter(u => u.role === 'admin').length
+  const adminCount  = users.filter(u => u.role === 'admin').length
   const activeCount = users.filter(u => u.is_active).length
+  const basicCount  = users.filter(u => u.plan === 'basic').length
+  const eliteCount  = users.filter(u => u.plan === 'elite').length
 
   return (
     <div className="space-y-5">
@@ -172,8 +421,12 @@ export default function UserList() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-black text-gray-900 dark:text-gray-100">Foydalanuvchilar</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-            {users.length} ta jami · {adminCount} admin · {activeCount} faol
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-3 flex-wrap">
+            <span>{users.length} ta jami · {adminCount} admin · {activeCount} faol</span>
+            <span style={{ display: 'flex', gap: 6 }}>
+              <span style={{ color: '#3b82f6', fontWeight: 700 }}>{basicCount} Basic</span>
+              <span style={{ color: '#7c3aed', fontWeight: 700 }}>{eliteCount} Elite</span>
+            </span>
           </p>
         </div>
         <button onClick={() => setShowCreate(true)} className="btn-primary flex items-center gap-2">
@@ -185,6 +438,14 @@ export default function UserList() {
         <CreateUserModal
           onClose={() => setShowCreate(false)}
           onCreated={() => qc.invalidateQueries({ queryKey: ['adminUsers'] })}
+        />
+      )}
+
+      {devicesModal && (
+        <DevicesModal
+          userId={devicesModal.userId}
+          username={devicesModal.username}
+          onClose={() => setDevicesModal(null)}
         />
       )}
 
@@ -222,6 +483,20 @@ export default function UserList() {
             </button>
           ))}
         </div>
+
+        {/* Plan filter */}
+        <div className="flex bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-1 gap-1">
+          {PLAN_FILTERS.map(f => (
+            <button key={f} onClick={() => setPlanFilter(f)}
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors`}
+              style={planFilter === f
+                ? { background: f === 'Barchasi' ? '#7c3aed' : PLAN_META[f]?.color, color: '#fff' }
+                : {}
+              }>
+              {f === 'Barchasi' ? 'Barcha tarif' : PLAN_META[f]?.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Table */}
@@ -245,6 +520,7 @@ export default function UserList() {
                 <th className="text-left px-4 py-3 font-semibold">Foydalanuvchi</th>
                 <th className="text-left px-4 py-3 font-semibold hidden md:table-cell">Email</th>
                 <th className="text-left px-4 py-3 font-semibold">Rol</th>
+                <th className="text-left px-4 py-3 font-semibold">Tarif</th>
                 <th className="text-left px-4 py-3 font-semibold hidden sm:table-cell">Holat</th>
                 <th className="text-left px-4 py-3 font-semibold hidden lg:table-cell">Ro'yxatdan</th>
                 <th className="text-right px-4 py-3 font-semibold">Amallar</th>
@@ -256,7 +532,7 @@ export default function UserList() {
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-black text-white flex-shrink-0
-                        ${u.role === 'admin' ? 'bg-brand' : 'bg-blue-500'}`}>
+                        ${u.role === 'admin' ? 'bg-brand' : u.plan === 'elite' ? 'bg-purple-500' : u.plan === 'basic' ? 'bg-blue-500' : 'bg-gray-400'}`}>
                         {u.username[0].toUpperCase()}
                       </div>
                       <div>
@@ -272,6 +548,17 @@ export default function UserList() {
                       : <span className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400"><Shield size={13} />User</span>
                     }
                   </td>
+                  <td className="px-4 py-3">
+                    {u.id !== me?.id ? (
+                      <PlanSelector
+                        userId={u.id}
+                        currentPlan={u.plan || 'none'}
+                        onUpdate={() => qc.invalidateQueries({ queryKey: ['adminUsers'] })}
+                      />
+                    ) : (
+                      <PlanBadge plan={u.plan || 'none'} />
+                    )}
+                  </td>
                   <td className="px-4 py-3 hidden sm:table-cell">
                     {u.is_active
                       ? <span className="text-xs font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">Faol</span>
@@ -284,6 +571,12 @@ export default function UserList() {
                   <td className="px-4 py-3">
                     {u.id !== me?.id ? (
                       <div className="flex items-center justify-end gap-0.5">
+                        <button
+                          onClick={() => setDevicesModal({ userId: u.id, username: u.username })}
+                          className="p-2 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"
+                          title="Qurilmalar tarixi">
+                          <Monitor size={15} className="text-violet-400" />
+                        </button>
                         <button
                           onClick={() => update(u.id, { role: u.role === 'admin' ? 'user' : 'admin' },
                             u.role === 'admin' ? 'Admin roli olib tashlandi' : "Admin qilindi")}
@@ -310,7 +603,14 @@ export default function UserList() {
                         </button>
                       </div>
                     ) : (
-                      <div className="text-right pr-2 text-xs text-gray-400">—</div>
+                      <div className="flex items-center justify-end gap-0.5">
+                        <button
+                          onClick={() => setDevicesModal({ userId: u.id, username: u.username })}
+                          className="p-2 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"
+                          title="Qurilmalar tarixi">
+                          <Monitor size={15} className="text-violet-400" />
+                        </button>
+                      </div>
                     )}
                   </td>
                 </tr>

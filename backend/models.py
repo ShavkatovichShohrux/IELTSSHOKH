@@ -23,9 +23,24 @@ class User(Base):
     email = Column(String(100), unique=True, index=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
     role = Column(String(20), default="user")       # admin | user
+    plan = Column(String(20), default="none")       # none | basic | elite
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     results = relationship("Result", back_populates="user", cascade="all, delete-orphan")
+    sessions = relationship("UserSession", back_populates="user", cascade="all, delete-orphan")
+
+
+class UserSession(Base):
+    __tablename__ = "user_sessions"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    session_id = Column(String(64), unique=True, index=True, nullable=False)
+    ip_address = Column(String(45), default="")
+    user_agent = Column(String(500), default="")
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    last_seen = Column(DateTime(timezone=True), server_default=func.now())
+    user = relationship("User", back_populates="sessions")
 
 
 class Test(Base):
@@ -107,6 +122,31 @@ class VocabTopic(Base):
     name_uz = Column(String(100), default="")
     pdf_file = Column(String(200), default="")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class QuestionType(Base):
+    __tablename__ = "question_types"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(200), nullable=False)
+    name_uz = Column(String(200), default="")
+    html_file = Column(String(200), default="")
+    order = Column(Integer, default=0)
+    is_published = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+class SiteSettings(Base):
+    __tablename__ = "site_settings"
+    id = Column(Integer, primary_key=True, default=1)
+    card_number = Column(String(50), default="")
+    card_holder = Column(String(100), default="")
+    basic_name = Column(String(50), default="Basic")
+    elite_name = Column(String(50), default="Elite")
+    basic_price = Column(String(50), default="")
+    elite_price = Column(String(50), default="")
+    telegram_username = Column(String(100), default="shokh_shavkatovich")
+    payment_note = Column(Text, default="")
+    updated_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
 class SpeakingDossier(Base):

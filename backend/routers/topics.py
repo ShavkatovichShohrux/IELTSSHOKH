@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from database import get_db
 import models, schemas
-from auth import require_admin, get_current_user, get_user_from_token
+from auth import require_admin, get_current_user, get_user_from_token, require_basic
 
 router = APIRouter()
 
@@ -71,6 +71,8 @@ def view_topic_content(
     user = get_user_from_token(t or "", db)
     if not user or not user.is_active:
         raise HTTPException(status_code=401, detail="Kirish talab qilinadi")
+    if user.role != "admin" and user.plan not in ("basic", "elite"):
+        raise HTTPException(status_code=403, detail="PLAN_REQUIRED:basic")
 
     topic = db.query(models.Topic).filter(models.Topic.id == topic_id).first()
     if not topic:
@@ -86,7 +88,7 @@ def view_topic_content(
 
 
 @router.get("/", response_model=List[schemas.TopicResponse])
-def list_topics(db: Session = Depends(get_db), _=Depends(get_current_user)):
+def list_topics(db: Session = Depends(get_db), _=Depends(require_basic)):
     topics = db.query(models.Topic).order_by(models.Topic.name).all()
     return [_topic_resp(t) for t in topics]
 

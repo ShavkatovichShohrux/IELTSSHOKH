@@ -1,12 +1,46 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, BookOpen, FileText, Lock, ChevronRight } from 'lucide-react'
+import { ArrowLeft, BookOpen, FileText, Lock, ChevronRight, Crown, Zap } from 'lucide-react'
 import { api } from '../api/client'
+import { useAuthStore } from '../store/authStore'
+
+function PlanGate() {
+  return (
+    <div className="flex flex-col items-center justify-center py-20 text-center px-4">
+      <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-5">
+        <Lock size={32} className="text-emerald-500" />
+      </div>
+      <h2 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-2">Bu bo'lim yopiq</h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mb-5">
+        Vocabulary bo'limiga kirish uchun <strong>Basic</strong> yoki <strong>Elite</strong> tarifga ega bo'lishingiz kerak.
+      </p>
+      <div className="flex gap-3 justify-center flex-wrap">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+          <Zap size={15} className="text-blue-500" />
+          <span className="text-sm font-bold text-blue-600 dark:text-blue-400">Basic</span>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
+          <Crown size={15} className="text-purple-500" />
+          <span className="text-sm font-bold text-purple-600 dark:text-purple-400">Elite</span>
+        </div>
+      </div>
+      <p className="text-xs text-gray-400 mt-4">Admin bilan bog'laning yoki platformadan tarif sotib oling.</p>
+    </div>
+  )
+}
 
 export default function Vocabulary() {
-  const { data: items = [], isLoading } = useQuery({
+  const { user } = useAuthStore()
+  const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
+
+  const { data: raw = [], isLoading } = useQuery({
     queryKey: ['vocabTopics'],
     queryFn: () => api.getVocabTopics().then(r => r.data),
+  })
+
+  const items = [...raw].sort((a, b) => {
+    const num = s => { const m = s.name.match(/\d+/); return m ? parseInt(m[0]) : Infinity }
+    return num(a) - num(b)
   })
 
   return (
@@ -28,7 +62,7 @@ export default function Vocabulary() {
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8">
-        {isLoading ? (
+        {!hasAccess ? <PlanGate /> : isLoading ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="card p-5 animate-pulse">

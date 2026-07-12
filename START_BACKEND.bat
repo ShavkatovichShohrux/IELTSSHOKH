@@ -1,4 +1,4 @@
-@echo off
+3@echo off
 echo.
 echo ==========================================
 echo  IELTSSHOKH Platform - Backend

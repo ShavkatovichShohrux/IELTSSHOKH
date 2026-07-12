@@ -17,7 +17,15 @@ export default function Landing() {
 
   useEffect(() => {
     api.getSpeakingDossiers()
-      .then(r => setDossiers(r.data))
+      .then(r => {
+        const getNum = s => parseInt((s || '').match(/\d+/)?.[0] ?? '9999', 10)
+        const sorted = [...r.data].sort((a, b) => {
+          const na = getNum(a.title_uz || a.title_en)
+          const nb = getNum(b.title_uz || b.title_en)
+          return na !== nb ? na - nb : a.id - b.id
+        })
+        setDossiers(sorted)
+      })
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])

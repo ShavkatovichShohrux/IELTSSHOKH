@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from database import get_db
 import models, schemas
-from auth import require_admin, get_current_user
+from auth import require_admin, get_current_user, require_elite
 
 router = APIRouter()
 
@@ -30,6 +30,10 @@ def list_tests(
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
+    # Admin uchun plan check yo'q; student uchun elite talab
+    if current_user and current_user.role != "admin":
+        if current_user.plan != "elite":
+            raise HTTPException(status_code=403, detail="PLAN_REQUIRED:elite")
     query = db.query(models.Test)
     if not current_user or current_user.role != "admin":
         query = query.filter(models.Test.is_published == True)

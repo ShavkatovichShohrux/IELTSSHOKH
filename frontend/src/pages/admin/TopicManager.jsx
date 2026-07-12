@@ -136,9 +136,18 @@ export default function TopicManager() {
     }
   }
 
+  const getNum = s => parseInt((s || '').match(/\d+/)?.[0] ?? '9999', 10)
+
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ['topics'],
-    queryFn: async () => (await api.getTopics()).data,
+    queryFn: async () => {
+      const data = (await api.getTopics()).data
+      return [...data].sort((a, b) => {
+        const na = getNum(a.name || a.name_uz)
+        const nb = getNum(b.name || b.name_uz)
+        return na !== nb ? na - nb : a.id - b.id
+      })
+    },
   })
 
   const create = async data => {

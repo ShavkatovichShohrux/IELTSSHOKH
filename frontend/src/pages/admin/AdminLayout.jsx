@@ -1,6 +1,7 @@
-import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library } from 'lucide-react'
+import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
+import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library, HelpCircle, ExternalLink, Settings } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
+import { api } from '../../api/client'
 import toast from 'react-hot-toast'
 
 const nav = [
@@ -9,16 +10,19 @@ const nav = [
   { to: '/admin/vocabulary', icon: Library, label: 'Vocabulary' },
   { to: '/admin/tests', icon: BookOpen, label: 'Testlar' },
   { to: '/admin/topics', icon: Tag, label: 'Topiclar' },
+  { to: '/admin/question-types', icon: HelpCircle, label: 'Question Types' },
   { to: '/admin/users', icon: Users, label: 'Foydalanuvchilar' },
   { to: '/admin/stats', icon: BarChart2, label: 'Statistika' },
   { to: '/admin/audio', icon: Music, label: 'Audio fayllar' },
+  { to: '/admin/settings', icon: Settings, label: 'Sozlamalar' },
 ]
 
 export default function AdminLayout() {
   const { user, theme, toggleTheme, logout } = useAuthStore()
   const navigate = useNavigate()
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try { await api.logout() } catch (_) {}
     logout()
     toast.success('Chiqildi')
     navigate('/login')
@@ -55,15 +59,21 @@ export default function AdminLayout() {
         </nav>
 
         {/* Bottom */}
-        <div className="p-3 border-t border-gray-200 dark:border-gray-800 flex gap-2">
-          <button onClick={toggleTheme}
-            className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 text-xs">
-            {theme === 'dark' ? <Sun size={15} className="text-yellow-400" /> : <Moon size={15} />}
-          </button>
-          <button onClick={handleLogout}
-            className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-brand transition-colors text-xs">
-            <LogOut size={15} />Chiqish
-          </button>
+        <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
+          <Link to="/tests" target="_blank"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors">
+            <ExternalLink size={14} /> Student View
+          </Link>
+          <div className="flex gap-2">
+            <button onClick={toggleTheme}
+              className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 text-xs">
+              {theme === 'dark' ? <Sun size={15} className="text-yellow-400" /> : <Moon size={15} />}
+            </button>
+            <button onClick={handleLogout}
+              className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-brand transition-colors text-xs">
+              <LogOut size={15} />Chiqish
+            </button>
+          </div>
         </div>
       </aside>
 

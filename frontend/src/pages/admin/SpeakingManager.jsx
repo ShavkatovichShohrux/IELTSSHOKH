@@ -43,9 +43,17 @@ function DossiersTab() {
   const [uploadingId, setUploadingId] = useState(null)
   const fileInputRef = useRef(null)
 
+  const getNum = s => parseInt((s || '').match(/\d+/)?.[0] ?? '9999', 10)
+
   const { data: dossiers = [], isLoading } = useQuery({
     queryKey: ['speaking-dossiers-all'],
-    queryFn: () => api.getSpeakingDossiersAll().then(r => r.data),
+    queryFn: () => api.getSpeakingDossiersAll().then(r => {
+      return [...r.data].sort((a, b) => {
+        const na = getNum(a.title_uz || a.title_en)
+        const nb = getNum(b.title_uz || b.title_en)
+        return na !== nb ? na - nb : a.id - b.id
+      })
+    }),
   })
 
   const createMut = useMutation({

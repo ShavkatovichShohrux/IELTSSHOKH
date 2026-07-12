@@ -1,4 +1,5 @@
 import axios from 'axios'
+import toast from 'react-hot-toast'
 import { useAuthStore } from '../store/authStore'
 
 const client = axios.create({ baseURL: '/api', timeout: 30000 })
@@ -12,10 +13,17 @@ client.interceptors.request.use(cfg => {
 client.interceptors.response.use(
   res => res,
   err => {
-    // Only auto-logout on 401 from auth/identity endpoints.
-    // Admin-only endpoints returning 401 (e.g., is_active=false) should NOT
-    // silently clear the session — let the component handle the error.
     const url = err.config?.url || ''
+    const detail = err.response?.data?.detail || ''
+
+    // Boshqa qurilmadan kirilganida sessiya yaroqsiz bo'ladi
+    if (detail === 'SESSION_INVALID') {
+      useAuthStore.getState().logout()
+      toast.error('Boshqa qurilmadan kirildi. Qaytadan kiring.', { id: 'session-invalid', duration: 5000 })
+      return Promise.reject(err)
+    }
+
+    // Faqat auth endpointlarida 401 → avtomatik chiqish
     const isAuthEndpoint = url.includes('/users/me') || url.includes('/users/auth')
     if (err.response?.status === 401 && isAuthEndpoint) {
       useAuthStore.getState().logout()
@@ -31,6 +39,9 @@ export const api = {
   login: d => client.post('/users/auth/login', d),
   register: d => client.post('/users/auth/register', d),
   me: () => client.get('/users/me'),
+  logout: () => client.post('/users/auth/logout'),
+  mySessions: () => client.get('/users/me/sessions'),
+  userSessions: (id) => client.get(`/users/${id}/sessions`),
 
   // Tests
   getTests: p => client.get('/tests/', { params: p }),
@@ -43,6 +54,7 @@ export const api = {
   getUsers: () => client.get('/users/'),
   adminCreateUser: d => client.post('/users/', d),
   updateUser: (id, d) => client.put(`/users/${id}`, d),
+  updateUserPlan: (id, plan) => client.put(`/users/${id}`, { plan }),
   deleteUser: id => client.delete(`/users/${id}`),
 
   // Results
@@ -76,6 +88,19 @@ export const api = {
   createSpeakingToken: d => client.post('/speaking/tokens', d),
   revokeSpeakingToken: token => client.delete(`/speaking/tokens/${token}`),
   uploadSpeakingDossierFile: (id, fd) => client.post(`/speaking/dossiers/${id}/upload`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
+
+  // Question Types
+  getQuestionTypes: () => client.get('/question-types/'),
+  getQuestionTypesAll: () => client.get('/question-types/all'),
+  createQuestionType: (name, name_uz, order) => client.post(`/question-types/?name=${encodeURIComponent(name)}&name_uz=${encodeURIComponent(name_uz)}&order=${order}`),
+  uploadQuestionTypeFile: (id, fd) => client.post(`/question-types/${id}/upload`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  updateQuestionType: (id, params) => client.put(`/question-types/${id}`, null, { params }),
+  toggleQuestionTypePublish: (id) => client.put(`/question-types/${id}/publish`),
+  deleteQuestionType: (id) => client.delete(`/question-types/${id}`),
+
+  // Settings
+  getSettings: () => client.get('/settings/'),
+  updateSettings: d => client.put('/settings/', d),
 
   // Vocabulary
   getVocabTopics: () => client.get('/vocab/'),

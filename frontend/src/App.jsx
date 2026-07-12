@@ -18,7 +18,11 @@ import ListeningTest from './pages/ListeningTest'
 import ReadingTest from './pages/ReadingTest'
 import MyResults from './pages/MyResults'
 
+import SpeakingQuestionTypes from './pages/SpeakingQuestionTypes'
+import Challenge from './pages/Challenge'
+
 import AdminLayout from './pages/admin/AdminLayout'
+import QuestionTypeManager from './pages/admin/QuestionTypeManager'
 import Dashboard from './pages/admin/Dashboard'
 import TestList from './pages/admin/TestList'
 import TestEditor from './pages/admin/TestEditor'
@@ -28,6 +32,7 @@ import AudioManager from './pages/admin/AudioManager'
 import TopicManager from './pages/admin/TopicManager'
 import SpeakingManager from './pages/admin/SpeakingManager'
 import VocabManager from './pages/admin/VocabManager'
+import AdminSettings from './pages/admin/AdminSettings'
 
 export default function App() {
   const { theme, user, token, setAuth } = useAuthStore()
@@ -44,7 +49,7 @@ export default function App() {
   // Admin va login sahifalarida himoya shart emas
   const isAdminRoute = location.pathname.startsWith('/admin')
   const isPublicRoute = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/speaking'
-  const isTestRoute = location.pathname.startsWith('/listening/') || location.pathname.startsWith('/reading/')
+  const isProtectedRoute = !isPublicRoute   // admin + student — barchasi himoyalangan
 
   useCopyProtection(isAdminRoute)
 
@@ -52,9 +57,9 @@ export default function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  // Blur overlay faqat test sahifalarida ishlaydi (screen recording himoyasi)
+  // Blur overlay — barcha login talab qiluvchi sahifalarda (admin ham)
   useEffect(() => {
-    if (!isTestRoute) { setWindowBlurred(false); return }
+    if (!isProtectedRoute) { setWindowBlurred(false); return }
     const onBlur = () => setWindowBlurred(true)
     const onFocus = () => setWindowBlurred(false)
     window.addEventListener('blur', onBlur)
@@ -63,16 +68,22 @@ export default function App() {
       window.removeEventListener('blur', onBlur)
       window.removeEventListener('focus', onFocus)
     }
-  }, [isTestRoute])
+  }, [isProtectedRoute])
 
-  // SVG watermark with username
-  const watermarkBg = user?.username && !isAdminRoute
+  // SVG watermark — screenshot'da aniq ko'rinadigan
+  const wmText = user?.username ? `IELTSSHOKH · ${user.username}` : null
+  const watermarkBg = wmText
     ? `url("data:image/svg+xml,${encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="380" height="220">` +
-        `<text x="50%" y="55%" text-anchor="middle" transform="rotate(-28,190,110)" ` +
-        `font-family="sans-serif" font-size="17" fill="rgba(180,0,0,0.06)" font-weight="700" letter-spacing="2">` +
-        `IELTSSHOKH · ${user.username}` +
-        `</text></svg>`
+        `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="180">` +
+        `<text x="50%" y="45%" text-anchor="middle" transform="rotate(-28,180,90)" ` +
+        `font-family="Arial Black,Arial,sans-serif" font-size="18" fill="rgba(80,0,0,0.28)" font-weight="900" letter-spacing="2">` +
+        `${user.username}` +
+        `</text>` +
+        `<text x="50%" y="64%" text-anchor="middle" transform="rotate(-28,180,90)" ` +
+        `font-family="Arial,sans-serif" font-size="12" fill="rgba(80,0,0,0.18)" font-weight="700" letter-spacing="1.5">` +
+        `IELTSSHOKH · ieltsshokh.uz` +
+        `</text>` +
+        `</svg>`
       )}")`
     : 'none'
 
@@ -94,6 +105,16 @@ export default function App() {
         <Route path="/tests/speaking" element={
           <ProtectedRoute>
             <Navbar /><Home />
+          </ProtectedRoute>
+        } />
+        <Route path="/tests/question-types" element={
+          <ProtectedRoute>
+            <Navbar /><SpeakingQuestionTypes />
+          </ProtectedRoute>
+        } />
+        <Route path="/tests/challenge" element={
+          <ProtectedRoute>
+            <Challenge />
           </ProtectedRoute>
         } />
         <Route path="/vocabulary" element={
@@ -138,29 +159,32 @@ export default function App() {
           <Route path="topics" element={<TopicManager />} />
           <Route path="stats" element={<Statistics />} />
           <Route path="audio" element={<AudioManager />} />
+          <Route path="question-types" element={<QuestionTypeManager />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      {/* Watermark — faqat foydalanuvchi sahifalarida */}
-      {!isAdminRoute && !isPublicRoute && (
+      {/* Watermark — barcha himoyalangan sahifalarda (admin ham) */}
+      {!isPublicRoute && wmText && (
         <div
           className="watermark"
           aria-hidden="true"
-          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '380px 220px' }}
+          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '360px 180px' }}
         />
       )}
 
-      {/* Blur overlay — FAQAT test sahifalarida (screen recording himoyasi) */}
-      {windowBlurred && isTestRoute && (
+      {/* Blur overlay — barcha himoyalangan sahifalarda (screen recording / alt-tab himoyasi) */}
+      {windowBlurred && isProtectedRoute && (
         <div
-          className="fixed inset-0 z-[10000] flex items-center justify-center select-none"
-          style={{ backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', background: 'rgba(15,16,25,0.35)' }}
+          className="fixed inset-0 z-[10000] flex flex-col items-center justify-center select-none gap-3"
+          style={{ backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', background: 'rgba(6,6,12,0.72)' }}
         >
-          <p className="text-white/80 text-base font-medium tracking-wide">
+          <p className="text-white/80 text-base font-semibold tracking-wide">
             Davom etish uchun oynaga qayting
           </p>
+          <p className="text-white/25 text-xs tracking-widest uppercase">IELTSSHOKH · Protected Content</p>
         </div>
       )}
     </div>
