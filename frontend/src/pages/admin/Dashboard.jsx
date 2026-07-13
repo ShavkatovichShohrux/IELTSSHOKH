@@ -58,22 +58,22 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 dark:text-gray-100">Dashboard</h1>
+          <h1 className="text-xl font-black text-gray-900 dark:text-gray-100">Dashboard</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
             Umumiy ko'rsatkichlar
-            {lastUpdated && <span className="ml-2 text-xs text-gray-400">· {lastUpdated} da yangilangan</span>}
+            {lastUpdated && <span className="ml-2 text-xs text-gray-400">· {lastUpdated}</span>}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-shrink-0">
           <button onClick={refresh}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
+            className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors">
             <RefreshCw size={15} className={isLoading ? 'animate-spin' : ''} />
-            Yangilash
+            <span className="hidden sm:inline">Yangilash</span>
           </button>
-          <Link to="/admin/tests/new" className="btn-primary flex items-center gap-2 text-sm">
-            <Plus size={16} />Yangi test
+          <Link to="/admin/tests/new" className="btn-primary flex items-center gap-1.5 text-sm">
+            <Plus size={16} /><span className="hidden sm:inline">Yangi test</span><span className="sm:hidden">Yangi</span>
           </Link>
         </div>
       </div>

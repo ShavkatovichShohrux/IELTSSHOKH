@@ -17,11 +17,16 @@
   body {
     @apply bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100;
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    -webkit-text-size-adjust: 100%;
   }
   /* Restore selection only in form fields */
   input, textarea, select {
     -webkit-user-select: text !important;
     user-select: text !important;
+  }
+  /* Faster tap response on mobile (removes 300ms delay) */
+  button, a, [role="button"] {
+    touch-action: manipulation;
   }
 }
 

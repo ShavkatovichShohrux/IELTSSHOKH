@@ -114,7 +114,7 @@ export default function ListeningTest() {
       <AudioPlayer src={test?.audio_url} title={test?.title} />
 
       {/* Content — offset for audio player height */}
-      <div className="pt-24 pb-32 max-w-3xl mx-auto px-4">
+      <div className="pt-28 pb-32 max-w-3xl mx-auto px-4">
         {/* Back + title */}
         <div className="flex items-center gap-3 mb-6">
           <button onClick={() => navigate('/')} className="p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg transition-colors">

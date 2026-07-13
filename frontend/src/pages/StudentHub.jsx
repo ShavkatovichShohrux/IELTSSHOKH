@@ -147,6 +147,13 @@ export default function StudentHub() {
   const [showUpgrade, setShowUpgrade] = useState(false)
   const isDark = theme === 'dark'
   const c = isDark ? dark : light
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
+
+  useEffect(() => {
+    const h = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', h, { passive: true })
+    return () => window.removeEventListener('resize', h)
+  }, [])
 
   const { data: results = [] } = useQuery({
     queryKey: ['myResults'],
@@ -164,27 +171,52 @@ export default function StudentHub() {
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       color: c.text, transition: 'background 0.2s, color 0.2s',
     }}>
-      <Sidebar active={activeNav} setActive={setActiveNav} c={c} isDark={isDark} onUpgrade={() => setShowUpgrade(true)} />
+      {!isMobile && <Sidebar active={activeNav} setActive={setActiveNav} c={c} isDark={isDark} onUpgrade={() => setShowUpgrade(true)} />}
       {showUpgrade && <UpgradeModal isDark={isDark} onClose={() => setShowUpgrade(false)} />}
 
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-        <TopBar user={user} lastBand={lastBand} streak={challengeStreak} c={c} isDark={isDark} />
+        <TopBar user={user} lastBand={lastBand} streak={challengeStreak} c={c} isDark={isDark} isMobile={isMobile} onUpgrade={() => setShowUpgrade(true)} />
 
         <div style={{ flex: 1, overflowY: 'auto' }}>
-          <div style={{ padding: '24px 24px 0' }}>
-            <Hero user={user} progress={progress} c={c} isDark={isDark} />
+          <div style={{ padding: isMobile ? '12px 12px 0' : '24px 24px 0' }}>
+            <Hero user={user} progress={progress} c={c} isDark={isDark} isMobile={isMobile} />
           </div>
 
-          <div style={{ padding: '0 24px 20px' }}>
-            <ChallengeBanner c={c} isDark={isDark} />
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
+          <div style={{ padding: isMobile ? '0 12px 16px' : '0 24px 20px' }}>
+            <ChallengeBanner c={c} isDark={isDark} isMobile={isMobile} />
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? 10 : 14 }}>
               {MODULES.map((m, i) => (
-                <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan)} c={c} isDark={isDark} />
+                <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan)} c={c} isDark={isDark} isMobile={isMobile} />
               ))}
             </div>
           </div>
 
-          <FeatureStrip c={c} />
+          <FeatureStrip c={c} isMobile={isMobile} />
+
+          {/* Mobile bottom nav */}
+          {isMobile && (
+            <div style={{
+              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 100,
+              background: isDark ? 'rgba(13,13,18,0.97)' : 'rgba(255,255,255,0.97)',
+              backdropFilter: 'blur(12px)',
+              borderTop: `1px solid ${c.sidebarBdr}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-around',
+              padding: '8px 16px 12px',
+            }}>
+              <Link to="/tests" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <HomeIcon size={20} color={c.navActiveClr} />
+                <span style={{ fontSize: 10, color: c.navActiveClr, fontWeight: 600 }}>Home</span>
+              </Link>
+              <Link to="/my-results" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <Gem size={20} color={c.navClr} />
+                <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Natijalar</span>
+              </Link>
+              <a href="https://t.me/ieltsshokh" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                <ExternalLink size={20} color={c.navClr} />
+                <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Telegram</span>
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -308,7 +340,7 @@ function MiniWave() {
 }
 
 /* ═══════════════════════════ TOP BAR ════════════════════════════ */
-function TopBar({ user, lastBand, streak, c, isDark }) {
+function TopBar({ user, lastBand, streak, c, isDark, isMobile, onUpgrade }) {
   const { toggleTheme } = useAuthStore()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -332,11 +364,20 @@ function TopBar({ user, lastBand, streak, c, isDark }) {
 
   return (
     <header style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
-      padding: '13px 28px', gap: 20,
+      display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'space-between' : 'flex-end',
+      padding: isMobile ? '10px 16px' : '13px 28px', gap: isMobile ? 10 : 20,
       background: c.topbarBg, backdropFilter: 'blur(10px)',
       borderBottom: `1px solid ${c.topbarBdr}`, transition: 'background 0.2s',
     }}>
+      {/* Mobile logo */}
+      {isMobile && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src="/uploads/logo.png" alt="IELTSSHOKH" style={{ height: 24, width: 'auto', filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)' }} onError={e => { e.target.style.display = 'none' }} />
+          <span style={{ fontSize: 13, fontWeight: 900, color: isDark ? '#ffffff' : '#0f172a', letterSpacing: 0.5 }}>IELTSSHOKH</span>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 20 }}>
       {/* Streak */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
         <span style={{ fontSize: 20 }}>🔥</span>
@@ -422,7 +463,7 @@ function TopBar({ user, lastBand, streak, c, isDark }) {
                 position: 'relative',
                 background: isDark ? '#16161e' : '#ffffff',
                 border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                borderRadius: 22, padding: '32px 28px 24px', width: 320,
+                borderRadius: 22, padding: '32px 20px 24px', width: '100%', maxWidth: 360,
                 boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
               }}
             >
@@ -562,16 +603,17 @@ function TopBar({ user, lastBand, streak, c, isDark }) {
           document.body
         )}
       </div>
+      </div>
     </header>
   )
 }
 
 /* ═══════════════════════════ HERO ═══════════════════════════════ */
-function Hero({ user, progress, c }) {
+function Hero({ user, progress, c, isMobile }) {
   return (
     <div style={{
-      position: 'relative', borderRadius: 20, overflow: 'hidden',
-      minHeight: 248, display: 'flex', alignItems: 'stretch', marginBottom: 20,
+      position: 'relative', borderRadius: 16, overflow: 'hidden',
+      minHeight: isMobile ? 160 : 248, display: 'flex', alignItems: 'stretch', marginBottom: 14,
     }}>
       <img src={HERO_BG} alt="" style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
@@ -582,7 +624,7 @@ function Hero({ user, progress, c }) {
         background: 'linear-gradient(120deg,rgba(15,5,40,0.8) 0%,rgba(20,10,50,0.5) 55%,rgba(0,0,0,0.1) 100%)',
       }} />
 
-      <div style={{ position: 'relative', zIndex: 1, flex: 1, padding: '32px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', zIndex: 1, flex: 1, padding: isMobile ? '24px 20px' : '32px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <p style={{ margin: '0 0 10px', fontSize: 13, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>
           Welcome back,
         </p>
@@ -600,8 +642,8 @@ function Hero({ user, progress, c }) {
         </p>
       </div>
 
-      {/* Progress card */}
-      <div style={{
+      {/* Progress card — hidden on mobile */}
+      {!isMobile && <div style={{
         position: 'relative', zIndex: 1, margin: '20px 22px',
         background: c.progressBg,
         backdropFilter: 'blur(18px)',
@@ -634,7 +676,7 @@ function Hero({ user, progress, c }) {
             </Link>
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }
@@ -659,13 +701,13 @@ function CircleProgress({ pct }) {
 }
 
 /* ═══════════════════════════ MODULE CARD ════════════════════════ */
-function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titleClr, desc, btnBg, stat, statLbl, locked }) {
+function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titleClr, desc, btnBg, stat, statLbl, locked, isMobile }) {
   const [hov, setHov] = useState(false)
 
   const card = (
     <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
-      position: 'relative', borderRadius: 18, overflow: 'hidden',
-      minHeight: 270, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+      position: 'relative', borderRadius: 16, overflow: 'hidden',
+      minHeight: isMobile ? 180 : 270, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
       transform: !locked && hov ? 'translateY(-4px)' : 'none',
       boxShadow: !locked && hov ? '0 20px 40px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.15)',
       transition: 'transform 0.2s, box-shadow 0.2s', cursor: locked ? 'default' : 'pointer',
@@ -740,7 +782,7 @@ function AudioWave() {
 }
 
 /* ═══════════════════════════ CHALLENGE BANNER ═══════════════════ */
-function ChallengeBanner({ c, isDark }) {
+function ChallengeBanner({ c, isDark, isMobile }) {
   const { isStarted, currentDay, streak, totalCompleted, todayChecked } = useChallenge()
   const pct = Math.round((totalCompleted / 30) * 100)
 
@@ -749,12 +791,12 @@ function ChallengeBanner({ c, isDark }) {
       <div style={{
         background: 'linear-gradient(120deg,rgba(124,58,237,0.13) 0%,rgba(59,130,246,0.08) 100%)',
         border: '1px solid rgba(124,58,237,0.22)',
-        borderRadius: 16, padding: '16px 20px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+        borderRadius: 16, padding: isMobile ? '14px 14px' : '16px 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: isMobile ? 8 : 16,
         transition: 'border-color 0.2s',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ fontSize: 34, flexShrink: 0 }}>🎯</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: isMobile ? 26 : 34, flexShrink: 0 }}>🎯</div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 900, color: c.text, marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
               {isStarted ? `Day ${currentDay} / 30` : '30-Day Speaking Challenge'}
@@ -774,7 +816,7 @@ function ChallengeBanner({ c, isDark }) {
               }
             </div>
             {isStarted && (
-              <div style={{ marginTop: 8, width: 180, height: 4, background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', borderRadius: 99, overflow: 'hidden' }}>
+              <div style={{ marginTop: 8, width: isMobile ? '100%' : 180, height: 4, background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', borderRadius: 99, overflow: 'hidden' }}>
                 <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#7c3aed,#3b82f6)', borderRadius: 99 }} />
               </div>
             )}
@@ -853,9 +895,9 @@ function UpgradeModal({ isDark, onClose }) {
         style={{
           background: isDark ? '#13131a' : '#ffffff',
           border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.1)'}`,
-          borderRadius: 24, padding: '28px 24px', width: '100%', maxWidth: 420,
+          borderRadius: 20, padding: '24px 18px', width: '100%', maxWidth: 420,
           boxShadow: '0 40px 100px rgba(0,0,0,0.6)',
-          position: 'relative',
+          position: 'relative', maxHeight: '90vh', overflowY: 'auto',
         }}
       >
         {/* Close */}
@@ -1035,9 +1077,9 @@ function UpgradeModal({ isDark, onClose }) {
 }
 
 /* ═══════════════════════════ FEATURE STRIP ══════════════════════ */
-function FeatureStrip({ c }) {
+function FeatureStrip({ c, isMobile }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, padding: '0 24px 28px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: isMobile ? 8 : 12, padding: isMobile ? '0 12px 88px' : '0 24px 28px' }}>
       {FEATURES.map((f, i) => (
         <div key={i} style={{
           display: 'flex', alignItems: 'center', gap: 12,

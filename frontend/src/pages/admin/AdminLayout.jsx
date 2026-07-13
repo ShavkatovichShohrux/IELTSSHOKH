@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library, HelpCircle, ExternalLink, Settings } from 'lucide-react'
+import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library, HelpCircle, ExternalLink, Settings, Menu, X } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 import { api } from '../../api/client'
 import toast from 'react-hot-toast'
@@ -20,6 +21,7 @@ const nav = [
 export default function AdminLayout() {
   const { user, theme, toggleTheme, logout } = useAuthStore()
   const navigate = useNavigate()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const handleLogout = async () => {
     try { await api.logout() } catch (_) {}
@@ -28,58 +30,87 @@ export default function AdminLayout() {
     navigate('/login')
   }
 
-  return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-950 overflow-hidden">
-      {/* Sidebar */}
-      <aside className="w-56 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col flex-shrink-0">
-        {/* Logo */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+  const SidebarContent = () => (
+    <>
+      {/* Logo */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="bg-brand text-white px-2 py-0.5 rounded text-sm font-black tracking-widest">IELTS</span>
             <span className="font-bold text-gray-800 dark:text-gray-100 text-sm">SHOKH Admin</span>
           </div>
-          <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">{user?.username}</p>
+          <button onClick={() => setSidebarOpen(false)} className="md:hidden p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+            <X size={18} className="text-gray-500" />
+          </button>
         </div>
+        <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">{user?.username}</p>
+      </div>
 
-        {/* Nav */}
-        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-          {nav.map(({ to, end, icon: Icon, label }) => (
-            <NavLink key={to} to={to} end={end}
-              className={({ isActive }) =>
-                `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
-                ${isActive
-                  ? 'bg-brand text-white'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
-                }`
-              }>
-              <Icon size={18} />
-              {label}
-            </NavLink>
-          ))}
-        </nav>
+      {/* Nav */}
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+        {nav.map(({ to, end, icon: Icon, label }) => (
+          <NavLink key={to} to={to} end={end}
+            onClick={() => setSidebarOpen(false)}
+            className={({ isActive }) =>
+              `flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+              ${isActive
+                ? 'bg-brand text-white'
+                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
+              }`
+            }>
+            <Icon size={18} />
+            {label}
+          </NavLink>
+        ))}
+      </nav>
 
-        {/* Bottom */}
-        <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
-          <Link to="/tests" target="_blank"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors">
-            <ExternalLink size={14} /> Student View
-          </Link>
-          <div className="flex gap-2">
-            <button onClick={toggleTheme}
-              className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 text-xs">
-              {theme === 'dark' ? <Sun size={15} className="text-yellow-400" /> : <Moon size={15} />}
-            </button>
-            <button onClick={handleLogout}
-              className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-brand transition-colors text-xs">
-              <LogOut size={15} />Chiqish
-            </button>
-          </div>
+      {/* Bottom */}
+      <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
+        <Link to="/tests" target="_blank"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors">
+          <ExternalLink size={14} /> Student View
+        </Link>
+        <div className="flex gap-2">
+          <button onClick={toggleTheme}
+            className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 text-xs">
+            {theme === 'dark' ? <Sun size={15} className="text-yellow-400" /> : <Moon size={15} />}
+          </button>
+          <button onClick={handleLogout}
+            className="flex-1 flex items-center justify-center gap-2 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-brand transition-colors text-xs">
+            <LogOut size={15} />Chiqish
+          </button>
         </div>
+      </div>
+    </>
+  )
+
+  return (
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-950 overflow-hidden">
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex w-56 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-col flex-shrink-0">
+        <SidebarContent />
       </aside>
 
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
+          <aside className="absolute left-0 top-0 bottom-0 w-64 bg-white dark:bg-gray-900 flex flex-col shadow-xl">
+            <SidebarContent />
+          </aside>
+        </div>
+      )}
+
       {/* Main */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-6">
+      <main className="flex-1 overflow-y-auto flex flex-col">
+        {/* Mobile top bar */}
+        <div className="md:hidden flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-40">
+          <button onClick={() => setSidebarOpen(true)} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+            <Menu size={20} className="text-gray-600 dark:text-gray-400" />
+          </button>
+          <span className="font-bold text-sm text-gray-800 dark:text-gray-100">Admin Panel</span>
+        </div>
+        <div className="p-4 md:p-6">
           <Outlet />
         </div>
       </main>

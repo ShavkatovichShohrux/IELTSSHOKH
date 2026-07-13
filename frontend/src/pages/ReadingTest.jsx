@@ -28,6 +28,7 @@ export default function ReadingTest() {
   const [answers, setAnswers] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [result, setResult] = useState(null)
+  const [mobileTab, setMobileTab] = useState('passage')
 
   const { data: test, isLoading, error } = useQuery({
     queryKey: ['test', id],
@@ -90,7 +91,7 @@ export default function ReadingTest() {
               <span className="ml-2 badge-reading">Reading</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {parts.map((p, i) => (
               <button key={p.id} onClick={() => setActivePassage(i)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors
@@ -102,11 +103,29 @@ export default function ReadingTest() {
         </div>
       </div>
 
+      {/* Mobile tab switcher */}
+      {currentPart && (
+        <div className="lg:hidden flex gap-2 px-4 mt-3">
+          <button
+            onClick={() => setMobileTab('passage')}
+            className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${mobileTab === 'passage' ? 'bg-brand text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}
+          >
+            📖 Matn
+          </button>
+          <button
+            onClick={() => setMobileTab('questions')}
+            className={`flex-1 py-2 rounded-lg text-sm font-semibold transition-colors ${mobileTab === 'questions' ? 'bg-brand text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300'}`}
+          >
+            ❓ Savollar
+          </button>
+        </div>
+      )}
+
       {/* Split view */}
       {currentPart && (
-        <div className="max-w-6xl mx-auto px-4 mt-4 grid lg:grid-cols-2 gap-4 h-[calc(100vh-100px)]">
+        <div className="max-w-6xl mx-auto px-4 mt-4 lg:grid lg:grid-cols-2 gap-4 lg:h-[calc(100vh-100px)] flex flex-col lg:flex-none">
           {/* Left: Passage */}
-          <div className="card p-6 overflow-y-auto scrollbar-thin">
+          <div className={`card p-6 overflow-y-auto scrollbar-thin ${mobileTab !== 'passage' ? 'hidden lg:block' : ''}`}>
             <div className="text-xs font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-wider">
               Passage {currentPart.part_number}
             </div>
@@ -122,7 +141,7 @@ export default function ReadingTest() {
           </div>
 
           {/* Right: Questions */}
-          <div className="card p-5 overflow-y-auto scrollbar-thin flex flex-col">
+          <div className={`card p-5 overflow-y-auto scrollbar-thin flex flex-col ${mobileTab !== 'questions' ? 'hidden lg:flex' : ''}`}>
             <div className="flex-1 divide-y divide-gray-100 dark:divide-gray-800">
               {(currentPart.questions || []).map(q => (
                 <QuestionBlock key={q.id} question={q}
