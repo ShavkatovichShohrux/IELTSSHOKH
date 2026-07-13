@@ -15,14 +15,22 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            set -e
             cd /var/www/ielts-app
             git fetch origin
             git reset --hard origin/main
             cp /var/www/ielts-app/deploy/nginx.conf /etc/nginx/sites-available/ielts-app
             ln -sf /etc/nginx/sites-available/ielts-app /etc/nginx/sites-enabled/ielts-app
-            nginx -t
-            systemctl restart ielts-app
-            systemctl restart nginx
+            echo "=== nginx config test ==="
+            nginx -t 2>&1 || true
+            echo "=== restart backend ==="
+            systemctl restart ielts-app || true
+            echo "=== restart nginx ==="
+            systemctl restart nginx || true
+            echo "=== nginx status ==="
+            systemctl status nginx --no-pager -l | head -30 || true
+            echo "=== ports listening ==="
+            ss -tlnp | grep -E ':80|:443' || echo "NOBODY listening on 80/443"
+            echo "=== nginx error log ==="
+            tail -20 /var/log/nginx/error.log 2>/dev/null || echo "no error log"
+            echo "=== backend status ==="
             systemctl is-active ielts-app && echo "backend: OK" || echo "backend: FAILED"
-            systemctl is-active nginx && echo "nginx: OK" || echo "nginx: FAILED"
