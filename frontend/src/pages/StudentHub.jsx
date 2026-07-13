@@ -205,7 +205,7 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 8px 24px' }}>
         <img
-          src="https://shavkatovichshohrux.github.io/ielts-audio/logo.png"
+          src="/uploads/logo.png"
           alt="IELTSSHOKH"
           style={{
             height: 28, width: 'auto',

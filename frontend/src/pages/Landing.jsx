@@ -5,7 +5,7 @@ import { useLangStore } from '../store/langStore'
 import { api } from '../api/client'
 
 const TG_LINK = 'https://t.me/ieltsshokh'
-const LOGO_URL = 'https://shavkatovichshohrux.github.io/ielts-audio/logo.png'
+const LOGO_URL = '/uploads/logo.png'
 
 const LANGS = ['uz', 'en', 'ru']
 const LANG_FLAGS = { uz: '🇺🇿', en: '🇺🇸', ru: '🇷🇺' }
