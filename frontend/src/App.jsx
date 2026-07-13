@@ -57,31 +57,37 @@ export default function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  // Blur overlay — barcha login talab qiluvchi sahifalarda (admin ham)
+  // Blur overlay — desktop: window blur; mobile: visibilitychange
   useEffect(() => {
     if (!isProtectedRoute) { setWindowBlurred(false); return }
     const onBlur = () => setWindowBlurred(true)
     const onFocus = () => setWindowBlurred(false)
+    const onVisibility = () => {
+      if (document.hidden) setWindowBlurred(true)
+      else setWindowBlurred(false)
+    }
     window.addEventListener('blur', onBlur)
     window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onVisibility)
     return () => {
       window.removeEventListener('blur', onBlur)
       window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [isProtectedRoute])
 
-  // SVG watermark — screenshot'da aniq ko'rinadigan
+  // SVG watermark — screenshot'da aniq ko'rinadigan (kuchli opacity)
   const wmText = user?.username ? `IELTSSHOKH · ${user.username}` : null
   const watermarkBg = wmText
     ? `url("data:image/svg+xml,${encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="180">` +
-        `<text x="50%" y="45%" text-anchor="middle" transform="rotate(-28,180,90)" ` +
-        `font-family="Arial Black,Arial,sans-serif" font-size="18" fill="rgba(80,0,0,0.28)" font-weight="900" letter-spacing="2">` +
+        `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160">` +
+        `<text x="50%" y="42%" text-anchor="middle" transform="rotate(-25,160,80)" ` +
+        `font-family="Arial Black,Arial,sans-serif" font-size="22" fill="rgba(120,0,0,0.55)" font-weight="900" letter-spacing="1">` +
         `${user.username}` +
         `</text>` +
-        `<text x="50%" y="64%" text-anchor="middle" transform="rotate(-28,180,90)" ` +
-        `font-family="Arial,sans-serif" font-size="12" fill="rgba(80,0,0,0.18)" font-weight="700" letter-spacing="1.5">` +
-        `IELTSSHOKH · ieltsshokh.uz` +
+        `<text x="50%" y="62%" text-anchor="middle" transform="rotate(-25,160,80)" ` +
+        `font-family="Arial,sans-serif" font-size="13" fill="rgba(120,0,0,0.40)" font-weight="700" letter-spacing="1.2">` +
+        `IELTSSHOKH · ieltsshokhspeaking.uz` +
         `</text>` +
         `</svg>`
       )}")`
@@ -166,16 +172,34 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      {/* Watermark — barcha himoyalangan sahifalarda (admin ham) */}
+      {/* Watermark — barcha himoyalangan sahifalarda */}
       {!isPublicRoute && wmText && (
         <div
           className="watermark"
           aria-hidden="true"
-          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '360px 180px' }}
+          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '320px 160px' }}
         />
       )}
 
-      {/* Blur overlay — barcha himoyalangan sahifalarda (screen recording / alt-tab himoyasi) */}
+      {/* Fixed corner badge — mobilda ham screenshot da ko'rinadi */}
+      {!isPublicRoute && wmText && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed', bottom: 10, right: 10, zIndex: 9999,
+            padding: '4px 10px', borderRadius: 8,
+            background: 'rgba(120,0,0,0.55)',
+            color: 'rgba(255,255,255,0.75)',
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.8px',
+            fontFamily: 'Arial,sans-serif',
+            pointerEvents: 'none', userSelect: 'none',
+          }}
+        >
+          {user.username} · IELTSSHOKH
+        </div>
+      )}
+
+      {/* Blur overlay — desktop blur + mobile visibilitychange */}
       {windowBlurred && isProtectedRoute && (
         <div
           className="fixed inset-0 z-[10000] flex flex-col items-center justify-center select-none gap-3"
