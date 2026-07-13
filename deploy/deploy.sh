@@ -9,13 +9,12 @@ cd "$APP_DIR"
 git fetch origin
 git reset --hard origin/main
 
-echo "--- frontend build ---"
-cd "$APP_DIR/frontend"
-npm install --prefer-offline
-npm run build
-
 echo "--- restart backend ---"
 systemctl restart ielts-app
 
+echo "--- restart nginx ---"
+systemctl restart nginx || true
+
 echo "--- done ---"
-systemctl status ielts-app --no-pager -l | head -20
+systemctl is-active ielts-app && echo "backend: OK" || echo "backend: FAILED"
+systemctl is-active nginx && echo "nginx: OK" || echo "nginx: FAILED"
