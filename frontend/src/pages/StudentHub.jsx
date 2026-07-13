@@ -237,7 +237,7 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 8px 24px' }}>
         <img
-          src="/uploads/logo.png"
+          src="/logo.png"
           alt="IELTSSHOKH"
           style={{
             height: 28, width: 'auto',
@@ -372,7 +372,7 @@ function TopBar({ user, lastBand, streak, c, isDark, isMobile, onUpgrade }) {
       {/* Mobile logo */}
       {isMobile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <img src="/uploads/logo.png" alt="IELTSSHOKH" style={{ height: 24, width: 'auto', filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)' }} onError={e => { e.target.style.display = 'none' }} />
+          <img src="/logo.png" alt="IELTSSHOKH" style={{ height: 24, width: 'auto', filter: isDark ? 'brightness(0) invert(1)' : 'brightness(0)' }} onError={e => { e.target.style.display = 'none' }} />
           <span style={{ fontSize: 13, fontWeight: 900, color: isDark ? '#ffffff' : '#0f172a', letterSpacing: 0.5 }}>IELTSSHOKH</span>
         </div>
       )}
