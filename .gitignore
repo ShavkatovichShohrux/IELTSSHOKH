@@ -14,11 +14,14 @@ env/
 *.sqlite
 *.sqlite3
 
-# Uploaded user files (large binary content, not for git)
-backend/uploads/
-backend/speaking_files/
-backend/topic_files/
+# Uploaded binary files (audio) — not for git
+backend/uploads/audio/
 backend/vocab_files/
+
+# Static image assets tracked separately in frontend/public/
+backend/uploads/*.png
+backend/uploads/*.jpeg
+backend/uploads/*.jpg
 
 # Frontend build & dependencies
 frontend/node_modules/

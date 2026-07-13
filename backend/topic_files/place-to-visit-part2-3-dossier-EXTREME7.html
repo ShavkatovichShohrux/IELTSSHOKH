@@ -1,0 +1,3257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTSSHOKH · Speaking Part 2 &amp; 3 Dossier</title>
+<style>
+  :root{
+    --bg:#f2f3fa;
+    --card:#ffffff;
+    --navy:#1a2332;
+    --muted:#6b7280;
+    --muted-soft:#9aa0b4;
+    --border:#e8e9f3;
+    --gold:#c9a84c;
+    --purple:#7c5cff;
+    --blue:#4a6cf7;
+    --grad: linear-gradient(135deg,#8a6bff 0%,#4a6cf7 100%);
+    --collo-bg:#e7edff;
+    --collo-text:#2547c9;
+    --marker-bg:#efe7ff;
+    --marker-text:#6c3fd6;
+    --trans-text:#1f9d63;
+    --trans-bg:#e4f7ed;
+    --pill-bg:#ffffff;
+    --shadow: 0 10px 30px -12px rgba(40,40,90,0.16);
+    --shadow-sm: 0 4px 14px -6px rgba(40,40,90,0.12);
+  }
+  [data-theme="dark"]{
+    --bg:#0f1019;
+    --card:#181a27;
+    --navy:#f1f2f8;
+    --muted:#a3a6bd;
+    --muted-soft:#71748f;
+    --border:#2a2c40;
+    --collo-bg:#1c2747;
+    --collo-text:#8fa6ff;
+    --marker-bg:#251c42;
+    --marker-text:#b89bff;
+    --trans-text:#5fd99d;
+    --trans-bg:#16271f;
+    --pill-bg:#1f2233;
+    --shadow: 0 10px 30px -12px rgba(0,0,0,0.5);
+    --shadow-sm: 0 4px 14px -6px rgba(0,0,0,0.4);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--navy);
+    font-family:'Helvetica Neue',Arial,sans-serif;
+    transition:background .3s,color .3s;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px 60px;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;max-width:1080px;margin:0 auto;
+    flex-wrap:wrap;gap:14px;
+  }
+  .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;transition:opacity .2s ease;}
+  .logo:hover{opacity:.85;}
+  .logo-mark{height:48px;width:auto;display:block;transition:filter .3s ease;}
+  [data-theme="dark"] .logo-mark{filter:brightness(0) invert(1);}
+  .logo-text b{
+    display:inline-block;padding:4px 11px;border:1.5px solid var(--gold);border-radius:7px;
+    font-size:14px;letter-spacing:0.5px;font-weight:800;color:var(--navy);
+    background:rgba(201,168,76,0.08);transition:background .2s ease;
+  }
+  [data-theme="dark"] .logo-text b{color:#fff;}
+  .logo:hover .logo-text b{background:rgba(201,168,76,0.18);}
+  .logo-text small{display:block;margin-top:4px;font-size:9px;letter-spacing:1.6px;color:var(--muted);font-weight:600;}
+
+  .qnav{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 18px;}
+  .qnav.sub{margin:6px 0 26px;}
+  .qchip{
+    border:1px solid var(--border);background:var(--pill-bg);color:var(--muted);
+    font-size:12.5px;font-weight:600;padding:9px 16px;border-radius:999px;cursor:pointer;
+    transition:all .2s;white-space:nowrap;
+  }
+  .qchip.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:var(--shadow-sm);}
+
+  .partnav{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 20px;}
+  .partchip{
+    border:1.5px solid var(--border);background:var(--card);color:var(--muted);
+    font-size:13.5px;font-weight:700;padding:11px 20px;border-radius:14px;cursor:pointer;
+    transition:all .2s;display:flex;align-items:center;gap:8px;
+  }
+  .partchip.active{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:var(--shadow-sm);}
+  .part-section{display:none;}
+  .part-section.active{display:block;}
+
+  .cuecard{
+    background:var(--card);border:1.5px dashed var(--purple);border-radius:22px;
+    padding:26px 28px;box-shadow:var(--shadow-sm);position:relative;margin-bottom:8px;
+  }
+  .cuecard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+  .cuecard-badge{background:var(--grad);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.5px;padding:6px 14px;border-radius:999px;}
+  .cuecard-timer{font-size:12px;color:var(--muted);font-weight:600;}
+  .cuecard h3{margin:0 0 16px;font-size:22px;font-weight:700;line-height:1.35;color:var(--navy);}
+  .cuecard-say{margin:0 0 8px;font-weight:700;font-size:13px;color:var(--muted);}
+  .cuecard-list{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .cuecard-list li{padding-left:24px;position:relative;font-size:14.5px;color:var(--navy);}
+  .cuecard-list li::before{content:"—";position:absolute;left:2px;color:var(--purple);font-weight:800;}
+  .cuecard-list li em{font-style:italic;color:var(--muted);}
+
+  .theme-toggle{
+    width:58px;height:30px;border-radius:999px;position:relative;cursor:pointer;
+    border:none;padding:0;flex-shrink:0;overflow:hidden;
+    background:linear-gradient(135deg,#bfe0ff 0%,#eef4ff 60%,#ffe3c2 100%);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,0.08), inset 0 1px 3px rgba(0,0,0,0.08);
+    transition:background .45s ease;
+  }
+  .theme-toggle:focus-visible{outline:2px solid var(--purple);outline-offset:2px;}
+  [data-theme="dark"] .theme-toggle{
+    background:linear-gradient(135deg,#1c2040 0%,#11132a 60%,#0b0c1a 100%);
+  }
+  .theme-stars{
+    position:absolute;inset:0;opacity:0;transition:opacity .45s ease;
+    background-image:
+      radial-gradient(circle, #fff 1px, transparent 1.4px),
+      radial-gradient(circle, #fff 1px, transparent 1.4px),
+      radial-gradient(circle, #fff 1px, transparent 1.4px);
+    background-size:18px 18px;
+    background-position:6px 6px, 16px 18px, 30px 9px;
+  }
+  [data-theme="dark"] .theme-stars{opacity:.55;}
+  .theme-knob{
+    position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,#ffd76a,#ff9a3c);
+    box-shadow:0 2px 6px rgba(0,0,0,.28);
+    transition:left .45s cubic-bezier(.4,0,.2,1), background .45s ease, transform .45s ease;
+  }
+  [data-theme="dark"] .theme-knob{
+    left:31px;background:linear-gradient(160deg,#aab4e6,#6f7ad6);
+    transform:rotate(-20deg);
+  }
+  .theme-knob svg circle{transition:opacity .3s ease;}
+  [data-theme="dark"] .theme-knob svg circle{opacity:0;}
+  [data-theme="dark"] .theme-knob svg g{opacity:0;}
+  .theme-knob svg{position:relative;}
+  [data-theme="dark"] .theme-knob::after{
+    content:"";position:absolute;width:10px;height:10px;border-radius:50%;
+    background:#1c2040;top:3px;right:2px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;border-radius:26px;overflow:hidden;margin:6px 0 18px;
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow-sm);
+    aspect-ratio:1150/465;
+  }
+  .hero-banner{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .eyebrow{
+    font-size:11.5px;letter-spacing:1.6px;font-weight:700;color:#4b5567;
+    text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;
+  }
+  .hero h1{
+    font-size:clamp(40px,7vw,68px);margin:0;line-height:0.96;font-weight:800;
+    letter-spacing:-1px;position:relative;display:inline-block;color:#1a2332;
+  }
+  .script{
+    font-family:'Brush Script MT',cursive;font-weight:400;color:#e0517a;
+    font-size:0.42em;position:relative;top:-0.3em;left:6px;
+  }
+  .script svg{position:absolute;left:0;bottom:-6px;width:100%;}
+
+  .hero-content{
+    position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+    justify-content:center;padding:34px 34px 26px;max-width:54%;
+  }
+
+  .cta-card{
+    background:var(--card);border-radius:18px;padding:16px 20px;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:14px;max-width:420px;border:1px solid var(--border);
+    margin-top:20px;cursor:pointer;font-family:inherit;text-align:left;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .cta-card:hover{transform:translateY(-2px);box-shadow:0 16px 34px -14px rgba(40,40,90,0.22);}
+  .cta-card:active{transform:translateY(0);}
+  .cta-icon{
+    width:42px;height:42px;border-radius:12px;background:var(--grad);
+    display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;
+  }
+  .cta-text{flex:1;}
+  .cta-card h4{margin:0;font-size:14.5px;font-weight:700;line-height:1.35;color:var(--navy);}
+  .cta-arrow{
+    width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;
+  }
+
+  #mainContent{
+    overflow:hidden;max-height:0;opacity:0;transition:max-height .5s ease, opacity .6s ease;
+  }
+  #mainContent.revealed{max-height:8000px;opacity:1;}
+  .gate-hint{
+    text-align:left;font-size:11.5px;color:#5b6478;margin-top:8px;letter-spacing:0.3px;
+  }
+
+  .feature-row{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid rgba(26,35,50,0.12);
+  }
+  .feature-row .f{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#1a2332;}
+  .feature-row .f span.ic{font-size:14px;}
+
+  /* ---------- VOICE ROW ---------- */
+  .voice-row{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:22px 0;
+  }
+  .voice-label{display:flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:1px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+  .seg{display:flex;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:3px;}
+  .seg button{
+    border:none;background:transparent;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;
+    cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:6px;
+  }
+  .seg button.active{background:linear-gradient(135deg,#ffe1ea,#ffe1ea);color:#c23c63;}
+  .seg button.active.male{background:#e3ebff;color:#2547c9;}
+  .wave{display:flex;align-items:center;gap:2px;height:20px;margin-left:auto;}
+  .wave span{width:2.5px;background:var(--purple);border-radius:2px;opacity:.55;}
+
+  /* ---------- QUESTION CARD ---------- */
+  .qcard{
+    background:var(--card);border:1px solid var(--border);border-radius:22px;
+    padding:24px 26px;display:flex;align-items:center;gap:20px;box-shadow:var(--shadow-sm);
+  }
+  .qnum{
+    width:54px;height:54px;border-radius:50%;background:var(--grad);color:#fff;font-weight:800;
+    font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .qbody{flex:1;}
+  .qbody .tag{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .qbody h3{margin:0;font-size:21px;line-height:1.35;font-weight:700;}
+  .mic-wrap{position:relative;width:64px;height:64px;flex-shrink:0;}
+  .mic-ring{position:absolute;inset:-8px;border:2px dashed var(--purple);border-radius:50%;opacity:.35;animation:spin 12s linear infinite;}
+  .mic-circle{
+    width:64px;height:64px;border-radius:50%;background:var(--grad);display:flex;align-items:center;
+    justify-content:center;font-size:24px;box-shadow:var(--shadow);position:relative;z-index:2;
+  }
+  @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  /* ---------- BAND LADDER ---------- */
+  .ladder-title{
+    text-align:center;font-size:11.5px;letter-spacing:2px;font-weight:700;color:var(--muted);
+    text-transform:uppercase;margin:30px 0 18px;display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .ladder{display:flex;align-items:center;justify-content:center;gap:0;max-width:560px;margin:0 auto;}
+  .lstep{display:flex;flex-direction:column;align-items:center;gap:8px;width:90px;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;}
+  .lstep:hover .lcircle{box-shadow:0 0 0 5px rgba(124,92,255,0.14);}
+  .lstep:focus-visible .lcircle{outline:2px solid var(--purple);outline-offset:2px;}
+  .lcircle{
+    width:46px;height:46px;border-radius:50%;background:var(--card);border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:var(--muted-soft);
+  }
+  .lcircle.active{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 0 0 6px rgba(124,92,255,0.15);}
+  .llabel{font-size:10px;letter-spacing:0.5px;font-weight:700;color:var(--muted-soft);text-transform:uppercase;}
+  .llabel.active{color:var(--purple);}
+  .lline{flex:1;height:2px;background:var(--border);margin:0 -4px;position:relative;top:-19px;}
+  .lline.filled{background:linear-gradient(90deg,var(--purple),var(--blue));}
+
+  .band-row{display:flex;justify-content:space-between;align-items:center;margin:22px 0 16px;flex-wrap:wrap;gap:10px;}
+  .band-pill{
+    background:var(--collo-bg);color:var(--collo-text);font-size:13px;font-weight:700;
+    padding:8px 16px;border-radius:999px;
+  }
+  .flagtoggle{display:flex;gap:8px;}
+  .flagbtn{
+    border:1px solid var(--border);background:var(--card);padding:7px 14px;border-radius:999px;
+    font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--muted);
+  }
+  .flagbtn.active{background:var(--grad);color:#fff;border-color:transparent;}
+
+  /* ---------- ANSWER CARD ---------- */
+  .answer-card{
+    background:var(--card);border:1px solid var(--border);border-radius:22px;padding:30px 60px 30px 34px;
+    position:relative;box-shadow:var(--shadow-sm);overflow:hidden;min-height:240px;
+  }
+  .answer-card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--grad);
+  }
+  .quote-mark{font-size:46px;color:var(--border);font-family:Georgia,serif;line-height:0;position:absolute;top:18px;left:30px;}
+  .answer-text{
+    font-size:17px;line-height:1.85;margin-left:20px;color:var(--navy);
+  }
+  .hl{padding:1px 4px;border-radius:5px;position:relative;cursor:help;transition:background .2s,color .2s;}
+
+  /* ---------- USER-SELECTABLE HIGHLIGHT (select any text, like a Reading/Listening test) ---------- */
+  .user-hl{background:rgba(255,196,0,0.45);border-radius:3px;cursor:pointer;padding:0 1px;}
+  [data-theme="dark"] .user-hl{background:rgba(255,196,0,0.3);}
+  .user-hl-popup{
+    position:absolute;z-index:60;background:var(--navy);color:#fff;border:none;
+    font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:10px;cursor:pointer;
+    box-shadow:var(--shadow);white-space:nowrap;
+  }
+  [data-theme="dark"] .user-hl-popup{background:#2a2c40;}
+  .collo{background:rgba(31,157,99,0.14);color:#157a4c;font-weight:700;}
+  .marker{background:rgba(124,92,255,0.12);color:#6b4fd1;font-weight:700;}
+  .adv{background:rgba(74,108,247,0.14);color:#3454d1;font-weight:700;}
+  .gram{background:rgba(214,69,69,0.14);color:#b03434;font-weight:700;}
+  [data-theme="dark"] .collo{background:rgba(95,217,157,0.16);color:#7fe0b3;}
+  [data-theme="dark"] .marker{background:rgba(184,155,255,0.14);color:#cdb9ff;}
+  [data-theme="dark"] .adv{background:rgba(143,166,255,0.16);color:#aebcff;}
+  [data-theme="dark"] .gram{background:rgba(255,120,120,0.18);color:#ff9b9b;}
+
+  /* ---------- WORD-LEVEL HOVER TOOLTIP (grammar = rule+translation+explanation, vocab/collo/marker = translation only) ---------- */
+  .word-tooltip{
+    position:fixed;z-index:90;background:var(--navy);color:#fff;border-radius:11px;
+    padding:11px 15px;font-size:12.5px;line-height:1.55;max-width:250px;
+    box-shadow:var(--shadow);pointer-events:none;opacity:0;visibility:hidden;transition:opacity .12s;
+  }
+  .word-tooltip.show{opacity:1;visibility:visible;}
+  .word-tooltip .wt-rule{display:block;font-weight:800;color:var(--gold);margin-bottom:4px;font-size:11px;text-transform:uppercase;letter-spacing:.4px;}
+  .word-tooltip .wt-uz{display:block;font-weight:600;}
+  .word-tooltip .wt-explain{display:block;margin-top:5px;opacity:.85;font-weight:400;font-size:11.5px;line-height:1.5;}
+  .word-tooltip .wt-ru{display:block;font-weight:600;color:#93c5fd;margin-top:3px;font-size:12px;}
+  .word-tooltip .wt-div{display:block;height:1px;background:rgba(255,255,255,.12);margin:6px 0;}
+  [data-theme="dark"] .word-tooltip{background:#2a2c40;}
+  .answer-card.hl-off .hl{background:none !important;color:inherit !important;font-weight:inherit;padding:0;}
+
+  /* ---------- FULL-TEXT TRANSLATION PANEL (shown below the sample when Translate is tapped) ---------- */
+  .answer-translation{
+    display:none;margin-top:16px;padding:16px 18px;border-radius:14px;
+    background:var(--trans-bg);color:var(--trans-text);
+    font-size:14.5px;line-height:1.75;border:1px solid rgba(31,157,99,0.18);
+  }
+  .answer-translation.show{display:block;}
+  .answer-translation::before{
+    content:"O'ZBEKCHA TARJIMA";display:block;font-size:10.5px;font-weight:800;letter-spacing:1px;
+    color:var(--trans-text);opacity:.75;margin-bottom:6px;
+  }
+  .hl[data-uz]:hover::after{
+    content:attr(data-uz);position:absolute;left:0;top:calc(100% + 6px);background:#1a2332;color:#fff;
+    font-size:11.5px;font-weight:500;padding:5px 10px;border-radius:7px;white-space:nowrap;z-index:5;box-shadow:var(--shadow-sm);
+  }
+  .answer-card.hl-off .hl[data-uz]:hover::after{display:none;}
+  .kword{transition:background .15s ease, color .15s ease;border-radius:3px;}
+  .kword.tts-active{background:rgba(58,134,255,0.30);}
+  [data-theme="dark"] .kword.tts-active{background:rgba(96,160,255,0.35);}
+  .toolbar{
+    position:absolute;right:14px;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:8px;background:var(--card);
+    border:1px solid var(--border);border-radius:16px;padding:8px;box-shadow:var(--shadow-sm);
+  }
+  .tbtn{
+    width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--muted);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;
+  }
+  .tbtn:hover{background:var(--collo-bg);color:var(--blue);}
+  .tbtn.on{color:var(--gold);}
+
+  /* ---------- PRACTICE & RECORD PANEL ---------- */
+  .practice{
+    background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:18px 20px;margin:16px 0;box-shadow:var(--shadow-sm);
+  }
+  .practice-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:14px;}
+  .practice-label{display:flex;align-items:center;gap:7px;font-size:11.5px;letter-spacing:1px;font-weight:700;color:var(--muted);text-transform:uppercase;}
+  .timer-display{
+    font-family:'SF Mono','Courier New',monospace;font-size:26px;font-weight:800;letter-spacing:2px;
+    color:var(--navy);min-width:84px;text-align:center;font-variant-numeric:tabular-nums;
+  }
+  .timer-display.warn{color:#b8611c;}
+  .timer-display.good{color:#157a4c;}
+  .timer-goal{font-size:10px;letter-spacing:.6px;text-transform:uppercase;font-weight:700;color:var(--muted-soft);text-align:center;margin-top:5px;}
+  .timer-block{
+    display:flex;flex-direction:column;align-items:center;
+    background:var(--bg);border:1px solid var(--border);border-top:3px solid var(--gold);
+    border-radius:14px;padding:10px 22px;min-width:118px;box-shadow:var(--shadow-sm);
+  }
+  .practice-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .pbtn{
+    border:none;border-radius:12px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;gap:7px;transition:all .15s;
+  }
+  .pbtn-timer{background:var(--collo-bg);color:var(--collo-text);}
+  .pbtn-timer:hover{filter:brightness(0.95);}
+  .pbtn-rec{background:#fde8e8;color:#c23737;}
+  [data-theme="dark"] .pbtn-rec{background:rgba(231,90,90,0.16);color:#ff8b8b;}
+  .pbtn-rec.recording{background:#e7305c;color:#fff;animation:pulseRec 1.2s ease-in-out infinite;}
+  @keyframes pulseRec{0%,100%{box-shadow:0 0 0 0 rgba(231,48,92,0.4);}50%{box-shadow:0 0 0 8px rgba(231,48,92,0);}}
+  .pbtn:disabled{opacity:.45;cursor:not-allowed;}
+  .practice-playback{margin-top:14px;display:none;align-items:center;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);}
+  .practice-playback.show{display:flex;}
+  .practice-playback audio{flex:1;min-width:200px;height:36px;}
+  .pbtn-dl{background:var(--navy);color:#fff;}
+  .practice-hint{font-size:11.5px;color:var(--muted-soft);margin-top:8px;}
+
+  /* ---------- BAND IMPACT ---------- */
+  .impact{
+    display:flex;align-items:center;gap:16px;background:var(--collo-bg);border-radius:18px;
+    padding:18px 22px;margin:16px 0 30px;flex-wrap:wrap;
+  }
+  .impact-ic{
+    width:38px;height:38px;border-radius:50%;background:var(--card);display:flex;align-items:center;
+    justify-content:center;flex-shrink:0;color:var(--blue);font-size:16px;
+  }
+  .impact p{margin:0;font-size:13px;color:var(--navy);flex:1;line-height:1.5;}
+  .impact p b{color:var(--collo-text);}
+  .impact-tag{text-align:right;background:var(--card);border-radius:12px;padding:8px 16px;}
+  .impact-tag span{display:block;font-size:9.5px;letter-spacing:1px;color:var(--muted);font-weight:700;}
+  .impact-tag b{font-size:19px;color:#1f9d63;}
+  .impact-tag b.is-base{color:var(--muted-soft);}
+
+  /* ---------- 4 FEATURE CARDS ---------- */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:8px;align-items:start;}
+  .fcard{
+    background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;
+    position:relative;overflow:hidden;display:flex;flex-direction:column;
+  }
+  .fcard .ic{
+    width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-size:16px;margin-bottom:10px;
+  }
+  .fcard h5{margin:0 0 4px;font-size:14.5px;font-weight:700;}
+  .fcard p{margin:0 0 12px;font-size:12px;color:var(--muted);line-height:1.45;flex:1;}
+  .fcard .more{
+    border:none;background:var(--pill-bg);border:1px solid var(--border);font-size:12px;font-weight:700;
+    padding:7px 14px;border-radius:999px;cursor:pointer;width:fit-content;color:var(--navy);
+  }
+  .fcard .deco{position:absolute;right:14px;bottom:14px;font-size:26px;opacity:.5;}
+  .fcard .panel{
+    display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
+    font-size:12px;color:var(--muted);line-height:1.6;
+  }
+  .fcard .panel.open{display:block;}
+  .fcard .panel ul{margin:0;padding-left:18px;}
+  .fcard .panel li{margin-bottom:5px;}
+  .c1 .ic{background:#e3ebff;color:#2547c9;}
+  .c2 .ic{background:#e4f7ed;color:#1f9d63;}
+  .c3 .ic{background:#efe7ff;color:#6c3fd6;}
+  .c4 .ic{background:#fdeee0;color:#d97a2c;}
+  [data-theme="dark"] .c1 .ic{background:rgba(143,166,255,0.16);color:#8fa6ff;}
+  [data-theme="dark"] .c2 .ic{background:rgba(95,217,157,0.14);color:#5fd99d;}
+  [data-theme="dark"] .c3 .ic{background:rgba(184,155,255,0.16);color:#b89bff;}
+  [data-theme="dark"] .c4 .ic{background:rgba(243,169,106,0.16);color:#f3a96a;}
+
+  /* ---------- FOOTER ---------- */
+  footer{display:flex;justify-content:space-between;align-items:center;margin-top:36px;flex-wrap:wrap;gap:10px;}
+  footer .sig{font-size:16px;font-style:italic;color:var(--muted);}
+  footer .sig b{color:var(--navy);text-decoration:underline wavy #e0517a 1.5px;font-style:normal;}
+  footer .loc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted-soft);font-style:italic;}
+
+  .qsection{display:none;}
+  .qsection.active{display:block;}
+
+  @media(max-width:760px){
+    .grid4{grid-template-columns:repeat(2,1fr);}
+    .answer-card{padding:26px 22px 26px 26px;}
+    .toolbar{position:static;flex-direction:row;justify-content:flex-end;margin-top:14px;transform:none;}
+    .answer-card{min-height:0;}
+    .qcard{flex-wrap:wrap;}
+    .hero{aspect-ratio:3/4;}
+    .hero-banner{object-position:50% 15%;}
+    .hero-content{max-width:78%;padding:22px 20px 18px;}
+  }
+  @media(max-width:520px){
+    .grid4{grid-template-columns:1fr;}
+    header{padding:16px 18px;}
+    .wrap{padding:0 18px 50px;}
+  }
+  /* ================= POWER FEATURES — ULTRA (consolidated drawer design) ================= */
+
+  /* -- single entry point per question: one clean toggle instead of a row of buttons -- */
+  .pt-toggle{
+    display:inline-flex;align-items:center;gap:8px;margin-top:14px;
+    border:1.5px solid var(--purple);background:rgba(124,92,255,0.06);color:var(--purple);
+    font-size:12.5px;font-weight:800;padding:10px 16px;border-radius:14px;cursor:pointer;
+    transition:all .18s ease;
+  }
+  .pt-toggle:hover{background:rgba(124,92,255,0.12);}
+  .pt-toggle .car{transition:transform .2s ease;}
+  .pt-toggle.open .car{transform:rotate(180deg);}
+
+  .pt-drawer{display:none;margin-top:12px;border-radius:18px;background:var(--bg);border:1px solid var(--border);overflow:hidden;}
+  .pt-drawer.open{display:block;animation:pfIn .22s ease;}
+  @keyframes pfIn{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);}}
+
+  .pt-tabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--border);background:var(--card);}
+  .pt-tab{
+    flex-shrink:0;border:none;background:none;color:var(--muted);font-size:12px;font-weight:700;
+    padding:12px 16px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;
+  }
+  .pt-tab.active{color:var(--purple);border-bottom-color:var(--purple);}
+  .pt-tabpanel{display:none;padding:18px;}
+  .pt-tabpanel.active{display:block;}
+  .power-title{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted-soft);margin-bottom:10px;}
+  .pt-action-btn{
+    border:1.5px solid var(--border);background:var(--card);color:var(--navy);
+    font-size:12.5px;font-weight:700;padding:9px 16px;border-radius:12px;cursor:pointer;
+    transition:all .18s ease;
+  }
+  .pt-action-btn:hover{border-color:var(--purple);color:var(--purple);}
+  .pt-action-btn:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* -- Band 6 vs 9 diff -- */
+  .diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:700px){.diff-grid{grid-template-columns:1fr;}}
+  .diff-col{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .diff-col h6{margin:0 0 8px;font-size:12px;font-weight:800;color:var(--muted-soft);text-transform:uppercase;letter-spacing:.5px;}
+  .diff-col p{margin:0;font-size:13.5px;line-height:1.7;color:var(--navy);}
+  .diff-new{background:rgba(31,157,99,0.22);color:var(--trans-text);border-radius:3px;padding:0 2px;font-weight:700;}
+  [data-theme="dark"] .diff-new{background:rgba(95,217,157,0.24);}
+  .diff-legend{font-size:11px;color:var(--muted);margin-top:10px;}
+  .diff-legend span{background:rgba(31,157,99,0.22);color:var(--trans-text);border-radius:3px;padding:1px 5px;font-weight:700;}
+
+  /* -- Exam simulation + Focus Mode -- */
+  .exam-display{
+    font-family:'SF Mono','Courier New',monospace;font-size:40px;font-weight:800;letter-spacing:2px;
+    color:var(--navy);text-align:center;font-variant-numeric:tabular-nums;
+  }
+  .exam-display.warn{color:#b8611c;}
+  .exam-label{text-align:center;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px;}
+  .exam-wrap{display:none;flex-direction:column;align-items:center;gap:4px;padding:14px 0;}
+  .exam-wrap.show{display:flex;}
+  .exam-intro{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:12px;}
+  body.focus-mode header, body.focus-mode .qnav, body.focus-mode .partnav,
+  body.focus-mode .hero, body.focus-mode .grid4, body.focus-mode .impact,
+  body.focus-mode .vocab-fab, body.focus-mode .answer-card,
+  body.focus-mode .ladder-title, body.focus-mode .ladder,
+  body.focus-mode .pt-toggle, body.focus-mode .speed-control-wrap, body.focus-mode .pt-tabs,
+  body.focus-mode .practice-top, body.focus-mode .practice-hint,
+  body.focus-mode .pt-tabpanel:not([data-tab="exam"])
+  {display:none !important;}
+  body.focus-mode .wrap{max-width:640px;padding-top:30px;}
+  body.focus-mode .cuecard{border-style:solid;}
+  .focus-exit{
+    display:none;margin:0 auto 18px;border:1.5px solid var(--border);background:var(--card);
+    color:var(--muted);font-size:12px;font-weight:700;padding:9px 16px;border-radius:12px;cursor:pointer;
+  }
+  body.focus-mode .focus-exit{display:block;}
+
+  /* -- Speech Coach -- */
+  .speech-stat{font-size:13.5px;line-height:1.7;color:var(--navy);margin-bottom:8px;}
+  .speech-stat b{color:var(--purple);}
+  .filler-tag{
+    display:inline-block;background:rgba(220,68,68,0.12);color:#b03434;font-size:11.5px;font-weight:700;
+    padding:2px 8px;border-radius:999px;margin:2px 3px 2px 0;
+  }
+  [data-theme="dark"] .filler-tag{background:rgba(255,120,120,0.16);color:#ff9b9b;}
+  .speech-transcript{
+    margin-top:10px;padding:12px 14px;background:var(--card);border-radius:10px;
+    font-size:12.5px;line-height:1.65;color:var(--muted);border:1px solid var(--border);
+  }
+  .speech-warn{font-size:13px;color:var(--muted);margin:0;}
+  .speech-result{margin-top:14px;}
+  .grammar-check-status{font-size:12.5px;color:var(--muted);margin-top:12px;}
+  .grammar-check-status.good{color:var(--trans-text);font-weight:700;}
+  .grammar-item{
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.6;
+  }
+  .grammar-bad{color:#b03434;text-decoration:line-through;font-weight:700;}
+  [data-theme="dark"] .grammar-bad{color:#ff9b9b;}
+  .grammar-fix{color:var(--trans-text);font-weight:700;}
+  .grammar-msg{font-size:11.5px;color:var(--muted);margin-top:3px;}
+  .estimate-box{
+    margin-top:16px;padding:16px 18px;border-radius:14px;text-align:center;
+    background:var(--grad);color:#fff;
+  }
+  .estimate-label{font-size:10.5px;font-weight:800;letter-spacing:1.2px;opacity:.85;}
+  .estimate-value{font-size:34px;font-weight:800;line-height:1.3;}
+  .estimate-note{font-size:11px;opacity:.85;line-height:1.5;margin-top:4px;}
+
+  /* -- Rubric self-assessment -- */
+  .rubric-row{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+  .rubric-row:last-of-type{margin-bottom:0;}
+  .rubric-label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--navy);}
+  .rubric-label b{color:var(--purple);font-size:14px;}
+  .rubric-row input[type="range"]{width:100%;accent-color:var(--purple);}
+  .rubric-avg-box{
+    margin-top:14px;padding:12px 16px;border-radius:12px;background:var(--card);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .rubric-avg-box span{font-size:12px;font-weight:700;color:var(--muted);}
+  .rubric-avg-box b{font-size:22px;color:var(--purple);}
+
+  /* -- Listen playback speed control (lives below the audio player, never inside the icon toolbar) -- */
+  .speed-toggle{display:inline-flex;gap:4px;}
+  .speed-btn{
+    border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:10.5px;font-weight:800;
+    padding:5px 9px;border-radius:7px;cursor:pointer;transition:all .15s;
+  }
+  .speed-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+  [data-theme="dark"] .speed-btn.active{background:var(--gold);color:var(--navy);}
+
+  /* -- collapsible speed-control button, sits below the audio player -- */
+  .speed-control-wrap{margin-top:12px;}
+  .speed-main-btn{
+    border:1.5px solid var(--border);background:var(--card);color:var(--navy);
+    font-size:12px;font-weight:700;padding:9px 15px;border-radius:11px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:7px;transition:all .18s ease;
+  }
+  .speed-main-btn:hover{border-color:var(--purple);color:var(--purple);}
+  .speed-main-btn .car{font-size:10px;transition:transform .2s ease;}
+  .speed-main-btn.open .car{transform:rotate(180deg);}
+  .speed-menu{display:none;gap:6px;margin-top:8px;}
+  .speed-menu.open{display:flex;}
+
+  /* -- Dashboard (vocab + progress, tabbed floating modal) -- */
+  .vocab-fab{
+    position:fixed;bottom:22px;right:20px;z-index:70;
+    background:var(--navy);color:#fff;border:none;border-radius:999px;
+    padding:13px 18px;font-size:13px;font-weight:800;box-shadow:var(--shadow);
+    cursor:pointer;display:flex;align-items:center;gap:8px;
+  }
+  .vocab-fab-count{background:var(--gold);color:var(--navy);border-radius:999px;padding:1px 8px;font-size:11.5px;}
+  .vocab-modal{
+    position:fixed;inset:0;background:rgba(10,12,25,0.55);z-index:92;
+    display:none;align-items:flex-end;justify-content:center;
+  }
+  .vocab-modal.show{display:flex;}
+  @media(min-width:700px){.vocab-modal{align-items:center;}}
+  .vocab-sheet{
+    background:var(--card);width:100%;max-width:560px;max-height:80vh;overflow-y:auto;
+    border-radius:22px 22px 0 0;padding:0 0 22px;
+  }
+  @media(min-width:700px){.vocab-sheet{border-radius:22px;}}
+  .vocab-sheet-head{display:flex;justify-content:space-between;align-items:center;padding:22px 22px 0;margin-bottom:6px;}
+  .vocab-sheet-head h4{margin:0;font-size:17px;font-weight:800;color:var(--navy);}
+  .vocab-close{border:none;background:var(--bg);width:32px;height:32px;border-radius:50%;font-size:14px;cursor:pointer;color:var(--muted);}
+  .vocab-sheet-tabs{display:flex;gap:6px;padding:0 22px;margin-bottom:14px;}
+  .vocab-sheet-tab{
+    border:none;background:var(--bg);color:var(--muted);font-size:12px;font-weight:700;
+    padding:8px 14px;border-radius:10px;cursor:pointer;
+  }
+  .vocab-sheet-tab.active{background:var(--navy);color:#fff;}
+  [data-theme="dark"] .vocab-sheet-tab.active{background:var(--gold);color:var(--navy);}
+  .vocab-sheet-body{padding:0 22px;}
+  .vocab-empty{font-size:13.5px;color:var(--muted);text-align:center;padding:30px 10px;}
+  .vocab-item{
+    position:relative;background:var(--bg);border:1px solid var(--border);border-radius:12px;
+    padding:12px 40px 12px 14px;margin-bottom:8px;cursor:pointer;
+  }
+  .vocab-front{display:flex;flex-direction:column;gap:2px;}
+  .vocab-front b{font-size:13.5px;color:var(--navy);}
+  .vocab-topic{font-size:10.5px;color:var(--muted-soft);}
+  .vocab-back{display:none;font-size:13px;color:var(--trans-text);margin-top:6px;}
+  .vocab-item.flipped .vocab-back{display:block;}
+  .vocab-remove{
+    position:absolute;top:10px;right:10px;border:none;background:none;color:var(--muted-soft);
+    font-size:13px;cursor:pointer;width:22px;height:22px;
+  }
+  .vocab-hint{font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px;padding:0 22px;}
+  .progress-item{
+    display:flex;justify-content:space-between;align-items:center;background:var(--bg);
+    border:1px solid var(--border);border-radius:12px;padding:11px 14px;margin-bottom:8px;
+  }
+  .progress-item-left b{display:block;font-size:13px;color:var(--navy);}
+  .progress-item-left span{font-size:11px;color:var(--muted-soft);}
+  .progress-item-badge{background:var(--grad);color:#fff;font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px;}
+  .progress-streak{
+    display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(201,168,76,0.1);
+    border:1px solid var(--gold);border-radius:12px;padding:12px;margin-bottom:14px;font-size:13px;font-weight:700;color:var(--navy);
+  }
+
+  /* -- toast -- */
+  .pf-toast{
+    position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;padding:10px 18px;
+    border-radius:999px;box-shadow:var(--shadow);z-index:95;opacity:0;pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .pf-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+
+</head>
+<body>
+
+<header>
+  <a class="logo" href="https://t.me/ieltsshokh" target="_blank" rel="noopener" aria-label="Open the IELTSSHOKH Telegram channel">
+    <img class="logo-mark" src="/logo.png" alt="IELTSSHOKH logo">
+    <div class="logo-text"><b>IELTSSHOKH</b><small>SPEAKING MASTERY</small></div>
+  </a>
+  <button type="button" class="theme-toggle" id="themeSwitch" aria-label="Toggle dark mode">
+    <span class="theme-stars"></span>
+    <span class="theme-knob" id="themeKnob">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none">
+        <circle cx="12" cy="12" r="5" fill="#fff"/>
+        <g stroke="#fff" stroke-width="2" stroke-linecap="round">
+          <line x1="12" y1="1" x2="12" y2="3.5"/>
+          <line x1="12" y1="20.5" x2="12" y2="23"/>
+          <line x1="1" y1="12" x2="3.5" y2="12"/>
+          <line x1="20.5" y1="12" x2="23" y2="12"/>
+          <line x1="4.2" y1="4.2" x2="6" y2="6"/>
+          <line x1="18" y1="18" x2="19.8" y2="19.8"/>
+          <line x1="4.2" y1="19.8" x2="6" y2="18"/>
+          <line x1="18" y1="6" x2="19.8" y2="4.2"/>
+        </g>
+      </svg>
+    </span>
+  </button>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <img class="hero-banner" src="/hero-banner.jpeg" alt="American flag, Statue of Liberty and city skyline">
+
+    <div class="hero-content">
+    <h1 id="heroTitle">Topic<span class="script">let's talk!</span></h1>
+
+    <button type="button" class="cta-card" id="startBtn" onclick="startExperience()">
+      <span class="cta-icon">🚀</span>
+      <span class="cta-text">
+        <h4>Are you ready to master American language?</h4>
+      </span>
+      <span class="cta-arrow">›</span>
+    </button>
+    <div class="gate-hint" id="gateHint">Tap to unlock your Speaking Part 2 &amp; 3 dossier</div>
+    </div>
+  </div>
+
+  <div id="mainContent">
+
+  <div class="partnav">
+    <button class="partchip active" data-part="part2">📋 Part 2 · Cue Card</button>
+    <button class="partchip" data-part="part3">💬 Part 3 · Discussion</button>
+  </div>
+
+  <!-- VOICE ROW -->
+  <div class="voice-row">
+    <div class="voice-label">🔊 Voice</div>
+    <div class="seg">
+      <button class="active female" id="vFemale">♀ Female</button>
+      <button id="vMale">♂ Male</button>
+    </div>
+    <div class="wave" id="wave"></div>
+  </div>
+
+  <!-- ============ PART 2 ============ -->
+  <section class="part-section active" id="part2">
+
+
+    <div class="cuecard">
+      <div class="cuecard-head">
+        <span class="cuecard-badge">CUE CARD</span>
+        <span class="cuecard-timer">⏱ 1 min prep · 1-2 min talk</span>
+      </div>
+      <h3 id="cueTitle"></h3>
+      <p class="cuecard-say">You should say:</p>
+      <ul class="cuecard-list" id="cueList"></ul>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('part2',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('part2',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('part2',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('part2',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerPart2"></div>
+      <div class="answer-translation" id="uzTrans-part2"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerPart2', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerPart2', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-part2">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-part2">00:00</div>
+          <div class="timer-goal">target: 2:00</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-part2" onclick="toggleTimer('part2', 120)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('part2')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-part2" onclick="toggleRecording('part2')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-part2">
+        <audio id="audioPlayer-part2" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-part2" onclick="downloadRecording('part2')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-part2-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-part2-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-part2-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-part2-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PART 3 ============ -->
+  <section class="part-section" id="part3">
+
+  <div class="qnav sub" id="p3nav">
+    <button class="qchip active" data-target="p3a" id="chip-p3a">Q1</button>
+    <button class="qchip" data-target="p3b" id="chip-p3b">Q2</button>
+    <button class="qchip" data-target="p3c" id="chip-p3c">Q3</button>
+    <button class="qchip" data-target="p3d" id="chip-p3d" style="display:none">Q4</button>
+    <button class="qchip" data-target="p3e" id="chip-p3e" style="display:none">Q5</button>
+  </div>
+
+  <!-- ============ P3 - Q1 ============ -->
+  <section class="qsection active" id="p3a">
+
+    <div class="qcard">
+      <div class="qnum">01</div>
+      <div class="qbody">
+        <div class="tag" id="tag-p3a">Speaking Part 3 〜</div>
+        <h3 id="q-p3a"></h3>
+      </div>
+      <div class="mic-wrap">
+        <div class="mic-ring"></div>
+        <div class="mic-circle">🎙️</div>
+      </div>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('p3a',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3a',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3a',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3a',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerP3a"></div>
+      <div class="answer-translation" id="uzTrans-p3a"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerP3a', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerP3a', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-p3a">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-p3a">00:00</div>
+          <div class="timer-goal">target: 0:25–0:30</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-p3a" onclick="toggleTimer('p3a', 28)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('p3a')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-p3a" onclick="toggleRecording('p3a')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-p3a">
+        <audio id="audioPlayer-p3a" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-p3a" onclick="downloadRecording('p3a')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-p3a-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-p3a-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-p3a-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-p3a-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ P3 - Q2 ============ -->
+  <section class="qsection" id="p3b">
+
+    <div class="qcard">
+      <div class="qnum">02</div>
+      <div class="qbody">
+        <div class="tag" id="tag-p3b">Speaking Part 3 〜</div>
+        <h3 id="q-p3b"></h3>
+      </div>
+      <div class="mic-wrap">
+        <div class="mic-ring"></div>
+        <div class="mic-circle">🎙️</div>
+      </div>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('p3b',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3b',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3b',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3b',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerP3b"></div>
+      <div class="answer-translation" id="uzTrans-p3b"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerP3b', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerP3b', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-p3b">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-p3b">00:00</div>
+          <div class="timer-goal">target: 0:25–0:30</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-p3b" onclick="toggleTimer('p3b', 28)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('p3b')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-p3b" onclick="toggleRecording('p3b')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-p3b">
+        <audio id="audioPlayer-p3b" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-p3b" onclick="downloadRecording('p3b')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-p3b-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-p3b-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-p3b-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-p3b-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ P3 - Q3 ============ -->
+  <section class="qsection" id="p3c">
+
+    <div class="qcard">
+      <div class="qnum">03</div>
+      <div class="qbody">
+        <div class="tag" id="tag-p3c">Speaking Part 3 〜</div>
+        <h3 id="q-p3c"></h3>
+      </div>
+      <div class="mic-wrap">
+        <div class="mic-ring"></div>
+        <div class="mic-circle">🎙️</div>
+      </div>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('p3c',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3c',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3c',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3c',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerP3c"></div>
+      <div class="answer-translation" id="uzTrans-p3c"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerP3c', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerP3c', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-p3c">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-p3c">00:00</div>
+          <div class="timer-goal">target: 0:25–0:30</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-p3c" onclick="toggleTimer('p3c', 28)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('p3c')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-p3c" onclick="toggleRecording('p3c')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-p3c">
+        <audio id="audioPlayer-p3c" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-p3c" onclick="downloadRecording('p3c')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-p3c-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-p3c-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-p3c-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-p3c-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="qsection" id="p3d">
+
+    <div class="qcard">
+      <div class="qnum">04</div>
+      <div class="qbody">
+        <div class="tag" id="tag-p3d">Speaking Part 3 〜</div>
+        <h3 id="q-p3d"></h3>
+      </div>
+      <div class="mic-wrap">
+        <div class="mic-ring"></div>
+        <div class="mic-circle">🎙️</div>
+      </div>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('p3d',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3d',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3d',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3d',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerP3d"></div>
+      <div class="answer-translation" id="uzTrans-p3d"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerP3d', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerP3d', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-p3d">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-p3d">00:00</div>
+          <div class="timer-goal">target: 0:25–0:30</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-p3d" onclick="toggleTimer('p3d', 28)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('p3d')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-p3d" onclick="toggleRecording('p3d')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-p3d">
+        <audio id="audioPlayer-p3d" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-p3d" onclick="downloadRecording('p3d')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-p3d-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-p3d-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-p3d-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-p3d-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="qsection" id="p3e">
+
+    <div class="qcard">
+      <div class="qnum">05</div>
+      <div class="qbody">
+        <div class="tag" id="tag-p3e">Speaking Part 3 〜</div>
+        <h3 id="q-p3e"></h3>
+      </div>
+      <div class="mic-wrap">
+        <div class="mic-ring"></div>
+        <div class="mic-circle">🎙️</div>
+      </div>
+    </div>
+
+    <div class="ladder-title">✦ The Band Ladder ✦</div>
+    <div class="ladder">
+      <button type="button" class="lstep" onclick="selectBand('p3e',6)"><div class="lcircle">6</div><div class="llabel">Developing</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3e',7)"><div class="lcircle">7</div><div class="llabel">Competent</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3e',8)"><div class="lcircle">8</div><div class="llabel">Very Good</div></button>
+      <div class="lline"></div>
+      <button type="button" class="lstep" onclick="selectBand('p3e',9)"><div class="lcircle">9</div><div class="llabel">Expert</div></button>
+    </div>
+
+    <div class="band-row">
+      <div class="band-pill">Band 7 · Competent</div>
+      <div class="flagtoggle">
+        <button class="flagbtn active" data-accent="US">🇺🇸 US</button>
+        <button class="flagbtn" data-accent="GB">🇬🇧 UK</button>
+      </div>
+    </div>
+
+    <div class="answer-card">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="answer-text" id="answerP3e"></div>
+      <div class="answer-translation" id="uzTrans-p3e"></div>
+      <div class="toolbar">
+        <button class="tbtn" onclick="copyAnswer('answerP3e', this)" title="Copy">📋</button>
+        <button class="tbtn" onclick="toggleTranslate(this)" title="Translate">译</button>
+        <button class="tbtn" onclick="toggleStar(this)" title="Save">★</button>
+        <button class="tbtn" onclick="toggleHighlights(this)" title="Remove highlights">🧽</button>
+        <button class="tbtn" onclick="speak('answerP3e', this)" title="Listen">🔊</button>
+      </div>
+    </div>
+
+    <div class="practice" id="practice-p3e">
+      <div class="practice-top">
+        <div class="practice-label">⏱ Practice &amp; Record</div>
+        <div class="timer-block">
+          <div class="timer-display" id="timerDisplay-p3e">00:00</div>
+          <div class="timer-goal">target: 0:25–0:30</div>
+        </div>
+      </div>
+      <div class="practice-controls">
+        <button type="button" class="pbtn pbtn-timer" id="timerBtn-p3e" onclick="toggleTimer('p3e', 28)">▶ Start timer</button>
+        <button type="button" class="pbtn pbtn-timer" onclick="resetTimer('p3e')">↺ Reset</button>
+        <button type="button" class="pbtn pbtn-rec" id="recBtn-p3e" onclick="toggleRecording('p3e')">🎙️ Record my answer</button>
+      </div>
+      <div class="practice-playback" id="playback-p3e">
+        <audio id="audioPlayer-p3e" controls></audio>
+        <button type="button" class="pbtn pbtn-dl" id="dlBtn-p3e" onclick="downloadRecording('p3e')">⬇ Download</button>
+      </div>
+      <div class="practice-hint">Record yourself, then play it back to catch pronunciation or pacing mistakes.</div>
+    </div>
+
+    <div class="impact">
+      <div class="impact-ic">↑</div>
+      <p></p>
+      <div class="impact-tag"><span>BAND IMPACT</span><b>+0.5</b></div>
+    </div>
+
+    <div class="grid4">
+      <div class="fcard c1">
+        <div class="ic">👁️</div>
+        <h5>Examiner Lens</h5>
+        <p>What examiners love in this answer</p>
+        <button class="more" onclick="togglePanel(this)">See more →</button>
+        <div class="panel">
+          <ul id="fc-p3e-examiner"></ul>
+        </div>
+        <div class="deco">🏅</div>
+      </div>
+      <div class="fcard c2">
+        <div class="ic">📗</div>
+        <h5>Key Vocabulary</h5>
+        <p>Level up your word choice</p>
+        <button class="more" onclick="togglePanel(this)">Explore →</button>
+        <div class="panel">
+          <ul id="fc-p3e-vocab"></ul>
+        </div>
+        <div class="deco">Aa</div>
+      </div>
+      <div class="fcard c3">
+        <div class="ic">🧩</div>
+        <h5>Smart Chunks</h5>
+        <p>Natural phrases to sound fluent</p>
+        <button class="more" onclick="togglePanel(this)">View all →</button>
+        <div class="panel">
+          <ul id="fc-p3e-chunks"></ul>
+        </div>
+        <div class="deco">💬</div>
+      </div>
+      <div class="fcard c4">
+        <div class="ic">🇺🇸</div>
+        <h5>USA Vibe</h5>
+        <p>Speak like a native speaker</p>
+        <button class="more" onclick="togglePanel(this)">Learn more →</button>
+        <div class="panel">
+          <ul id="fc-p3e-vibe"></ul>
+        </div>
+        <div class="deco">🗽</div>
+      </div>
+    </div>
+  </section>
+
+  </section>
+
+
+  <footer>
+    <div class="sig">Practice today, <b>speak like a pro</b> tomorrow. ♥</div>
+    <div class="loc">📍 Los Angeles, USA</div>
+  </footer>
+
+  </div><!-- /mainContent -->
+
+</div>
+
+<script>
+  // theme toggle
+  const themeSwitch = document.getElementById('themeSwitch');
+  themeSwitch.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  // question tab switching
+  document.querySelectorAll('.qchip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      stopAllSpeech();
+      document.querySelectorAll('.qchip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.querySelectorAll('.qsection').forEach(s => s.classList.remove('active'));
+      document.getElementById(chip.dataset.target).classList.add('active');
+      const main = document.getElementById('mainContent');
+      if (!main.classList.contains('revealed')) {
+        startExperience();
+      } else {
+        window.scrollTo({top: 0, behavior:'smooth'});
+      }
+    });
+  });
+
+  // voice segmented control
+  const vFemale = document.getElementById('vFemale');
+  const vMale = document.getElementById('vMale');
+  function currentSectionAccent() {
+    const activeSection = document.querySelector('.qsection.active') || document;
+    const activeFlag = activeSection.querySelector('.flagbtn.active');
+    return activeFlag && activeFlag.dataset.accent === 'GB' ? 'en-GB' : 'en-US';
+  }
+  vFemale.addEventListener('click', () => {
+    vFemale.classList.add('active'); vMale.classList.remove('active');
+    speakSample('Female voice selected.', 'female', currentSectionAccent());
+  });
+  vMale.addEventListener('click', () => {
+    vMale.classList.add('active','male'); vFemale.classList.remove('active');
+    speakSample('Male voice selected.', 'male', currentSectionAccent());
+  });
+
+  // flag toggle (per section, scoped)
+  document.querySelectorAll('.flagtoggle').forEach(group => {
+    group.querySelectorAll('.flagbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        stopAllSpeech();
+        group.querySelectorAll('.flagbtn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const isFemale = vFemale.classList.contains('active');
+        const accent = btn.dataset.accent === 'GB' ? 'en-GB' : 'en-US';
+        const sample = accent === 'en-GB' ? 'British accent selected.' : 'American accent selected.';
+        speakSample(sample, isFemale ? 'female' : 'male', accent);
+      });
+    });
+  });
+
+  // waveform bars
+  const wave = document.getElementById('wave');
+  for (let i = 0; i < 40; i++) {
+    const bar = document.createElement('span');
+    const h = 4 + Math.random() * 16;
+    bar.style.height = h + 'px';
+    wave.appendChild(bar);
+  }
+
+  // copy answer text
+  function copyAnswer(id, btn) {
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).catch(()=>{});
+    const original = btn.textContent;
+    btn.textContent = '✅';
+    setTimeout(()=> btn.textContent = original, 1200);
+  }
+
+  // toggle the full Uzbek translation of the current sample, shown below the answer text
+  function toggleTranslate(btn) {
+    const section = btn.closest('.qsection, .part-section');
+    if (!section) return;
+    const transEl = section.querySelector('.answer-translation');
+    if (!transEl) return;
+    const on = btn.classList.toggle('on');
+    if (on) {
+      const qKey = section.id;
+      const band = section.dataset.currentBand || 7;
+      const data = (BAND_DATA[qKey] || {})[band];
+      transEl.textContent = (data && data.textUz)
+        ? data.textUz
+        : "Bu namuna uchun tarjima hali qo'shilmagan.";
+      transEl.classList.add('show');
+    } else {
+      transEl.classList.remove('show');
+    }
+  }
+
+  // star toggle
+  function toggleStar(btn) {
+    btn.classList.toggle('on');
+  }
+
+  // remove / restore the 3-colour highlight system on an answer card
+  function toggleHighlights(btn) {
+    const card = btn.closest('.answer-card');
+    const off = card.classList.toggle('hl-off');
+    btn.classList.toggle('on', off);
+  }
+
+  /* ---------------- WORD-LEVEL TOOLTIP: grammar = rule + translation + explanation, vocab/collocation/marker = translation only ---------------- */
+  let wordTipEl = null;
+  let wordTipTarget = null;
+
+  function ensureWordTip() {
+    if (wordTipEl) return wordTipEl;
+    wordTipEl = document.createElement('div');
+    wordTipEl.className = 'word-tooltip';
+    document.body.appendChild(wordTipEl);
+    return wordTipEl;
+  }
+
+  function showWordTip(el) {
+    const tip = ensureWordTip();
+    const isGram = el.classList.contains('gram');
+    const uz = el.dataset.uz || '';
+    const ru = el.dataset.ru || '';
+    if (isGram) {
+      const rule = el.dataset.rule || '';
+      const explain = el.dataset.explain || '';
+      const ruExplain = el.dataset.ruExplain || '';
+      tip.innerHTML =
+        (rule ? `<span class="wt-rule">${rule}</span>` : '') +
+        (uz ? `<span class="wt-uz">🇺🇿 ${uz}</span>` : '') +
+        (ru ? `<span class="wt-ru">🇷🇺 ${ru}</span>` : '') +
+        ((explain || ruExplain) ? '<span class="wt-div"></span>' : '') +
+        (explain ? `<span class="wt-explain">${explain}</span>` : '') +
+        (ruExplain ? `<span class="wt-explain">${ruExplain}</span>` : '');
+    } else {
+      tip.innerHTML =
+        (uz ? `<span class="wt-uz">🇺🇿 ${uz}</span>` : '') +
+        (ru ? `<span class="wt-ru">🇷🇺 ${ru}</span>` : '');
+    }
+    tip.classList.add('show');
+    wordTipTarget = el;
+
+    const rect = el.getBoundingClientRect();
+    // measure after content is set so offsetHeight/Width are accurate
+    let top = rect.top - tip.offsetHeight - 10;
+    if (top < 8) top = rect.bottom + 10; // flip below if there's no room above
+    let left = rect.left + (rect.width / 2) - (tip.offsetWidth / 2);
+    left = Math.max(8, Math.min(left, window.innerWidth - tip.offsetWidth - 8));
+    tip.style.top = `${top}px`;
+    tip.style.left = `${left}px`;
+  }
+
+  function hideWordTip() {
+    if (wordTipEl) wordTipEl.classList.remove('show');
+    wordTipTarget = null;
+  }
+
+  // desktop: hover in / hover out
+  document.addEventListener('mouseover', (e) => {
+    const hl = e.target.closest('.hl[data-uz]');
+    if (hl) showWordTip(hl);
+  });
+  document.addEventListener('mouseout', (e) => {
+    const hl = e.target.closest('.hl[data-uz]');
+    if (hl && hl === wordTipTarget) hideWordTip();
+  });
+  // touch / click: tap a highlighted word to toggle its tooltip AND save it to the personal vocab bank, tap elsewhere to close
+  document.addEventListener('click', (e) => {
+    const hl = e.target.closest('.hl[data-uz]');
+    if (hl) {
+      if (wordTipTarget === hl && wordTipEl && wordTipEl.classList.contains('show')) {
+        hideWordTip();
+      } else {
+        showWordTip(hl);
+        addToVocabBank(hl.textContent.trim(), hl.dataset.uz || '');
+      }
+    } else if (!e.target.closest('.word-tooltip')) {
+      hideWordTip();
+    }
+  });
+
+  /* ---------------- USER-SELECTABLE HIGHLIGHT (select any text yourself, like a Reading/Listening test) ---------------- */
+  let hlPopupEl = null;
+  let pendingHlRange = null;
+
+  function ensureHlPopup() {
+    if (hlPopupEl) return hlPopupEl;
+    hlPopupEl = document.createElement('button');
+    hlPopupEl.type = 'button';
+    hlPopupEl.className = 'user-hl-popup';
+    hlPopupEl.textContent = '✏️ Highlight';
+    hlPopupEl.style.display = 'none';
+    document.body.appendChild(hlPopupEl);
+    // prevent mousedown from collapsing the text selection before the click fires
+    hlPopupEl.addEventListener('mousedown', (e) => e.preventDefault());
+    hlPopupEl.addEventListener('click', applyUserHighlight);
+    return hlPopupEl;
+  }
+
+  function showHlPopup(rect) {
+    const popup = ensureHlPopup();
+    popup.style.display = 'block';
+    const top = window.scrollY + rect.top - 42;
+    const left = window.scrollX + rect.left + (rect.width / 2) - (popup.offsetWidth / 2);
+    popup.style.top = `${Math.max(8, top)}px`;
+    popup.style.left = `${Math.max(8, left)}px`;
+  }
+
+  function hideHlPopup() {
+    if (hlPopupEl) hlPopupEl.style.display = 'none';
+    pendingHlRange = null;
+  }
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.target.closest && e.target.closest('.user-hl-popup')) return;
+    setTimeout(() => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || sel.rangeCount === 0 || !sel.toString().trim()) { hideHlPopup(); return; }
+      const range = sel.getRangeAt(0);
+      const node = range.commonAncestorContainer;
+      const host = (node.nodeType === 1 ? node : node.parentElement);
+      const answerEl = host ? host.closest('.answer-text') : null;
+      if (!answerEl) { hideHlPopup(); return; }
+      pendingHlRange = range.cloneRange();
+      showHlPopup(range.getBoundingClientRect());
+    }, 0);
+  });
+
+  // touch devices: selection fires 'selectionchange' more reliably than mouseup
+  document.addEventListener('touchend', () => {
+    setTimeout(() => {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+      const range = sel.getRangeAt(0);
+      const node = range.commonAncestorContainer;
+      const host = (node.nodeType === 1 ? node : node.parentElement);
+      const answerEl = host ? host.closest('.answer-text') : null;
+      if (!answerEl) return;
+      pendingHlRange = range.cloneRange();
+      showHlPopup(range.getBoundingClientRect());
+    }, 0);
+  });
+
+  function applyUserHighlight() {
+    if (!pendingHlRange) return;
+    try {
+      const span = document.createElement('span');
+      span.className = 'user-hl';
+      span.title = "Olib tashlash uchun bosing";
+      span.appendChild(pendingHlRange.extractContents());
+      pendingHlRange.insertNode(span);
+    } catch (err) {
+      // selection crossed an awkward boundary — ignore rather than break the page
+    }
+    window.getSelection().removeAllRanges();
+    hideHlPopup();
+  }
+
+  // clicking an existing user-made highlight removes it (unwraps the span)
+  document.addEventListener('click', (e) => {
+    const hl = e.target.closest('.user-hl');
+    if (!hl) return;
+    const parent = hl.parentNode;
+    while (hl.firstChild) parent.insertBefore(hl.firstChild, hl);
+    parent.removeChild(hl);
+  });
+
+  // hide the popup if the user clicks elsewhere without using it
+  document.addEventListener('mousedown', (e) => {
+    if (hlPopupEl && hlPopupEl.style.display === 'block' && !e.target.closest('.user-hl-popup')) {
+      hideHlPopup();
+    }
+  });
+
+  /* ---------------- TEXT TO SPEECH (US/UK + Female/Male) ---------------- */
+  let voiceCache = [];
+  function refreshVoices() { voiceCache = (window.speechSynthesis && speechSynthesis.getVoices()) || []; }
+  if ('speechSynthesis' in window) {
+    refreshVoices();
+    speechSynthesis.onvoiceschanged = refreshVoices;
+    // Some browsers (notably Chrome) populate the voice list a moment late
+    setTimeout(refreshVoices, 300);
+    setTimeout(refreshVoices, 1200);
+  }
+
+  // Ranked from most natural-sounding to least, per accent + gender.
+  // These prioritise modern neural/cloud voices (Edge "Online (Natural)", Google)
+  // and well-regarded OS voices, ahead of generic fallbacks.
+  const VOICE_RANK = {
+    'en-us-female': ['jenny','aria','samantha','ava','victoria','allison','susan','google us english'],
+    'en-us-male':   ['guy','andrew','alex','tom','fred','google us english'],
+    'en-gb-female': ['libby','sonia','kate','serena','fiona','martha','google uk english female'],
+    'en-gb-male':   ['ryan','daniel','oliver','arthur','george','google uk english male']
+  };
+  // Known low-quality / robotic-sounding engines — avoided when a better option exists
+  const AVOID_HINTS = ['espeak','pico','compact','desktop'];
+
+  // Per accent + gender pitch/rate tuning, dialed in for a warmer, less "thin"
+  // result than the OS defaults. US voices in particular default to sounding
+  // high and a bit nasal in most browser engines, so they're pulled down more.
+  const VOICE_TUNE = {
+    'en-us-female': { pitch: 0.92, rate: 0.87 },
+    'en-us-male':   { pitch: 0.62, rate: 0.89 },
+    'en-gb-female': { pitch: 0.95, rate: 0.88 },
+    'en-gb-male':   { pitch: 0.72, rate: 0.90 }
+  };
+  function getTune(accent, gender) {
+    const key = `${accent.toLowerCase()}-${gender}`;
+    return VOICE_TUNE[key] || { pitch: gender === 'female' ? 0.93 : 0.68, rate: 0.89 };
+  }
+
+  function pickVoice(langCode, gender) {
+    if (!voiceCache.length) refreshVoices();
+    const target = langCode.toLowerCase();
+    const sameLocale = voiceCache.filter(v => v.lang.toLowerCase() === target);
+    const sameLanguage = voiceCache.filter(v => v.lang.toLowerCase().startsWith('en'));
+    const pool = sameLocale.length ? sameLocale : sameLanguage;
+    const clean = pool.filter(v => !AVOID_HINTS.some(a => v.name.toLowerCase().includes(a)));
+    const searchPool = clean.length ? clean : pool;
+
+    const ranked = VOICE_RANK[`${target}-${gender}`] || [];
+    for (const hint of ranked) {
+      const found = searchPool.find(v => v.name.toLowerCase().includes(hint));
+      if (found) return found;
+    }
+    return searchPool[0] || pool[0] || voiceCache[0] || null;
+  }
+
+  // Swaps punctuation glyphs known to make TTS engines drop or garble
+  // neighbouring words (chiefly the em/en dash used for asides) for a comma,
+  // which every engine pauses on reliably instead. Only affects what gets
+  // SPOKEN — the visible highlighted text on screen is completely untouched.
+  function sanitizeForSpeech(token) {
+    return token.replace(/[\u2014\u2013]/g, ',');
+  }
+
+  // Wrap every word of an answer in a <span class="kword"> so we can highlight
+  // along with playback, without disturbing the existing collocation/marker spans.
+  function prepareKaraoke(container) {
+    if (container.dataset.karaokeReady) return;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null);
+    const textNodes = [];
+    let node;
+    while ((node = walker.nextNode())) textNodes.push(node);
+    textNodes.forEach(tn => {
+      // BUGFIX: previously this bailed out (`if (parts.length <= 1) return;`)
+      // whenever a text node's ENTIRE content was a single token with no
+      // internal whitespace — which is exactly what happens every time a
+      // highlight span (<span class="hl adv">simple</span>, etc.) wraps just
+      // one word. That single word was left completely unwrapped, so it
+      // never made it into the `.kword` list the Listen button reads from —
+      // it was silently skipped in the audio every time, for every one-word
+      // highlight in every sample. Now every non-whitespace token is wrapped,
+      // regardless of whether it's alone in its text node or not.
+      if (!tn.textContent || tn.textContent.trim() === '') return;
+      const parts = tn.textContent.split(/(\s+)/);
+      const frag = document.createDocumentFragment();
+      parts.forEach(p => {
+        if (p === '') return;
+        if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); }
+        else { const sp = document.createElement('span'); sp.className = 'kword'; sp.textContent = p; frag.appendChild(sp); }
+      });
+      tn.parentNode.replaceChild(frag, tn);
+    });
+    container.dataset.karaokeReady = '1';
+  }
+
+  function clearKaraoke(container) {
+    container.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
+  }
+
+  // Tracks whichever Listen button is currently mid-playback/paused, so a
+  // second click pauses it, and a third click resumes from where it left off.
+  // currentSpeakSession additionally keeps enough state (container, word list,
+  // accent/gender, current word index) to let the ULTRA speed control restart
+  // playback from the exact current word at a new rate — the Web Speech API has
+  // no way to change an utterance's rate while it's already speaking, so a
+  // "live" speed change is simulated by re-firing a fresh utterance for just
+  // the remaining words.
+  let activeSpeakBtn = null;
+  let activeSpeakState = 'idle'; // 'idle' | 'speaking' | 'paused'
+  let currentSpeakSession = null;
+  function resetSpeakBtn(btn) {
+    if (!btn) return;
+    btn.textContent = '🔊';
+    btn.title = 'Listen';
+    btn.classList.remove('on');
+  }
+
+  // Fully stops any in-progress/paused audio and clears the reading-highlight state.
+  // Must be called any time the underlying content could change out from under an
+  // active speak button — switching band, switching accent, or switching Part 3
+  // question — otherwise a stale "speaking"/"paused" state makes the next Listen
+  // tap try to resume old (now-detached) audio instead of starting fresh, and the
+  // karaoke word highlight never (re)appears.
+  function stopAllSpeech() {
+    speechSynthesis.cancel();
+    if (typeof stopKeepAlive === 'function') stopKeepAlive();
+    document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
+    if (activeSpeakBtn) resetSpeakBtn(activeSpeakBtn);
+    activeSpeakBtn = null;
+    activeSpeakState = 'idle';
+    currentSpeakSession = null;
+  }
+
+  function speak(id, btn) {
+    if (!('speechSynthesis' in window)) {
+      alert("Bu brauzer ovozli o'qishni qo'llab-quvvatlamaydi. Iltimos, Chrome, Edge yoki Safari'da oching.");
+      return;
+    }
+    const container = document.getElementById(id);
+
+    // Clicking the SAME button that's already playing/paused toggles pause <-> resume
+    if (activeSpeakBtn === btn && activeSpeakState !== 'idle') {
+      if (activeSpeakState === 'speaking') {
+        speechSynthesis.pause();
+        activeSpeakState = 'paused';
+        stopKeepAlive();
+        btn.textContent = '▶';
+        btn.title = 'Resume';
+      } else {
+        speechSynthesis.resume();
+        activeSpeakState = 'speaking';
+        startKeepAlive();
+        btn.textContent = '⏸';
+        btn.title = 'Pause';
+      }
+      return;
+    }
+
+    // Starting a different button: stop whatever else is playing/paused first
+    if (activeSpeakBtn && activeSpeakBtn !== btn) resetSpeakBtn(activeSpeakBtn);
+    speechSynthesis.cancel();
+
+    prepareKaraoke(container);
+    const words = Array.from(container.querySelectorAll('.kword'));
+    const section = btn.closest('.qsection, .part-section');
+    const activeFlag = section ? section.querySelector('.flagbtn.active') : document.querySelector('.flagbtn.active');
+    const accent = activeFlag && activeFlag.dataset.accent === 'GB' ? 'en-GB' : 'en-US';
+    const isFemale = document.getElementById('vFemale').classList.contains('active');
+    const gender = isFemale ? 'female' : 'male';
+
+    currentSpeakSession = { btn, container, words, accent, gender, wordIdx: 0 };
+    speakFromWordIndex(0);
+  }
+
+  // Keeps speechSynthesis from silently stalling mid-sample. Chrome has a
+  // long-standing bug (a single continuous utterance auto-pauses internally
+  // after ~15s and never resumes on its own) which is a real cause of
+  // "some words never get read" on longer Band 2 samples. A tiny pause/resume
+  // nudge every few seconds forces the engine to keep going. This only fires
+  // while we are genuinely mid-speech (not when the user has paused it).
+  let keepAliveTimer = null;
+  function startKeepAlive() {
+    stopKeepAlive();
+    keepAliveTimer = setInterval(() => {
+      if (activeSpeakState === 'speaking' && speechSynthesis.speaking) {
+        speechSynthesis.pause();
+        speechSynthesis.resume();
+      }
+    }, 4000);
+  }
+  function stopKeepAlive() {
+    if (keepAliveTimer) { clearInterval(keepAliveTimer); keepAliveTimer = null; }
+  }
+
+  // Speaks the answer starting at a given word index (0 = from the very start).
+  // Used both for the initial Listen tap and for resuming mid-sentence at a new speed.
+  //
+  // IMPORTANT: this does NOT fire one giant utterance for the whole remaining
+  // text. Long single utterances (a full ~250-word IELTS answer) are unreliable
+  // across browsers — besides the Chrome stall bug handled by the keepalive
+  // above, some engines simply drop or garble words once an utterance runs
+  // past a certain length. Splitting the remaining words into sentence-sized
+  // chunks and queuing them one after another (via onend) keeps every single
+  // utterance short and reliable, and every word still gets its own
+  // onboundary event for the karaoke highlight, so nothing about the visual
+  // behavior changes — every word in the sample is now actually spoken.
+  function speakFromWordIndex(startIdx) {
+    const session = currentSpeakSession;
+    if (!session) return;
+    const { btn, container, words, accent, gender } = session;
+    if (startIdx >= words.length) return;
+
+    // Break the remaining words into sentence-sized chunks on ., !, ? (allowing
+    // trailing quotes/brackets), falling back to the final word as a boundary.
+    const chunks = [];
+    let chunkStart = startIdx;
+    for (let i = startIdx; i < words.length; i++) {
+      const w = words[i].textContent;
+      const isSentenceEnd = /[.!?]["'\u2019\u201d)\]]*$/.test(w);
+      const isLastWord = i === words.length - 1;
+      if (isSentenceEnd || isLastWord) {
+        chunks.push({ start: chunkStart, end: i });
+        chunkStart = i + 1;
+      }
+    }
+    if (!chunks.length) return;
+
+    clearKaraoke(container);
+    let chunkPos = 0;
+
+    const finishSession = () => {
+      stopKeepAlive();
+      clearKaraoke(container);
+      resetSpeakBtn(btn);
+      if (activeSpeakBtn === btn) { activeSpeakBtn = null; activeSpeakState = 'idle'; }
+      if (currentSpeakSession === session) currentSpeakSession = null;
+    };
+
+    const fireChunk = () => {
+      if (currentSpeakSession !== session) return; // superseded by a newer session
+      if (chunkPos >= chunks.length) { finishSession(); return; }
+
+      const { start, end } = chunks[chunkPos];
+      const chunkWords = words.slice(start, end + 1);
+      // Certain punctuation glyphs — especially the em/en dash used for
+      // appositive asides ("something simple — a ban on plastic bags") — make
+      // several TTS engines silently drop or garble the word immediately
+      // before/after them. Swapping just the dash character for a comma (a
+      // pause the engine handles reliably) fixes this while keeping the same
+      // number of spoken tokens as `words`, so the karaoke word-highlight
+      // (which advances one word per onboundary event) stays perfectly in sync.
+      const chunkText = chunkWords.map(w => sanitizeForSpeech(w.textContent)).join(' ');
+      if (!chunkText.trim()) { chunkPos++; fireChunk(); return; }
+
+      const utter = new SpeechSynthesisUtterance(chunkText);
+      const voice = pickVoice(accent, gender);
+      utter.lang = voice ? voice.lang : accent;
+      if (voice) utter.voice = voice;
+      // Accent + gender specific pitch/rate keeps it from sounding rushed, thin, or robotic
+      const tune = getTune(accent, gender);
+      utter.rate = tune.rate * (typeof globalSpeechRate !== 'undefined' ? globalSpeechRate : 1);
+      utter.pitch = tune.pitch;
+      utter.volume = 1;
+
+      let localIdx = start;
+
+      activeSpeakBtn = btn;
+      activeSpeakState = 'speaking';
+      btn.textContent = '⏸';
+      btn.title = 'Pause';
+      btn.classList.add('on');
+      startKeepAlive();
+
+      utter.onboundary = (e) => {
+        if (e.name && e.name !== 'word') return;
+        if (localIdx > start && words[localIdx - 1]) words[localIdx - 1].classList.remove('tts-active');
+        if (words[localIdx]) {
+          words[localIdx].classList.add('tts-active');
+          localIdx++;
+          if (currentSpeakSession === session) session.wordIdx = localIdx;
+        }
+      };
+      utter.onend = () => {
+        if (currentSpeakSession !== session) return; // stopped/replaced elsewhere
+        if (words[end]) words[end].classList.remove('tts-active');
+        chunkPos++;
+        fireChunk();
+      };
+      utter.onerror = () => {
+        // fires on speechSynthesis.cancel() too (e.g. when changing speed) — only
+        // tear down the button/session if this utterance is still the active one
+        if (activeSpeakBtn === btn && currentSpeakSession === session) {
+          finishSession();
+        }
+      };
+
+      speechSynthesis.speak(utter);
+    };
+
+    if (!voiceCache.length) {
+      setTimeout(() => { refreshVoices(); fireChunk(); }, 150);
+    } else {
+      fireChunk();
+    }
+  }
+
+  // Called by the ULTRA speed control. If nothing is playing, the new rate simply
+  // applies to the next Listen tap. If something IS actively playing/paused, we
+  // restart the utterance from the exact word we were on, at the new rate — this
+  // is the only way to change speed "live", since browsers don't support changing
+  // an utterance's rate once speechSynthesis.speak() has been called.
+  function applyLiveRateChange() {
+    if (!currentSpeakSession || activeSpeakState === 'idle') return;
+    const resumeIdx = currentSpeakSession.wordIdx;
+    speechSynthesis.cancel();
+    speakFromWordIndex(resumeIdx);
+  }
+
+  // Short instant confirmation when a voice/accent toggle is pressed
+  function speakSample(text, gender, accent) {
+    if (!('speechSynthesis' in window)) return;
+    const isFemale = gender === 'female';
+    const fire = () => {
+      const utter = new SpeechSynthesisUtterance(sanitizeForSpeech(text));
+      const voice = pickVoice(accent, gender);
+      utter.lang = voice ? voice.lang : accent;
+      if (voice) utter.voice = voice;
+      const tune = getTune(accent, gender);
+      utter.rate = tune.rate;
+      utter.pitch = tune.pitch;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    };
+    if (!voiceCache.length) {
+      setTimeout(() => { refreshVoices(); fire(); }, 150);
+    } else {
+      fire();
+    }
+  }
+
+
+  /* ---------------- BAND LADDER (6 / 7 / 8 / 9 samples) ---------------- */
+/* =====================================================================
+     TOPIC_DATA — THE ONLY SECTION THAT CHANGES BETWEEN TOPICS.
+     Everything above and below this object is fixed, tested template
+     code (theme toggle, TTS, recorder, timer, highlight system, band
+     ladder mechanics) and should NOT be edited per-topic.
+
+     HOW TO FILL THIS IN FOR A NEW TOPIC:
+     1. title            -> the big hero heading (e.g. "Travelling", "A Memorable Trip")
+     2. cueCard           -> Part 2 cue card: title + the "you should say" bullet points
+                              (3 factual bullets + 1 <em> "explain why" bullet, exactly
+                              matching the official cue card wording given by the user)
+     3. part3Questions    -> THREE TO FIVE Part 3 discussion questions (match whatever the user
+                              actually provides — IELTS cue cards often pair with 3, 4, or 5
+                              Part 3 questions). Use ids in order: p3a, p3b, p3c, p3d, p3e.
+                              If a topic has fewer than 5, simply omit the unused p3d/p3e
+                              entries here AND delete their unused <section id="p3d/p3e">
+                              blocks + chip-p3d/p3e + fc-p3d/p3e-* markup from the HTML, OR
+                              just leave the unused HTML in place — renderTopic() automatically
+                              hides any Part 3 nav chip that isn't populated, so leftover unused
+                              p3d/p3e sections are harmless and simplest to just leave alone.
+                              Each entry needs:
+                              - navLabel: short chip label, e.g. "Own country?"
+                              - tag: small eyebrow above the question, e.g. "Speaking Part 3 · Travelling"
+                              - question: the full question sentence
+     4. bandData          -> for part2 + each of p3a/p3b/p3c, four band levels (6/7/8/9).
+                              RULES FOR "text" (see also the Style Guide doc):
+                              - Ultra-casual American spoken English, IELTS-safe (no slang/profanity)
+                              - Contractions + natural fillers ("honestly", "I guess", "you know")
+                              - Band 6: plain, correct, a little repetitive — the baseline
+                              - Band 7: add casual discourse markers + 1 natural collocation
+                              - Band 8: richer collocations, smoother flow, near-zero repetition
+                              - Band 9: idiomatic phrasing + unscripted-sounding opening/closing
+                              - Part 3 Band 8-9 should blend in 1-2 higher-register / academic-
+                                leaning words (e.g. "disproportionately", "a contributing factor")
+                                WITHOUT losing the casual spoken tone overall
+                              - WORD COUNT TARGETS (critical for realistic timing):
+                                  part2 -> 220-265 words (≈ 2 minutes spoken)
+                                  every p3a/p3b/p3c/p3d/p3e -> 45-85 words (≈ 25-30 seconds spoken)
+                              - Part 2 MUST clearly hit all 4 cue card points (where / what /
+                                how long / why) — do not skip or merge them
+                              - Use exactly 4 highlight types inside the text, sparingly, and bold:
+                                  <span class="hl collo" data-uz="..." data-ru="...">...</span>  (GREEN)  — natural collocations
+                                  <span class="hl marker" data-uz="..." data-ru="...">...</span> (PURPLE) — casual discourse markers
+                                  <span class="hl adv" data-uz="..." data-ru="...">...</span>    (BLUE)   — important vocabulary,
+                                                                                              idioms, academic words
+                                  <span class="hl gram" data-uz="..." data-ru="..." data-rule="..." data-explain="...">...</span> (RED)
+                                                                                  — a grammar structure worth noticing
+                                                                                    (a conditional, passive voice, etc.)
+                                Hovering (or tapping, on touch) any collo/marker/adv span shows a small
+                                popup with just its data-uz translation. Hovering/tapping a "gram" span
+                                shows a richer popup with THREE parts:
+                                  data-rule    -> short rule name, e.g. "2-turdagi shart gap (Second Conditional)"
+                                  data-uz      -> Uzbek translation of the highlighted phrase itself
+                                  data-explain -> one short sentence (in Uzbek) explaining when/why this
+                                                  structure is used
+                                Idioms should use the "adv" class (blue) unless a topic specifically
+                                calls for treating them separately.
+                              - "icon": '✦' for band 6 (baseline), '↑' for bands 7-9 (improvement)
+                              - "impactValue": 'BASE' for band 6, '+0.5' for bands 7/8/9
+                              - "impact": one sentence (can include <b>) summarising what changed
+                                from the previous band — shown in the green/grey impact strip
+                              - "textUz": a full, natural Uzbek translation of the ENTIRE "text" answer
+                                (plain text, no HTML/highlight spans needed). Shown below the sample
+                                when the person taps the 译 Translate button — this is the full-sample
+                                translation, separate from the short hover tooltips on highlighted words.
+     5. featureCards       -> for part2 + EVERY question actually used in part3Questions, four
+                              bullet lists:
+                              examinerLens (2-3 bullets: what examiners reward in THIS answer),
+                              vocabulary (3-5 bullets: "<b>phrase</b> — uzbek translation"),
+                              chunks (2-3 bullets: a reusable spoken chunk + why it's useful),
+                              vibe (2 bullets: a native-speaker habit relevant to this answer)
+     ===================================================================== */
+  const TOPIC_DATA = {
+
+    title: "Place You'd Like To Visit",
+
+    cueCard: {
+      title: "Describe a place you'd like to visit in your free time",
+      points: [
+        "where it is",
+        "what you will do there",
+        "<em>and how long you will stay there</em>"
+      ]
+    },
+
+    part3Questions: [
+      { id: 'p3a', navLabel: 'Own country vs abroad?', tag: 'Speaking Part 3 · Travelling, Rest', question: 'Why do some people prefer to travel in their own country rather than going abroad?' },
+      { id: 'p3b', navLabel: "Why not travel abroad?", tag: 'Speaking Part 3 · Travelling, Rest', question: "Some people don't like to travel abroad. Why?" },
+      { id: 'p3c', navLabel: 'Why live abroad?', tag: 'Speaking Part 3 · Travelling, Rest', question: 'Why do people choose to travel or live abroad?' }
+    ],
+
+    bandData: {
+      part2: {
+        6: {
+          icon: '✦', pill: 'Band 6 · Developing', impactValue: 'BASE',
+          impact: 'This is the <b>Band 6</b> baseline — covers the cue card, but stays plain and a bit repetitive.',
+          text: `Okay, so the place I want to talk about is Kyoto, in Japan. I want to visit this place <span class="hl gram" data-uz="maqsad/sabab ergash gapi" data-ru="придаточное причины/цели" data-ru-explain="«because» выражает причину действия." data-rule="Sabab ergash gapi (because-clause)" data-explain="'because' sababni bildiradi.">because I am very interested in Japanese culture</span> and history.
+
+Kyoto is a city in Japan, and it <span class="hl gram" data-uz="o'tmishdagi odat" data-ru="прошлая привычка" data-ru-explain="Описывает прошлые регулярные действия, которых больше нет." data-rule="used to + fe'l" data-explain="O'tmishda muntazam sodir bo'lgan, hozir sodir bo'lmaydigan holatni bildiradi.">used to be the capital city</span> a long time ago. It is famous for its <span class="hl collo" data-uz="qadimiy ibodatxonalar" data-ru="древние/вековые храмы">old temples</span>, <span class="hl collo" data-uz="an'anaviy bog'lar" data-ru="традиционные сады">traditional gardens</span>, and beautiful streets with old wooden houses. I have seen many photos and videos of Kyoto, and it looks like a very <span class="hl adv" data-uz="tinch va osoyishta" data-ru="тихое и спокойное">peaceful and beautiful</span> place.
+
+<span class="hl gram" data-uz="1-turdagi shart gap" data-ru="первый тип условного предложения" data-ru-explain="Реальное будущее условие: If + настоящее время, will + глагол." data-rule="1-turdagi shart gap (First Conditional)" data-explain="Real, sodir bo'lishi mumkin bo'lgan kelajakdagi shartni ifodalaydi: If + hozirgi zamon, will + fe'l.">If I visit Kyoto, I will do</span> many different things. First, I will visit some famous temples, like Kinkaku-ji, <span class="hl gram" data-uz="nisbiy ergash gap (which)" data-ru="относительное придаточное (which)" data-ru-explain="«which» добавляет пояснение ко всему предшествующему существительному." data-rule="Non-defining Relative Clause (which)" data-explain="'which' butun oldingi otga ishora qilib qo'shimcha izoh beradi.">which is a golden temple</span>. I will also <span class="hl collo" data-uz="ko'chalarni aylanib chiqish" data-ru="прогуляться по улицам">walk around the old streets</span> and try <span class="hl adv" data-uz="an'anaviy taomlar" data-ru="традиционные блюда">traditional Japanese food</span>, like sushi and ramen. I want to see the <span class="hl adv" data-uz="sakura gullari" data-ru="цветы сакуры">cherry blossoms</span> too, if I go in spring, because I think they are very beautiful.
+
+I think I will stay in Kyoto for about two weeks. This is because there are many places to see, and I do not want to <span class="hl collo" data-uz="shoshib muhim narsalarni o'tkazib yuborish" data-ru="торопиться и упустить важное">rush and miss important things</span>. Two weeks will give me enough time to relax and also explore the city properly.
+
+Overall, I think Kyoto would be a <span class="hl adv" data-uz="mukammal joy" data-ru="идеальное место">perfect place</span> for me to visit in my free time, because it has culture, history, and beautiful nature all together. I really hope I get the chance to go there myself one day soon.`,
+          textUz: `Yaxshi, gaplashmoqchi bo'lgan joy — Yaponiyadagi Kioto shahri. Men bu joyni bo'sh vaqtimda ziyorat qilishni xohlayman, chunki yapon madaniyati va tarixiga juda qiziqaman.
+
+Kioto — Yaponiyadagi shahar, va u ilgari uzoq vaqt davomida poytaxt bo'lgan. U qadimiy ibodatxonalari, an'anaviy bog'lari va eski yog'och uylar bilan chiroyli ko'chalari bilan mashhur. Men Kioto haqida ko'plab fotosurat va videolarni ko'rganman, va u juda tinch va chiroyli joy bo'lib ko'rinadi.
+
+Agar Kiotoga borsam, ko'plab turli narsalarni qilaman. Birinchidan, ba'zi mashhur ibodatxonalarga, masalan oltin ibodatxona bo'lgan Kinkaku-jiga boraman. Shuningdek, eski ko'chalarda aylanib chiqaman va sushi, ramen kabi an'anaviy yapon taomlarini tataman. Bahorda borsam, sakura gullarini ham ko'rishni xohlayman, chunki ular juda chiroyli deb o'ylayman.
+
+O'ylaymanki, Kiotoda taxminan ikki hafta qolaman. Buning sababi u yerda ko'rish uchun ko'plab joylar borligi, va men shoshib muhim narsalarni o'tkazib yubormoqchi emasman. Ikki hafta menga dam olish va shaharni to'liq o'rganish uchun yetarli vaqt beradi.
+
+Umuman olganda, o'ylaymanki, Kioto men uchun bo'sh vaqtimda ziyorat qilish uchun mukammal joy bo'lardi, chunki unda madaniyat, tarix va chiroyli tabiat birgalikda mavjud. Chindan umid qilamanki, bir kun u yerga o'zim borish imkoniga ega bo'laman.`
+        },
+        7: {
+          icon: '↑', pill: 'Band 7 · Competent', impactValue: '+0.5',
+          impact: 'From Band 6: casual discourse markers and natural collocations.',
+          text: `So, the place I'd love to check out is honestly Kyoto, over in Japan. I've always been kind of fascinated by Japanese culture, so it's been on my list for a while.
+
+Kyoto's this old city that <span class="hl gram" data-uz="o'tmishdagi odat" data-ru="прошлая привычка" data-ru-explain="Описывает прошлые регулярные действия, которых больше нет." data-rule="used to + fe'l" data-explain="O'tmishda muntazam sodir bo'lgan, hozir sodir bo'lmaydigan holatni bildiradi.">used to be Japan's capital</span> way back, and it's honestly packed with <span class="hl collo" data-uz="qadimiy ibodatxonalar" data-ru="древние/вековые храмы">old temples</span>, <span class="hl collo" data-uz="an'anaviy bog'lar" data-ru="традиционные сады">traditional gardens</span>, that kind of thing. From what I've seen in photos, it looks incredibly <span class="hl adv" data-uz="osoyishta" data-ru="безмятежный/спокойный">serene</span>, almost like stepping into a different era.
+
+<span class="hl gram" data-uz="1-turdagi shart gap" data-ru="первый тип условного предложения" data-ru-explain="Реальное будущее условие: If + настоящее время, will + глагол." data-rule="1-turdagi shart gap (First Conditional)" data-explain="Real, sodir bo'lishi mumkin bo'lgan kelajakdagi shartni ifodalaydi.">If I actually make it there, I'll</span> definitely hit up Kinkaku-ji first — that's the golden temple everyone talks about. I'd also want to just <span class="hl collo" data-uz="ko'chalarda sayr qilish" data-ru="прогулки по улицам">wander the streets</span> a bit and try some proper ramen, none of that instant stuff. Honestly, catching the <span class="hl adv" data-uz="sakura gullari" data-ru="цветы сакуры">cherry blossoms</span> in spring would be the dream, <span class="hl gram" data-uz="2-turdagi shart gap" data-ru="второй тип условного предложения" data-ru-explain="Гипотетическое условие: If + прошедшее время, would + глагол." data-rule="2-turdagi shart gap (Second Conditional)" data-explain="Hozirgi/kelajakdagi faraziy holatni ifodalaydi.">if the timing worked out</span>.
+
+I'm thinking maybe two weeks, <span class="hl adv" data-uz="taxminan" data-ru="примерно">give or take</span>. Kyoto's got a lot going on, so I wouldn't want to rush it and end up <span class="hl collo" data-uz="muhim narsalarni o'tkazib yuborish" data-ru="упустить важное">missing out on stuff</span> that actually matters. Two weeks feels like enough to <span class="hl adv" data-uz="chuqur his qilish" data-ru="прочувствовать глубоко">properly soak it in</span> without feeling rushed.
+
+Honestly, I think Kyoto's <span class="hl gram" data-uz="nisbiy olmosh tushirilgan gap" data-ru="придаточное с опущенным местоимением" data-ru-explain="«that/which» опускается, и предложение соединяется напрямую." data-rule="Contact Clause (omitted relative pronoun)" data-explain="'that/which' tushirilib, gap to'g'ridan-to'g'ri otga ulanadi.">the kind of place I'd genuinely enjoy</span>, since it's got history, culture, and nature all rolled into one. Honestly, just reading about it online has already made me want to book a trip there sometime in the next few years, once I finally have the time and the budget for it.`,
+          textUz: `Xo'sh, chindan ko'rishni xohlagan joy — bu Yaponiyadagi Kioto. Men doim yapon madaniyatiga qiziqib kelganman, shuning uchun bu joy uzoq vaqtdan beri mening ro'yxatimda.
+
+Kioto — ilgari Yaponiyaning poytaxti bo'lgan qadimiy shahar, va u hozir ham qadimiy ibodatxonalar, an'anaviy bog'lar kabi narsalar bilan to'la. Fotosuratlarda ko'rganimga qaraganda, u boshqa bir davrga qadam qo'ygandek, nihoyatda osoyishta ko'rinadi.
+
+Agar chindan u yerga borsam, birinchi navbatda Kinkaku-jiga boraman — bu hamma gapiradigan oltin ibodatxona. Shuningdek, ko'chalarda biroz sayr qilib, tayyor emas, chinakam ramenni tatib ko'rmoqchiman. Rostini aytsam, agar vaqti to'g'ri kelsa, bahorda sakura gullarini ko'rish orzu bo'lardi.
+
+Taxminan ikki hafta deb o'ylayapman. Kiotoda qilinadigan narsalar ko'p, shuning uchun shoshilib chindan muhim narsalarni o'tkazib yubormoqchi emasman. Ikki hafta shoshilmasdan hammasini his qilish uchun yetarli tuyuladi.
+
+Rostini aytsam, Kioto — men chindan yoqtiradigan joy turi, chunki unda tarix, madaniyat va tabiat birgalikda mujassam. Rostini aytsam, u haqida internetda o'qishning o'zi meni keyingi bir necha yil ichida u yerga sayohat qilishni xohlashimga sabab bo'ldi, buning uchun vaqt va byudjetga ega bo'lganimda.`
+        },
+        8: {
+          icon: '↑', pill: 'Band 8 · Very Good', impactValue: '+0.5',
+          impact: 'From Band 7: richer collocations, near-zero repetition, smoother flow.',
+          text: `If I had to pick somewhere to spend my free time exploring, it'd honestly be Kyoto, in Japan. I've been low-key obsessed with Japanese culture for years, so this one's been sitting on my list for a while.
+
+Kyoto <span class="hl gram" data-uz="passiv nisbat" data-ru="страдательный залог" data-ru-explain="Используется, когда результат действия важнее исполнителя." data-rule="Passiv nisbat (Passive Voice)" data-explain="Harakatni bajaruvchidan ko'ra natija muhim bo'lganda ishlatiladi.">used to be regarded as</span> Japan's imperial capital, and it's still dense with <span class="hl collo" data-uz="qadimiy ibodatxonalar" data-ru="древние/вековые храмы">centuries-old temples</span>, <span class="hl adv" data-uz="benuqson" data-ru="безупречный">immaculate</span> <span class="hl collo" data-uz="an'anaviy bog'lar" data-ru="традиционные сады">traditional gardens</span>, and streets <span class="hl gram" data-uz="nisbiy ergash gap (that)" data-ru="определительное придаточное (that)" data-ru-explain="«that» определяет и уточняет предшествующее существительное." data-rule="Defining Relative Clause (that)" data-explain="'that' oldingi otni aniqlaydi.">that genuinely look untouched by time</span>. Every photo I've seen makes it look almost <span class="hl adv" data-uz="haqiqiy bo'lmagandek" data-ru="нереальный/кинематографичный">surreal</span>.
+
+<span class="hl gram" data-uz="2-turdagi shart gap" data-ru="второй тип условного предложения" data-ru-explain="Гипотетическое условие: If + прошедшее время, would + глагол." data-rule="2-turdagi shart gap (Second Conditional)" data-explain="Hozirgi/kelajakdagi faraziy holatni ifodalaydi.">If I actually got there, I'd</span> start with Kinkaku-ji — the golden temple that's basically the <span class="hl adv" data-uz="klassik tasvir" data-ru="классический образ">postcard image</span> of the city. Beyond that, I'd just want to <span class="hl collo" data-uz="ko'chalarda maqsadsiz sayr qilish" data-ru="бесцельно бродить по улицам">wander aimlessly</span> through the old districts and eat my way through as much <span class="hl adv" data-uz="haqiqiy oshxona" data-ru="настоящая кухня">authentic cuisine</span> as I can. Timing it for cherry blossom season would honestly be the dream.
+
+I'd probably block out around two weeks, give or take. Rushing through somewhere with this much history feels like a good way to <span class="hl collo" data-uz="chuqur tajribani sayoz qilib qo'yish" data-ru="обесценить глубокий опыт">shortchange the experience</span>, so I'd rather move slowly and actually take it in.
+
+Honestly, what draws me to Kyoto isn't just the sights — it's <span class="hl gram" data-uz="nisbiy olmosh tushirilgan gap" data-ru="придаточное с опущенным местоимением" data-ru-explain="«that/which» опускается, и предложение соединяется напрямую." data-rule="Contact Clause (omitted relative pronoun)" data-explain="'that/which' tushirilib, gap to'g'ridan-to'g'ri otga ulanadi.">the whole atmosphere it seems to have</span>, this blend of history, culture, and nature that I don't think exists quite the same way anywhere else. Honestly, simply researching it online has already left me wanting to book a trip there within the next few years.`,
+          textUz: `Agar bo'sh vaqtimni o'tkazish uchun bir joy tanlashim kerak bo'lsa, bu rostini aytsam Yaponiyadagi Kioto bo'lardi. Men yillar davomida yapon madaniyatiga sekin-astalik bilan mahliyo bo'lib kelganman, shuning uchun bu joy uzoq vaqtdan beri ro'yxatimda turibdi.
+
+Kioto ilgari Yaponiyaning imperator poytaxti hisoblangan, va u hozir ham asrlik ibodatxonalar, benuqson an'anaviy bog'lar va vaqt ta'sir qilmagandek ko'rinadigan ko'chalar bilan to'la. Ko'rgan har bir suratim uni deyarli haqiqiy bo'lmagandek ko'rsatadi.
+
+Agar chindan u yerga borsam, Kinkaku-jidan boshlayman — bu shaharning klassik tasviriga aylangan oltin ibodatxona. Bundan tashqari, eski tumanlar bo'ylab maqsadsiz sayr qilib, imkon qadar ko'proq haqiqiy oshxonani tatib ko'rmoqchiman. Buni sakura gullash mavsumiga to'g'rilash rostini aytsam orzu bo'lardi.
+
+Taxminan ikki hafta ajratardim. Bunchalik tarixga ega joyda shoshilish tajribani sayoz qilib qo'yishning yaxshi usuli, shuning uchun sekinroq harakatlanib, hammasini chindan his qilishni afzal ko'raman.
+
+Rostini aytsam, meni Kiotoga tortadigan narsa faqat manzaralar emas — bu uning egallagan butun atmosferasi, tarix, madaniyat va tabiatning boshqa hech qayerda xuddi shunday uchramaydigan uyg'unligi. Rostini aytsam, u haqida shunchaki tadqiqot qilishning o'zi meni keyingi bir necha yil ichida u yerga sayohat qilishni xohlashimga olib keldi.`
+        },
+        9: {
+          icon: '↑', pill: 'Band 9 · Expert', impactValue: '+0.5',
+          impact: 'From Band 8: idiomatic phrasing, an unscripted opening, and a reflective close.',
+          text: `Honestly, if you asked me to name one place I'd drop everything to visit, it'd be Kyoto, in Japan. Something about Japanese culture has had me hooked for years, so this one's been sitting near the top of my list for a while now.
+
+Kyoto <span class="hl gram" data-uz="passiv nisbat" data-ru="страдательный залог" data-ru-explain="Используется, когда результат действия важнее исполнителя." data-rule="Passiv nisbat (Passive Voice)" data-explain="Harakatni bajaruvchidan ko'ra natija muhim bo'lganda ishlatiladi.">used to serve as</span> Japan's imperial capital, and it's still steeped in <span class="hl collo" data-uz="qadimiy ibodatxonalar" data-ru="древние/вековые храмы">centuries-old temples</span>, <span class="hl adv" data-uz="benuqson" data-ru="безупречный">immaculate</span> <span class="hl collo" data-uz="an'anaviy bog'lar" data-ru="традиционные сады">traditional gardens</span>, and streets <span class="hl gram" data-uz="nisbiy ergash gap (that)" data-ru="определительное придаточное (that)" data-ru-explain="«that» определяет и уточняет предшествующее существительное." data-rule="Defining Relative Clause (that)" data-explain="'that' oldingi otni aniqlaydi.">that look like they've barely aged</span>. Every photo I've come across makes it feel almost too <span class="hl adv" data-uz="haqiqiy bo'lmagandek" data-ru="нереальный/кинематографичный">cinematic</span> to be real.
+
+<span class="hl gram" data-uz="2-turdagi shart gap" data-ru="второй тип условного предложения" data-ru-explain="Гипотетическое условие: If + прошедшее время, would + глагол." data-rule="2-turdagi shart gap (Second Conditional)" data-explain="Hozirgi/kelajakdagi faraziy holatni ifodalaydi.">If I ever actually got there, I'd</span> kick things off at Kinkaku-ji, the golden temple that's practically the city's <span class="hl adv" data-uz="ramziy timsol" data-ru="визитная карточка/символ">calling card</span>, and then just <span class="hl collo" data-uz="ko'chalarda maqsadsiz sayr qilish" data-ru="бесцельно бродить по улицам">wander aimlessly</span> through the old districts, eating my way through as much <span class="hl adv" data-uz="haqiqiy oshxona" data-ru="настоящая кухня">authentic cuisine</span> as I could manage. Timing it around cherry blossom season would honestly be the whole point.
+
+I'd probably carve out a couple of weeks, give or take — rushing through somewhere with this much history feels like <span class="hl collo" data-uz="chuqur tajribani sayoz qilib qo'yish" data-ru="обесценить глубокий опыт">shortchanging the whole experience</span>, and honestly, I'd rather slow down and actually absorb it.
+
+If I'm honest, what pulls me toward Kyoto isn't really the landmarks themselves — it's <span class="hl gram" data-uz="nisbiy olmosh tushirilgan gap" data-ru="придаточное с опущенным местоимением" data-ru-explain="«that/which» опускается, и предложение соединяется напрямую." data-rule="Contact Clause (omitted relative pronoun)" data-explain="'that/which' tushirilib, gap to'g'ridan-to'g'ri otga ulanadi.">the atmosphere the whole city seems to carry</span>, this quiet blend of history, culture, and nature that I don't think exists quite the same way anywhere else. I genuinely hope I get the opportunity to experience it in person myself sometime soon.`,
+          textUz: `Rostini aytsam, agar mendan hammasini tashlab ketadigan bitta joyni aytishimni so'rasangiz, bu Yaponiyadagi Kioto bo'lardi. Yapon madaniyatidagi nimadir meni yillar davomida band qilib kelgan, shuning uchun bu joy uzoq vaqtdan beri ro'yxatimning yuqorisida turibdi.
+
+Kioto ilgari Yaponiyaning imperator poytaxti bo'lgan, va u hozir ham asrlik ibodatxonalar, benuqson an'anaviy bog'lar va deyarli qarimagandek ko'rinadigan ko'chalar bilan to'la. Ko'rgan har bir suratim uni haqiqiy bo'lish uchun juda kinematik his qildiradi.
+
+Agar u yerga chindan borsam, Kinkaku-jidan boshlagan bo'lardim — bu shaharning deyarli ramziy timsoliga aylangan oltin ibodatxona — va keyin eski tumanlar bo'ylab maqsadsiz sayr qilib, imkon qadar ko'proq haqiqiy oshxonani tatib ko'rgan bo'lardim. Buni sakura gullash mavsumiga to'g'rilash rostini aytsam butun maqsad bo'lardi.
+
+Taxminan ikki hafta ajratgan bo'lardim — bunchalik tarixga ega joyda shoshilish butun tajribani sayoz qilib qo'yishga o'xshaydi, va rostini aytsam, sekinlashib, hammasini chindan singdirishni afzal ko'raman.
+
+Rostini aytsam, meni Kiotoga tortadigan narsa aslida diqqatga sazovor joylarning o'zi emas — bu butun shahar olib yuradigan atmosfera, tarix, madaniyat va tabiatning boshqa hech qayerda xuddi shunday uchramaydigan sokin uyg'unligi. Chindan umid qilamanki, bir kun uni o'zim shaxsan boshdan kechirish imkoniga ega bo'laman.`
+        }
+      },
+      p3a: {
+        6: { icon: '✦', pill: 'Band 6 · Developing', impactValue: 'BASE', impact: 'This is the <b>Band 6</b> baseline — simple reasoning, a little repetitive.', text: `I think some people prefer to travel in their own country because it is <span class="hl gram" data-uz="qiyoslash darajasi" data-ru="сравнительная степень" data-ru-explain="Используется для сравнения двух предметов или явлений." data-rule="Comparative (cheaper than)" data-explain="Ikki narsani solishtirish uchun ishlatiladi.">cheaper than going abroad</span>. They <span class="hl gram" data-uz="modal fe'l (need to)" data-ru="модальный глагол (need to)" data-ru-explain="Указывает на отсутствие необходимости в действии." data-rule="do not need to + infinitiv" data-explain="Zaruriyat yo'qligini bildiradi.">do not need to</span> spend money on flights or a visa, so it <span class="hl collo" data-uz="ko'p pul tejash" data-ru="сэкономить много денег">saves a lot of money</span>. Also, some people feel more <span class="hl adv" data-uz="qulay" data-ru="комфортный/удобный">comfortable</span> travelling in their own country because they understand the language and culture better. For example, in my country, there are many beautiful places to visit, so people do not need to go abroad to have <span class="hl collo" data-uz="yaxshi ta'til" data-ru="хороший отдых">a good holiday</span>. I think this is a very <span class="hl adv" data-uz="amaliy tanlov" data-ru="практичный выбор">practical choice</span> for many families.`, textUz: `O'ylaymanki, ba'zi odamlar o'z mamlakatida sayohat qilishni afzal ko'radi, chunki bu chet elga borishdan arzonroq. Ularga aviachipta yoki viza uchun pul sarflash shart emas, shuning uchun bu ko'p pulni tejaydi. Shuningdek, ba'zi odamlar o'z mamlakatida sayohat qilishda o'zini qulayroq his qiladi, chunki ular tilni va madaniyatni yaxshiroq tushunadi. Masalan, mening mamlakatimda ko'plab chiroyli joylar bor, shuning uchun odamlarga yaxshi ta'til uchun chet elga borish shart emas. O'ylaymanki, bu ko'plab oilalar uchun juda amaliy tanlov.` },
+        7: { icon: '↑', pill: 'Band 7 · Competent', impactValue: '+0.5', impact: 'From Band 6: casual markers and a rhetorical question.', text: `Honestly, I think it mostly comes down to money — <span class="hl gram" data-uz="gerund ega" data-ru="герундий в роли подлежащего" data-ru-explain="Глагол в форме -ing выступает в роли подлежащего предложения." data-rule="Gerund as Subject" data-explain="Fe'l+ing shakli gap egasi vazifasini bajaradi.">travelling abroad</span> means flights, visas, <span class="hl adv" data-uz="valyuta kursi" data-ru="обменный курс">exchange rates</span>, all that <span class="hl collo" data-uz="tezda ko'payib ketish" data-ru="быстро накапливаться">adds up fast</span>. Staying local, you skip all of that and it ends up way <span class="hl collo" data-uz="arzonroq" data-ru="дешевле для кошелька">easier on the wallet</span>. There's also a comfort thing — you already know the language, the culture, how things work, so it's just <span class="hl adv" data-uz="kamroq stressli" data-ru="менее стрессовый">less stressful</span> overall. I mean, if your own country already has a bunch of stunning spots, <span class="hl gram" data-uz="bother + gerund" data-ru="зачем + герундий" data-ru-explain="Риторический вопрос о смысле излишних действий." data-rule="why bother + V-ing" data-explain="Kerak bo'lmagan harakat uchun ishlatiladi.">why bother going through</span> all the hassle of international travel?`, textUz: `Rostini aytsam, o'ylaymanki, bu asosan pulga bog'liq — chet elga sayohat qilish aviachipta, viza, valyuta kursini bildiradi, bularning hammasi tezda ko'payib ketadi. O'z mamlakatingizda qolsangiz, siz buning hammasidan qochasiz va bu hamyoningiz uchun ancha arzonroq bo'ladi. Bundan tashqari, qulaylik masalasi ham bor — siz allaqachon tilni, madaniyatni, ishlar qanday yurishini bilasiz, shuning uchun bu kamroq stressli. Ya'ni, agar sizning o'z mamlakatingizda allaqachon ajoyib joylar bo'lsa, nega xalqaro sayohatning butun tashvishidan o'tish kerak?` },
+        8: { icon: '↑', pill: 'Band 8 · Very Good', impactValue: '+0.5', impact: 'From Band 7: richer vocabulary and a second supporting factor.', text: `I think it's largely a <span class="hl adv" data-uz="xarajat va qulaylik hisob-kitobi" data-ru="расчёт затрат и удобства">cost-and-comfort calculation</span>. International travel comes bundled with flights, visas, currency conversion — expenses <span class="hl gram" data-uz="nisbiy ergash gap (that) + hozirgi tugallangan zamon" data-ru="придаточное (that) + настоящее совершённое" data-ru-explain="«that» определяет существительное; глагол в настоящем совершённом." data-rule="Relative Clause (that) + Present Perfect" data-explain="'that' oldingi otni aniqlaydi, 'have left' hozirgi tugallangan zamonda.">that pile up before you've even left the airport</span>. Sticking closer to home <span class="hl collo" data-uz="chetlab o'tish" data-ru="обходить стороной">sidesteps</span> most of that, and there's a familiarity factor too; navigating a place in your own language just <span class="hl collo" data-uz="qiyinchilikni yo'qotish" data-ru="устранить трудности">removes a layer of friction</span>. Add to that the fact that plenty of countries, mine included, have plenty of stunning scenery <span class="hl gram" data-uz="worth + gerund" data-ru="стоящий + герундий" data-ru-explain="Выражает, что что-то заслуживает совершения данного действия." data-rule="worth + V-ing" data-explain="Biror narsa shu harakatga arzigulik ekanligini bildiradi.">worth exploring</span>, and international travel starts to feel less like a <span class="hl adv" data-uz="zaruriyat" data-ru="необходимость">necessity</span> and more like an option.`, textUz: `O'ylaymanki, bu asosan xarajat va qulaylik hisob-kitobi. Xalqaro sayohat aviachipta, viza, valyuta konversiyasi bilan birga keladi — bu xarajatlar siz aeroportdan chiqmasdan oldinoq to'planib ketadi. Uyga yaqinroq qolish buning ko'pini chetlab o'tadi, va tanishlik omili ham bor; o'z tilingizda joyni aniqlash faqat bir qatlam qiyinchilikni olib tashlaydi. Bunga qo'shimcha ravishda, ko'plab mamlakatlar, jumladan meniki ham, o'rganishga arziydigan ajoyib manzaraga ega ekanligini hisobga olsak, xalqaro sayohat zaruriyatdan ko'ra ko'proq tanlov bo'lib tuyula boshlaydi.` },
+        9: { icon: '↑', pill: 'Band 9 · Expert', impactValue: '+0.5', impact: 'From Band 8: an unscripted opening and higher-register vocabulary woven into a casual tone.', text: `Honestly, I think it comes down to a fairly practical trade-off between cost and comfort. International travel drags in flights, visas, currency conversion — a stack of expenses <span class="hl gram" data-uz="nisbiy ergash gap (that) + hozirgi tugallangan zamon" data-ru="придаточное (that) + настоящее совершённое" data-ru-explain="«that» определяет существительное; глагол в настоящем совершённом." data-rule="Relative Clause (that) + Present Perfect" data-explain="'that' oldingi otni aniqlaydi, 'have boarded' hozirgi tugallangan zamonda.">that quietly piles up before you've even boarded</span>. Staying closer to home <span class="hl collo" data-uz="chetlab o'tish" data-ru="обходить стороной">sidesteps most of that friction</span>, and <span class="hl gram" data-uz="there's something to be said for + gerund" data-ru="в этом есть смысл + герундий" data-ru-explain="Признаёт положительные стороны какого-либо явления." data-rule="there's something to be said for + V-ing" data-explain="Biror narsaning ijobiy tomoni borligini bildiradi.">there's something to be said for navigating</span> a place where the language and unwritten rules are already <span class="hl collo" data-uz="tabiiy holga aylangan" data-ru="привычное/второе «я»">second nature</span>. Throw in the fact that plenty of countries, mine included, have <span class="hl adv" data-uz="maqtashga arziydigan manzara" data-ru="виды, достойные похвалы">scenery worth writing home about</span>, and international travel starts to look less like a necessity and more like <span class="hl adv" data-uz="afzallik" data-ru="предпочтение">a preference</span>.`, textUz: `Rostini aytsam, o'ylaymanki, bu narx va qulaylik o'rtasidagi ancha amaliy murosaga borib taqaladi. Xalqaro sayohat aviachipta, viza, valyuta konversiyasini olib keladi — bu xarajatlar to'plami siz samolyotga chiqmasdan oldinoq jimgina to'planib ketadi. Uyga yaqinroq qolish bu qiyinchilikning ko'pini chetlab o'tadi, va til va yozilmagan qoidalar allaqachon tabiiy holga aylangan joyni aniqlashning o'z afzalligi bor. Bunga ko'plab mamlakatlar, jumladan meniki ham, maqtashga arziydigan manzaraga ega ekanligini qo'shsak, xalqaro sayohat zaruriyatdan ko'ra ko'proq afzallik bo'lib tuyula boshlaydi.` }
+      },
+      p3b: {
+        6: { icon: '✦', pill: 'Band 6 · Developing', impactValue: 'BASE', impact: 'This is the <b>Band 6</b> baseline — accurate, listed reasons.', text: `I think some people do not like to travel abroad for a few reasons. First, travelling abroad can be very expensive, because of <span class="hl collo" data-uz="aviachiptalar" data-ru="авиабилеты">flight tickets</span>, hotels, and visas. Second, some people feel <span class="hl adv" data-uz="asabiylashgan" data-ru="нервный/тревожный">nervous</span> <span class="hl gram" data-uz="gerund predlog bilan" data-ru="герундий с предлогом" data-ru-explain="После предлога глагол всегда стоит в форме герундия (-ing)." data-rule="Preposition + Gerund (about travelling)" data-explain="Predlogdan keyin fe'l doim gerund (-ing) shaklida keladi.">about travelling to a new country</span> because they do not speak the language. Also, some people just prefer to stay at home because they <span class="hl collo" data-uz="xavfsiz va qulay his qilish" data-ru="чувствовать себя в безопасности">feel safe and comfortable</span> there. I think fear of <span class="hl adv" data-uz="noma'lumlik" data-ru="неизвестность">the unknown</span> is one of <span class="hl gram" data-uz="ustunlik darajasi + why-ergash gap" data-ru="превосходная степень + придаточное причины" data-ru-explain="После превосходной степени следует придаточное с 'why'." data-rule="Superlative + why-clause" data-explain="Ustunlik darajasidan keyin 'why' bilan sabab bildiruvchi ergash gap keladi.">the biggest reasons why people avoid travelling abroad</span>.`, textUz: `O'ylaymanki, ba'zi odamlar bir necha sababga ko'ra chet elga sayohat qilishni yoqtirmaydi. Birinchidan, chet elga sayohat qilish juda qimmat bo'lishi mumkin, aviachiptalar, mehmonxonalar va vizalar tufayli. Ikkinchidan, ba'zi odamlar yangi mamlakatga sayohat qilishdan asabiylashadi, chunki ular tilni bilishmaydi. Shuningdek, ba'zi odamlar shunchaki uyda qolishni afzal ko'radi, chunki ular u yerda o'zini xavfsiz va qulay his qiladi. O'ylaymanki, noma'lumlikdan qo'rqish odamlarning chet elga sayohat qilishdan qochishining eng katta sabablaridan biri.` },
+        7: { icon: '↑', pill: 'Band 7 · Competent', impactValue: '+0.5', impact: 'From Band 6: casual markers and clearer cause-effect.', text: `Honestly, I think it's usually a mix of money and nerves. Travelling abroad isn't cheap <span class="hl gram" data-uz="vaqt ergash gapi (once)" data-ru="временное придаточное (once)" data-ru-explain="«once» означает «как только» / «однажды, после того как»." data-rule="Time Clause (once)" data-explain="'once' 'bir marta...dan keyin' ma'nosini bildiradi.">once you <span class="hl collo" data-uz="qo'shib hisoblash" data-ru="складывать/суммировать">add up</span> flights, hotels, and visas</span>, so for a lot of people it's just not realistic. On top of that, some people get genuinely <span class="hl adv" data-uz="tashvishli" data-ru="тревожный">anxious</span> about <span class="hl gram" data-uz="gerund predlog bilan" data-ru="герундий с предлогом" data-ru-explain="После предлога глагол всегда стоит в форме герундия (-ing)." data-rule="Preposition + Gerund (about being)" data-explain="Predlogdan keyin fe'l doim gerund shaklida keladi.">being somewhere they can't speak the language</span> or understand how things work. I guess for some people, staying somewhere familiar just feels safer than <span class="hl collo" data-uz="shug'ullanish" data-ru="справляться с">dealing with</span> all that <span class="hl adv" data-uz="noaniqlik" data-ru="неопределённость">uncertainty</span>.`, textUz: `Rostini aytsam, o'ylaymanki, bu odatda pul va asablarning aralashmasi. Aviachipta, mehmonxona va vizalarni qo'shib hisoblasangiz, chet elga sayohat qilish arzon emas, shuning uchun ko'pchilik uchun bu real emas. Bundan tashqari, ba'zi odamlar tilni bilmaydigan yoki ishlar qanday yurishini tushunmaydigan joyda bo'lishdan chindan tashvishlanadi. O'ylaymanki, ba'zi odamlar uchun tanish joyda qolish bu noaniqlik bilan shug'ullanishdan ko'ra xavfsizroq tuyuladi.` },
+        8: { icon: '↑', pill: 'Band 8 · Very Good', impactValue: '+0.5', impact: 'From Band 7: richer vocabulary ("psychological barrier") and a developed idea.', text: `I'd say it's usually some combination of cost and anxiety. <span class="hl gram" data-uz="vaqt ergash gapi (once) + gerund" data-ru="временное придаточное + герундий" data-ru-explain="«once» обозначает время; 'being' стоит в форме герундия." data-rule="Time Clause (once) + Gerund" data-explain="'once' vaqtni bildiradi, 'being' gerund sifatida.">Once you <span class="hl collo" data-uz="hisobga olish" data-ru="учитывать">factor in</span> flights, accommodation, and visas, international travel stops being a casual decision</span> and starts requiring actual budgeting. Beyond that, there's a <span class="hl adv" data-uz="psixologik to'siq" data-ru="психологический барьер">psychological barrier</span> for a lot of people — <span class="hl gram" data-uz="gerund predlog bilan + joy ergash gapi" data-ru="герундий с предлогом + придаточное места" data-ru-explain="'of navigating' — герундий с предлогом; 'where' — придаточное места." data-rule="Preposition + Gerund + Relative Clause (where)" data-explain="'of navigating' gerund, 'where' joyni aniqlaydi.">the idea of navigating a place where you don't speak the language</span> or understand local norms can feel genuinely <span class="hl adv" data-uz="dahshatli, bosib qoluvchi" data-ru="подавляющий/ошеломляющий">overwhelming</span>. For a lot of people, the comfort of staying somewhere predictable simply <span class="hl collo" data-uz="afzalligidan ustun keladi" data-ru="перевешивает привлекательность">outweighs the appeal</span> of the unfamiliar.`, textUz: `O'ylaymanki, bu odatda xarajat va tashvishning bir turi qo'shilmasi. Aviachipta, turar joy va vizalarni hisobga olganingizda, xalqaro sayohat oddiy qarordan to'xtab, chinakam byudjetlashtirishni talab qila boshlaydi. Bundan tashqari, ko'p odamlar uchun psixologik to'siq ham bor — til bilmagan yoki mahalliy me'yorlarni tushunmagan joyda harakatlanish g'oyasi chindan dahshatli tuyulishi mumkin. Ko'p odamlar uchun bashorat qilinadigan joyda qolish qulayligi notanish narsaning jozibasidan ustun keladi.` },
+        9: { icon: '↑', pill: 'Band 9 · Expert', impactValue: '+0.5', impact: 'From Band 8: a reflective opening and subtler vocabulary blended into a casual tone.', text: `Honestly, I think it usually boils down to a mix of practical cost and <span class="hl adv" data-uz="jimgina tashvish" data-ru="тихая тревога">quiet anxiety</span>. <span class="hl gram" data-uz="the moment ergash gapi + gerund" data-ru="временное придаточное (the moment) + герундий" data-ru-explain="«the moment» означает «именно в тот момент»; 'feeling' — герундий." data-rule="Time Clause (the moment) + Gerund" data-explain="'the moment' 'aynan o'sha payt' ma'nosini bildiradi, 'feeling' gerund sifatida.">The moment you <span class="hl collo" data-uz="hisobga olish" data-ru="учитывать">factor in</span> flights, accommodation, and visas, international travel stops feeling like a casual decision</span> and starts demanding real budgeting. There's also a subtler psychological hurdle <span class="hl collo" data-uz="mavjud bo'lgan" data-ru="присутствующий/действующий">at play</span> — <span class="hl gram" data-uz="gerund predlog bilan" data-ru="герундий с предлогом" data-ru-explain="После предлога глагол всегда стоит в форме герундия (-ing)." data-rule="Preposition + Gerund (of navigating)" data-explain="Predlogdan keyin fe'l doim gerund shaklida keladi.">the prospect of navigating somewhere you don't speak the language</span> or grasp the unwritten social rules can feel <span class="hl adv" data-uz="sezilarli darajada bosib oluvchi" data-ru="слегка подавляющий">low-key overwhelming</span>, even for otherwise confident people. For a lot of people, the predictability of home simply outweighs whatever appeal the unfamiliar might hold.`, textUz: `Rostini aytsam, o'ylaymanki, bu odatda amaliy xarajat va jimgina tashvishning aralashmasiga borib taqaladi. Aviachipta, turar joy va vizalarni hisobga olgan zahoti, xalqaro sayohat oddiy qarordek tuyulishdan to'xtab, chinakam byudjetlashtirishni talab qila boshlaydi. Bunda yana nozikroq psixologik to'siq bor — til bilmagan yoki yozilmagan ijtimoiy qoidalarni tushunmagan joyda harakatlanish istiqboli hatto o'ziga ishongan odamlar uchun ham sezilarli darajada bosib oluvchi tuyulishi mumkin. Ko'p odamlar uchun uyning bashorat qilinishi notanish narsaning har qanday jozibasidan ustun keladi.` }
+      },
+      p3c: {
+        6: { icon: '✦', pill: 'Band 6 · Developing', impactValue: 'BASE', impact: 'This is the <b>Band 6</b> baseline — simple, listed reasoning.', text: `I think people choose to travel or live abroad for many reasons. Some people go abroad to study, because their country does not have good universities for their subject. Other people move abroad for work, because they <span class="hl gram" data-uz="modal fe'l + qiyoslash" data-ru="модальный глагол + сравнительная степень" data-ru-explain="«can» выражает возможность; 'better' — сравнительная степень." data-rule="Modal (can) + Comparative" data-explain="'can' imkoniyatni, 'better' qiyoslashni bildiradi.">can find a better job</span> or <span class="hl collo" data-uz="ko'proq pul topish" data-ru="зарабатывать больше денег">earn more money</span>. Also, some people travel abroad just because they want to see new places and <span class="hl collo" data-uz="turli madaniyatlar haqida bilish" data-ru="узнать о разных культурах">learn about different cultures</span>. I think most people do this <span class="hl gram" data-uz="maqsad infinitivi" data-ru="инфинитив цели" data-ru-explain="Инфинитив с «to» выражает цель действия." data-rule="Infinitive of Purpose (to have)" data-explain="'to' + fe'l maqsadni bildiradi.">to have</span> a <span class="hl adv" data-uz="yaxshiroq hayot" data-ru="лучшая жизнь">better life</span> or a <span class="hl adv" data-uz="yaxshiroq kelajak" data-ru="лучшее будущее">better future</span>.`, textUz: `O'ylaymanki, odamlar ko'plab sabablarga ko'ra chet elga sayohat qilish yoki u yerda yashashni tanlaydi. Ba'zi odamlar o'qish uchun chet elga boradi, chunki ularning mamlakatida o'z fani uchun yaxshi universitetlar yo'q. Boshqa odamlar ish uchun chet elga ko'chib o'tadi, chunki ular yaxshiroq ish topishi yoki ko'proq pul topishi mumkin. Shuningdek, ba'zi odamlar shunchaki yangi joylarni ko'rish va turli madaniyatlar haqida bilishni xohlagani uchun chet elga sayohat qiladi. O'ylaymanki, ko'pchilik buni yaxshiroq hayot yoki yaxshiroq kelajakka ega bo'lish uchun qiladi.` },
+        7: { icon: '↑', pill: 'Band 7 · Competent', impactValue: '+0.5', impact: 'From Band 6: casual markers and an embedded question.', text: `Honestly, I think it usually comes down to opportunity — better jobs, better pay, better education, that kind of thing. A lot of people move abroad because their home country just doesn't <span class="hl collo" data-uz="bir xil imkoniyatlarni taklif qilish" data-ru="предлагать те же возможности">offer the same chances</span>, especially in <span class="hl adv" data-uz="ma'lum sohalar" data-ru="определённые сферы">certain fields</span>. Then there's the <span class="hl adv" data-uz="qiziqish omili" data-ru="фактор любопытства">curiosity factor</span> — some people just want to experience a different culture and see <span class="hl gram" data-uz="so'roq gap ichida (how)" data-ru="косвенный вопрос (how)" data-ru-explain="«how» используется не как вопрос, а как часть придаточного предложения." data-rule="Embedded Question (how)" data-explain="'how' savol shakli emas, gap ichida ishlatiladi.">how life works somewhere else</span>. I guess at the end of the day, most people <span class="hl gram" data-uz="hozirgi davomli zamon" data-ru="настоящее длительное время" data-ru-explain="Выражает длящееся действие или текущую тенденцию." data-rule="Present Continuous (are chasing)" data-explain="Hozir davom etayotgan yoki umumiy tendensiyani bildiruvchi harakatni ifodalaydi.">are <span class="hl collo" data-uz="quvib yetish" data-ru="гнаться за">chasing</span></span> some version of a better life.`, textUz: `Rostini aytsam, o'ylaymanki, bu odatda imkoniyatga borib taqaladi — yaxshiroq ish, yaxshiroq maosh, yaxshiroq ta'lim, shunga o'xshash narsalar. Ko'plab odamlar chet elga ko'chib o'tadi, chunki ularning vatani bir xil imkoniyatlarni, ayniqsa ma'lum sohalarda, taklif qilmaydi. Keyin qiziqish omili bor — ba'zi odamlar shunchaki boshqa madaniyatni his qilishni va hayot boshqa joyda qanday kechishini ko'rishni xohlaydi. O'ylaymanki, oxir-oqibat, ko'pchilik yaxshiroq hayotning qandaydir versiyasini quvib yetishga harakat qiladi.` },
+        8: { icon: '↑', pill: 'Band 8 · Very Good', impactValue: '+0.5', impact: 'From Band 7: richer vocabulary and a reduced relative clause.', text: `I think it's largely driven by opportunity — <span class="hl collo" data-uz="imkoniyat" data-ru="доступ к возможностям">access to</span> better jobs, higher salaries, <span class="hl adv" data-uz="kuchliroq ta'lim tizimlari" data-ru="более сильные системы образования">stronger education systems</span>, things <span class="hl gram" data-uz="nisbiy ergash gap (that)" data-ru="определительное придаточное (that)" data-ru-explain="«that» определяет и уточняет предшествующее существительное." data-rule="Defining Relative Clause (that)" data-explain="'that' oldingi otni aniqlaydi.">that simply aren't available at home</span> for a lot of people. There's also a less practical, more personal motivation — genuine curiosity about how life operates in a different cultural context. I'd say most people <span class="hl gram" data-uz="sifatdosh gap (qisqartirilgan nisbiy gap)" data-ru="сокращённое определительное придаточное" data-ru-explain="'relocating' = 'who are relocating' — сокращённое придаточное." data-rule="Reduced Relative Clause (relocating)" data-explain="'relocating' = 'who are relocating', nisbiy gapning qisqartirilgan shakli.">relocating abroad</span> are essentially betting that the trade-offs — leaving family, adjusting to a new culture — are worth it for a <span class="hl adv" data-uz="sezilarli darajada yaxshiroq" data-ru="значительно лучше">meaningfully better</span> <span class="hl collo" data-uz="hayot sifati" data-ru="качество жизни">quality of life</span>.`, textUz: `O'ylaymanki, bu asosan imkoniyat tomonidan boshqariladi — yaxshiroq ishlarga, yuqoriroq maoshlarga, kuchliroq ta'lim tizimlariga kirish, bular ko'plab odamlar uchun uyda oddiy mavjud bo'lmagan narsalar. Bunda kamroq amaliy, ko'proq shaxsiy motivatsiya ham bor — boshqa madaniy kontekstda hayot qanday ishlashi haqida chinakam qiziqish. O'ylaymanki, chet elga ko'chib o'tayotgan ko'pchilik odamlar oiladan uzoqlashish, yangi madaniyatga moslashish kabi murosalarning mazmunli yaxshiroq hayot sifati uchun arzigulik ekanligiga garov o'ynamoqda.` },
+        9: { icon: '↑', pill: 'Band 9 · Expert', impactValue: '+0.5', impact: 'From Band 8: idiomatic phrasing ("does the heavy lifting") and a closing trade-off framing.', text: `Honestly, I think opportunity <span class="hl collo" data-uz="asosiy ishni bajaradi" data-ru="выполняет основную работу">does most of the heavy lifting</span> here — access to better jobs, stronger salaries, more <span class="hl adv" data-uz="mustahkam" data-ru="надёжный/крепкий">robust</span> education systems, things <span class="hl gram" data-uz="nisbiy ergash gap (that)" data-ru="определительное придаточное (that)" data-ru-explain="«that» определяет и уточняет предшествующее существительное." data-rule="Defining Relative Clause (that)" data-explain="'that' oldingi otni aniqlaydi.">that just aren't <span class="hl collo" data-uz="muhokama uchun taklif qilingan" data-ru="доступный для обсуждения">on the table</span> back home</span> for plenty of people. There's also a quieter, more personal pull: genuine curiosity about how life plays out in a completely different cultural context. If I'm honest, most people <span class="hl gram" data-uz="sifatdosh gap (qisqartirilgan nisbiy gap)" data-ru="сокращённое определительное придаточное" data-ru-explain="'relocating' = 'who are relocating' — сокращённое придаточное." data-rule="Reduced Relative Clause (relocating)" data-explain="'relocating' = 'who are relocating', nisbiy gapning qisqartirilgan shakli.">relocating abroad</span> are essentially wagering that the trade-offs — distance from family, the friction of adapting to a new culture — are worth it for a <span class="hl adv" data-uz="sezilarli darajada boyroq" data-ru="значительно богаче">meaningfully richer</span> life.`, textUz: `Rostini aytsam, o'ylaymanki, bu yerda imkoniyat asosiy ishni bajaradi — yaxshiroq ishlarga, kuchliroq maoshlarga, mustahkamroq ta'lim tizimlariga kirish, ko'plab odamlar uchun uyda muhokama uchun taklif qilinmagan narsalar. Bunda yana jimroq, ko'proq shaxsiy tortishish bor: butunlay boshqa madaniy kontekstda hayot qanday kechishi haqida chinakam qiziqish. Rostini aytsam, chet elga ko'chib o'tayotgan ko'pchilik odamlar oiladan masofa, yangi madaniyatga moslashish qiyinchiligi kabi murosalarning sezilarli darajada boyroq hayot uchun arzigulik ekanligiga garov o'ynamoqda.` }
+      }
+    },
+
+    featureCards: {
+      part2: {
+        examinerLens: ["Covers all 3 cue-card points (where / what you'll do / how long) clearly and in order", "Backs the choice with a specific, well-known landmark (Kinkaku-ji) instead of a vague plan", "Ends on a reflective line tying the place to a bigger theme (culture + history + nature)"],
+        vocabulary: ["<b>used to be</b> — ilgari ... bo'lgan", "<b>centuries-old</b> — asrlik", "<b>immaculate</b> — benuqson", "<b>authentic cuisine</b> — haqiqiy oshxona", "<b>atmosphere</b> — muhit, kayfiyat"],
+        chunks: ["\"If I had to pick somewhere...\" — strong way to open a Part 2 answer", "\"What draws me to X isn't just...\" — useful for explaining a deeper reason", "\"Give or take\" — natural way to soften an exact time estimate"],
+        vibe: ["Naming a specific temple (Kinkaku-ji) instead of just \"temples\" makes the answer far more credible", "Ending on the feeling/atmosphere of a place rather than just facts is a strong Band 9 habit"]
+      },
+      p3a: {
+        examinerLens: ["Frames the answer around one clear trade-off (cost/comfort vs travel) instead of a flat list", "Uses a rhetorical question (\"why bother...\") to sound like genuine opinion, not a memorised answer", "Backs the claim with a concrete example instead of staying abstract"],
+        vocabulary: ["<b>exchange rates</b> — valyuta kursi", "<b>a cost-and-comfort calculation</b> — xarajat va qulaylik hisob-kitobi", "<b>second nature</b> — tabiiy holga aylangan", "<b>a preference</b> — afzallik", "<b>scenery worth writing home about</b> — maqtashga arziydigan manzara"],
+        chunks: ["\"It comes down to...\" — strong way to summarise a root cause", "\"There's something to be said for...\" — natural way to introduce an underrated benefit", "\"Less like X and more like Y\" — clean reframing structure"],
+        vibe: ["Framing the choice as cost vs comfort instead of just \"it's cheaper\" shows more nuanced thinking", "\"why bother\" is a very natural, slightly rhetorical way native speakers question a decision"]
+      },
+      p3b: {
+        examinerLens: ["Separates the financial reason from the psychological reason instead of blending them", "Uses concrete details (visas, exchange rates) instead of vague statements about cost", "Closes by naming the underlying trade-off (comfort vs uncertainty)"],
+        vocabulary: ["<b>psychological barrier</b> — psixologik to'siq", "<b>overwhelming</b> — bosib oluvchi, dahshatli", "<b>outweighs the appeal</b> — jozibasidan ustun keladi", "<b>uncertainty</b> — noaniqlik", "<b>predictability</b> — bashorat qilinishi mumkinlik"],
+        chunks: ["\"It usually comes down to a mix of...\" — strong way to introduce two combined causes", "\"There's a subtler...at play\" — useful for introducing a less obvious factor", "\"Outweighs the appeal of...\" — natural way to compare competing motivations"],
+        vibe: ["Naming a specific psychological cause (not just \"scared\") sounds more mature and precise", "Comparing predictability vs the unfamiliar is a nuanced, Band 9-level framing"]
+      },
+      p3c: {
+        examinerLens: ["Splits the answer into practical (opportunity) and personal (curiosity) motivations", "Uses vivid, idiomatic phrasing (\"does the heavy lifting\") instead of generic vocabulary", "Closes by naming the actual trade-off people are making, not just the benefit"],
+        vocabulary: ["<b>access to</b> — kirish, foydalanish imkoniyati", "<b>robust</b> — mustahkam", "<b>quality of life</b> — hayot sifati", "<b>on the table</b> — muhokama uchun taklif qilingan", "<b>meaningfully richer</b> — sezilarli darajada boyroq"],
+        chunks: ["\"Does most of the heavy lifting\" — idiomatic way to say something is the main cause", "\"Essentially wagering that...\" — strong way to frame a risk/trade-off", "\"A quieter, more personal pull\" — useful for introducing an emotional motivation"],
+        vibe: ["Using \"wagering\" instead of \"hoping\" frames migration as a calculated risk, which sounds more sophisticated", "Separating practical vs emotional motivations shows more analytical thinking than a single-cause answer"]
+      }
+    }
+  };
+
+  const BAND_DATA = TOPIC_DATA.bandData;
+
+  // Maps a question key (part2, p3a, p3b, p3c, p3d, p3e...) to its answer-text element id.
+  function answerIdFor(qKey) {
+    if (qKey === 'part2') return 'answerPart2';
+    // 'p3a' -> 'answerP3a', 'p3b' -> 'answerP3b', etc. (lowercase suffix, matches the markup)
+    return 'answerP3' + qKey.slice(-1);
+  }
+
+  // Renders everything in TOPIC_DATA into the fixed page skeleton.
+  // Runs once on load, before the band ladder is initialised.
+  function renderTopic() {
+    document.title = `IELTSSHOKH · ${TOPIC_DATA.title} · Speaking Part 2 & 3 Dossier`;
+    document.getElementById('heroTitle').childNodes[0].nodeValue = TOPIC_DATA.title;
+
+    document.getElementById('cueTitle').textContent = TOPIC_DATA.cueCard.title;
+    const cueList = document.getElementById('cueList');
+    TOPIC_DATA.cueCard.points.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = p;
+      cueList.appendChild(li);
+    });
+
+    TOPIC_DATA.part3Questions.forEach((q, idx) => {
+      const chip = document.getElementById(`chip-${q.id}`);
+      chip.textContent = `Q${idx + 1} · ${q.navLabel}`;
+      chip.style.display = '';
+      document.getElementById(`tag-${q.id}`).textContent = `${q.tag} 〜`;
+      document.getElementById(`q-${q.id}`).textContent = q.question;
+    });
+
+    const allKeys = ['part2', ...TOPIC_DATA.part3Questions.map(q => q.id)];
+    const panelOrder = ['examiner', 'vocab', 'chunks', 'vibe'];
+    const dataKeyMap = { examiner: 'examinerLens', vocab: 'vocabulary', chunks: 'chunks', vibe: 'vibe' };
+    allKeys.forEach(qKey => {
+      panelOrder.forEach(panel => {
+        const ul = document.getElementById(`fc-${qKey}-${panel}`);
+        if (!ul) return;
+        const items = (TOPIC_DATA.featureCards[qKey] || {})[dataKeyMap[panel]] || [];
+        items.forEach(text => {
+          const li = document.createElement('li');
+          li.innerHTML = text;
+          ul.appendChild(li);
+        });
+      });
+    });
+  }
+  renderTopic();
+
+  /* ================= POWER FEATURES ENGINE — ULTRA ================= */
+
+  // ---------- tiny toast ----------
+  let pfToastEl = null;
+  function showToast(msg) {
+    if (!pfToastEl) {
+      pfToastEl = document.createElement('div');
+      pfToastEl.className = 'pf-toast';
+      document.body.appendChild(pfToastEl);
+    }
+    pfToastEl.textContent = msg;
+    pfToastEl.classList.add('show');
+    clearTimeout(pfToastEl._t);
+    pfToastEl._t = setTimeout(() => pfToastEl.classList.remove('show'), 1800);
+  }
+
+  // ---------- shared local-storage helpers ----------
+  const VOCAB_KEY = 'ieltsshokh_vocab_v1';
+  const PROGRESS_KEY = 'ieltsshokh_progress_v1';
+  function loadJSON(key) { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { return []; } }
+  function saveJSON(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+
+  // ---------- 1. Personal vocabulary bank ----------
+  function loadVocabBank() { return loadJSON(VOCAB_KEY); }
+  function addToVocabBank(phrase, uz) {
+    if (!phrase) return;
+    const list = loadVocabBank();
+    if (list.some(v => v.phrase.toLowerCase() === phrase.toLowerCase())) {
+      showToast(`"${phrase}" allaqachon lug'atingizda`);
+      return;
+    }
+    list.unshift({ phrase, uz, topic: TOPIC_DATA.title, date: new Date().toISOString() });
+    saveJSON(VOCAB_KEY, list);
+    renderVocabBank();
+    updateVocabFabCount();
+    showToast(`✓ "${phrase}" lug'atga qo'shildi`);
+  }
+  function removeFromVocabBank(idx) {
+    const list = loadVocabBank();
+    list.splice(idx, 1);
+    saveJSON(VOCAB_KEY, list);
+    renderVocabBank();
+    updateVocabFabCount();
+  }
+  function updateVocabFabCount() {
+    const el = document.getElementById('vocabFabCount');
+    if (el) el.textContent = loadVocabBank().length;
+  }
+  function renderVocabBank() {
+    const body = document.getElementById('vocabTabBody');
+    if (!body) return;
+    const list = loadVocabBank();
+    if (!list.length) {
+      body.innerHTML = '<p class="vocab-empty">Hali hech narsa saqlanmagan.<br>Har qanday rangli (highlight qilingan) so\'zga bosing — u avtomatik shu yerga qo\'shiladi.</p>';
+      return;
+    }
+    body.innerHTML = list.map((v, i) => `
+      <div class="vocab-item" onclick="this.classList.toggle('flipped')">
+        <div class="vocab-front"><b>${v.phrase}</b><span class="vocab-topic">${v.topic}</span></div>
+        <div class="vocab-back">${v.uz || '—'}</div>
+        <button type="button" class="vocab-remove" onclick="event.stopPropagation(); removeFromVocabBank(${i})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  // ---------- 2. Progress dashboard (practice history + streak) ----------
+  function loadProgress() { return loadJSON(PROGRESS_KEY); }
+  function logProgress(entry) {
+    const list = loadProgress();
+    list.unshift({ ...entry, date: new Date().toISOString() });
+    saveJSON(PROGRESS_KEY, list.slice(0, 50));
+    renderProgress();
+  }
+  function dayKey(iso) { return iso.slice(0, 10); }
+  function computeStreak(list) {
+    if (!list.length) return 0;
+    const days = [...new Set(list.map(e => dayKey(e.date)))].sort().reverse();
+    let streak = 1;
+    for (let i = 0; i < days.length - 1; i++) {
+      const cur = new Date(days[i]); const prev = new Date(days[i + 1]);
+      if ((cur - prev) / 86400000 === 1) streak++; else break;
+    }
+    const today = dayKey(new Date().toISOString());
+    if (days[0] !== today) return 0;
+    return streak;
+  }
+  function renderProgress() {
+    const body = document.getElementById('progressTabBody');
+    if (!body) return;
+    const list = loadProgress();
+    const streak = computeStreak(list);
+    let html = '';
+    if (streak > 0) {
+      html += `<div class="progress-streak">🔥 ${streak} kunlik ketma-ket mashq!</div>`;
+    }
+    if (!list.length) {
+      html += '<p class="vocab-empty">Hali mashq tarixi yo\'q.<br>Imtihon simulyatsiyasi, nutq tahlili yoki o\'z-bahoni sinab ko\'ring.</p>';
+    } else {
+      html += list.slice(0, 15).map(e => {
+        const d = new Date(e.date);
+        const when = `${d.getDate().toString().padStart(2,'0')}.${(d.getMonth()+1).toString().padStart(2,'0')} · ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+        return `<div class="progress-item">
+          <div class="progress-item-left"><b>${e.label}</b><span>${when}</span></div>
+          <div class="progress-item-badge">${e.badge}</div>
+        </div>`;
+      }).join('');
+    }
+    body.innerHTML = html;
+  }
+
+  function toggleVocabModal() {
+    document.getElementById('vocabModal').classList.toggle('show');
+    renderProgress();
+  }
+  function switchDashboardTab(tab) {
+    document.querySelectorAll('.vocab-sheet-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.getElementById('vocabTabBody').style.display = tab === 'vocab' ? 'block' : 'none';
+    document.getElementById('progressTabBody').style.display = tab === 'progress' ? 'block' : 'none';
+  }
+
+  // ---------- 3. Band 6 vs Band 9 diff view ----------
+  function stripTags(html) { return html.replace(/<[^>]+>/g, ''); }
+  function buildDiff(qKey) {
+    const b6 = stripTags(BAND_DATA[qKey][6].text);
+    const b9plain = stripTags(BAND_DATA[qKey][9].text);
+    const b6Words = new Set((b6.toLowerCase().match(/[a-z']+/g) || []));
+    const tokens = b9plain.match(/[A-Za-z']+|[^A-Za-z']+/g) || [];
+    const html9 = tokens.map(tok => {
+      const clean = tok.toLowerCase();
+      if (/^[a-z']+$/.test(clean) && clean.length > 2 && !b6Words.has(clean)) {
+        return `<span class="diff-new">${tok}</span>`;
+      }
+      return tok;
+    }).join('');
+    document.getElementById(`diffB6-${qKey}`).textContent = b6;
+    document.getElementById(`diffB9-${qKey}`).innerHTML = html9;
+  }
+
+  // ---------- 4. Strict exam simulation (Part 2 only: 1:00 prep + 2:00 speak) + Focus Mode ----------
+  const examTimers = {};
+  function beep(freq) {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(); const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq || 880; g.gain.value = 0.16;
+      o.start(); setTimeout(() => { o.stop(); ctx.close(); }, 320);
+    } catch (e) {}
+  }
+  function exitFocusMode() { document.body.classList.remove('focus-mode'); }
+  function startExamSim(qKey) {
+    if (examTimers[qKey]) return;
+    document.body.classList.add('focus-mode');
+    const wrap = document.getElementById(`examWrap-${qKey}`);
+    const display = document.getElementById(`examDisplay-${qKey}`);
+    const label = document.getElementById(`examLabel-${qKey}`);
+    const btn = document.getElementById(`examBtn-${qKey}`);
+    wrap.classList.add('show');
+    btn.disabled = true;
+    btn.textContent = '🎬 Simulyatsiya davom etmoqda...';
+    let phase = 'prep', seconds = 60;
+    label.textContent = '📝 Tayyorgarlik vaqti — eslatmalar yozing';
+    display.textContent = formatTime(seconds);
+    display.classList.remove('warn');
+    beep(660);
+    examTimers[qKey] = setInterval(() => {
+      seconds--;
+      display.textContent = formatTime(seconds);
+      display.classList.toggle('warn', seconds <= 5);
+      if (seconds <= 0) {
+        beep(phase === 'prep' ? 990 : 500);
+        if (phase === 'prep') {
+          phase = 'speak'; seconds = 120;
+          label.textContent = '🎤 Gapiring! Vaqt hisoblanmoqda';
+          display.classList.remove('warn');
+        } else {
+          clearInterval(examTimers[qKey]);
+          delete examTimers[qKey];
+          label.textContent = '⏹ Vaqt tugadi — javobingiz tugashi kerak edi';
+          btn.disabled = false;
+          btn.textContent = '🎬 Qayta boshlash';
+          logProgress({ label: 'Imtihon simulyatsiyasi yakunlandi', badge: '2:00 ✓' });
+        }
+      }
+    }, 1000);
+  }
+
+  // ---------- 5. Speech Coach (filler words + speaking rate via SpeechRecognition) ----------
+  let activeRecognition = null;
+  function toggleSpeechCoach(qKey) {
+    const btn = document.getElementById(`speechBtn-${qKey}`);
+    const resultEl = document.getElementById(`speechResult-${qKey}`);
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (activeRecognition && btn.dataset.recording === '1') {
+      activeRecognition.stop();
+      return;
+    }
+    if (!SR) {
+      resultEl.innerHTML = '<p class="speech-warn">Bu funksiya faqat Chrome yoki Edge brauzerida ishlaydi (Safari/Firefox nutqni tanib olishni qo\'llab-quvvatlamaydi).</p>';
+      return;
+    }
+
+    const recog = new SR();
+    recog.lang = 'en-US';
+    recog.continuous = true;
+    recog.interimResults = false;
+    let transcript = '';
+    const startTime = Date.now();
+    btn.dataset.recording = '1';
+    btn.textContent = '⏹ Tahlilni tugatish';
+    resultEl.innerHTML = '';
+    activeRecognition = recog;
+
+    recog.onresult = (e) => {
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) transcript += e.results[i][0].transcript + ' ';
+      }
+    };
+    recog.onerror = () => {};
+    recog.onend = () => {
+      btn.dataset.recording = '0';
+      btn.textContent = '📊 Nutqimni tahlil qil';
+      activeRecognition = null;
+
+      const seconds = Math.max(1, (Date.now() - startTime) / 1000);
+      const words = transcript.trim().split(/\s+/).filter(Boolean);
+      const wpm = Math.round((words.length / seconds) * 60);
+      const fillers = ['um','uh','er','like','you know','kind of','sort of','basically','actually','literally'];
+      const lower = transcript.toLowerCase();
+      const hits = {}; let fillerCount = 0;
+      fillers.forEach(f => {
+        const re = new RegExp(`\\b${f.replace(/ /g, '\\s+')}\\b`, 'g');
+        const m = lower.match(re);
+        if (m) { hits[f] = m.length; fillerCount += m.length; }
+      });
+      let pace = wpm < 90 ? "sekinroq — 110–150 so'z/daqiqa oralig'ini maqsad qiling"
+               : wpm > 170 ? "juda tez — bir oz sekinlashtirib, aniqroq talaffuz qiling"
+               : "yaxshi sur'at, tabiiy tempda!";
+
+      let html = `<div class="speech-stat">Aniqlangan so'zlar: <b>${words.length}</b> · Tezlik: <b>${wpm} so'z/daqiqa</b> — ${pace}</div>`;
+      if (fillerCount > 0) {
+        html += `<div class="speech-stat">Keraksiz so'zlar (filler words): <b>${fillerCount}</b> ta<br>` +
+          Object.entries(hits).map(([f,c]) => `<span class="filler-tag">${f} ×${c}</span>`).join(' ') + `</div>`;
+      } else {
+        html += `<div class="speech-stat">Keraksiz so'z ("um", "like"...) deyarli aniqlanmadi — ajoyib natija!</div>`;
+      }
+      html += `<div class="speech-transcript"><b>Tizim eshitgan matn:</b><br>${transcript.trim() || '(hech narsa aniqlanmadi, mikrofonga yaqinroq gapiring)'}</div>`;
+      html += `<div class="grammar-check-status" id="grammarStatus-${qKey}">⏳ Grammatika tekshirilmoqda...</div>`;
+      resultEl.innerHTML = html;
+
+      checkGrammarAndScore(qKey, transcript.trim(), words.length, wpm, fillerCount);
+    };
+
+    try { recog.start(); } catch (e) {
+      resultEl.innerHTML = '<p class="speech-warn">Mikrofonni ishga tushirib bo\'lmadi. Ruxsat berilganini tekshiring.</p>';
+      btn.dataset.recording = '0';
+      btn.textContent = '📊 Nutqimni tahlil qil';
+    }
+  }
+
+  // ---------- grammar check (LanguageTool public API) + bounded, transparent band estimate ----------
+  function clampBand(n) {
+    n = Math.max(4, Math.min(9, n));
+    return Math.round(n * 2) / 2; // nearest 0.5
+  }
+  function computeEstimatedBand(wordCount, wpm, fillerCount, grammarErrorCount) {
+    let band = 6.5; // realistic starting point for a fluent-ish attempt
+    // speaking rate
+    if (wpm >= 110 && wpm <= 160) band += 0.5;
+    else if (wpm < 80 || wpm > 190) band -= 1;
+    else if (wpm < 100 || wpm > 175) band -= 0.5;
+    // filler ratio (per 100 words)
+    const fillerPct = wordCount > 0 ? (fillerCount / wordCount) * 100 : 0;
+    if (fillerPct === 0) band += 0.5;
+    else if (fillerPct > 8) band -= 1;
+    else if (fillerPct > 4) band -= 0.5;
+    // grammar error ratio (per 100 words)
+    if (grammarErrorCount !== null) {
+      const errPct = wordCount > 0 ? (grammarErrorCount / wordCount) * 100 : 0;
+      if (errPct === 0) band += 0.5;
+      else if (errPct > 12) band -= 1.5;
+      else if (errPct > 6) band -= 1;
+      else if (errPct > 2) band -= 0.5;
+    }
+    return clampBand(band);
+  }
+  // ---------- local rule-based grammar checker (always works, no internet needed) ----------
+  // Covers the most common spoken-English mistakes made by Uzbek-speaking IELTS candidates.
+
+  // helper: builds the correct 3rd-person-singular present-tense form of a regular verb
+  function thirdPersonForm(v) {
+    v = v.toLowerCase();
+    if (v === 'go') return 'goes';
+    if (v === 'do') return 'does';
+    if (v === 'have') return 'has';
+    if (/(?:[sxz]|[cs]h)$/.test(v)) return v + 'es';
+    if (/[^aeiou]y$/.test(v)) return v.slice(0, -1) + 'ies';
+    return v + 's';
+  }
+
+  const COMMON_BASE_VERBS = [
+    'go','do','have','make','want','think','like','need','feel','know','say','get','come','see',
+    'look','work','live','play','talk','study','use','choose','prefer','stay','start','leave',
+    'believe','love','hate','seem','sound','help','stop','watch','eat','drink','read','write',
+    'speak','listen','walk','run','sleep','wake','drive','travel','visit','enjoy','plan','hope',
+    'agree','disagree','understand','remember','forget','decide','try','wait','arrive','return',
+    'change','improve','continue','spend','save','earn','learn','teach','explain','discuss',
+    'describe','compare','consider','suggest','recommend','realize','notice','wonder','worry',
+    'care','matter','cook','clean','buy','sell','pay','cost','build','grow','move','open','close'
+  ];
+
+  const IRREGULAR_PAST_FIXES = {
+    goed:'went', buyed:'bought', runned:'ran', eated:'ate', thinked:'thought', knowed:'knew',
+    seed:'saw', teached:'taught', catched:'caught', bringed:'brought', breaked:'broke',
+    taked:'took', gaved:'gave', comed:'came', feeled:'felt', finded:'found', getted:'got',
+    haved:'had', maked:'made', sayed:'said', telled:'told', writed:'wrote', doed:'did',
+    winned:'won', choosed:'chose', speaked:'spoke', beginned:'began', stealed:'stole',
+    flied:'flew', drived:'drove', rided:'rode', singed:'sang', swimmed:'swam', falled:'fell',
+    growed:'grew', throwed:'threw', blowed:'blew', drawed:'drew', wored:'wore', tored:'tore'
+  };
+
+  const PRESENT_PERFECT_FIXES = {
+    'have went':'have gone', 'has went':'has gone', 'have ate':'have eaten', 'has ate':'has eaten',
+    'have wrote':'have written', 'has wrote':'has written', 'have did':'have done', 'has did':'has done',
+    'have saw':'have seen', 'has saw':'has seen', 'have began':'have begun', 'has began':'has begun',
+    'have broke':'have broken', 'has broke':'has broken', 'have took':'have taken', 'has took':'has taken',
+    'have gave':'have given', 'has gave':'has given', 'have came':'have come', 'has came':'has come',
+    'have ran':'have run', 'has ran':'has run', 'have forgot':'have forgotten', 'has forgot':'has forgotten',
+    'have spoke':'have spoken', 'has spoke':'has spoken', 'have chose':'have chosen', 'has chose':'has chosen',
+    'have drove':'have driven', 'has drove':'has driven', 'have rode':'have ridden', 'has rode':'has ridden',
+    'have ate':'have eaten', 'have knew':'have known', 'has knew':'has known'
+  };
+
+  const DOES_DONT_BASE_FORM = {
+    wants:'want', likes:'like', goes:'go', knows:'know', thinks:'think', believes:'believe',
+    needs:'need', works:'work', plays:'play', loves:'love', hates:'hate', feels:'feel',
+    seems:'seem', looks:'look', sounds:'sound', helps:'help', starts:'start', stops:'stop',
+    lives:'live', stays:'stay', studies:'study', tries:'try', agrees:'agree',
+    understands:'understand', remembers:'remember', forgets:'forget', decides:'decide',
+    watches:'watch', teaches:'teach'
+  };
+
+  const LOCAL_GRAMMAR_RULES = [
+    // === subject-verb agreement (he/she/it/this + base verb, missing -s) ===
+    {
+      re: new RegExp(`\\b(he|she|it|this|that)\\s+(${COMMON_BASE_VERBS.join('|')})\\b`, 'gi'),
+      fix: (m, subj, verb) => `${subj} ${thirdPersonForm(verb)}`,
+      msg: "3-shaxs birlikda (he/she/it) fe'lga '-s' yoki '-es' qo'shiladi."
+    },
+    // === be-verb agreement errors ===
+    { re: /\bI\s+is\b/gi, fix: () => 'I am', msg: "'I' bilan 'am' ishlatiladi, 'is' emas." },
+    { re: /\bI\s+are\b/gi, fix: () => 'I am', msg: "'I' bilan 'am' ishlatiladi, 'are' emas." },
+    { re: /\b(he|she|it)\s+are\b/gi, fix: (m, p1) => `${p1} is`, msg: "he/she/it bilan 'is' ishlatiladi, 'are' emas." },
+    { re: /\b(he|she|it)\s+am\b/gi, fix: (m, p1) => `${p1} is`, msg: "he/she/it bilan 'is' ishlatiladi, 'am' emas." },
+    { re: /\b(they|we|you)\s+is\b/gi, fix: (m, p1) => `${p1} are`, msg: "they/we/you bilan 'are' ishlatiladi, 'is' emas." },
+    { re: /\b(they|we|you)\s+am\b/gi, fix: (m, p1) => `${p1} are`, msg: "they/we/you bilan 'are' ishlatiladi, 'am' emas." },
+
+    // === irregular past tense — regularized by mistake ===
+    {
+      re: new RegExp(`\\b(${Object.keys(IRREGULAR_PAST_FIXES).join('|')})\\b`, 'gi'),
+      fix: (m) => IRREGULAR_PAST_FIXES[m.toLowerCase()] || m,
+      msg: "Bu fe'lning o'tgan zamon shakli noto'g'ri (notog'ri fe'l — qoidaga bo'ysunmaydi)."
+    },
+    // === present perfect with wrong participle ===
+    {
+      re: new RegExp(`\\b(${Object.keys(PRESENT_PERFECT_FIXES).join('|')})\\b`, 'gi'),
+      fix: (m) => PRESENT_PERFECT_FIXES[m.toLowerCase()] || m,
+      msg: "Hozirgi tugallangan zamonda (have/has) fe'lning III-forma (past participle) shakli ishlatilishi kerak."
+    },
+    // === doesn't/don't + verb still carrying -s (double marking) ===
+    {
+      re: new RegExp(`\\b(doesn['’]?t|don['’]?t)\\s+(${Object.keys(DOES_DONT_BASE_FORM).join('|')})\\b`, 'gi'),
+      fix: (m, aux, verb) => `${aux} ${DOES_DONT_BASE_FORM[verb.toLowerCase()]}`,
+      msg: "'doesn't/don't' dan keyin fe'l asosiy (bazaviy) shaklda bo'ladi, '-s' qo'shilmaydi."
+    },
+
+    // I am agree / I am understand / I am know — be + verb without -ing (very common L1 transfer error)
+    { re: /\b(I|we|they|you)\s+am\s+agree\b/gi, fix: (m) => m.replace(/\s+am\s+/i, ' '), msg: "'agree' — bu holat fe'li, 'am/is/are' bilan emas, to'g'ridan-to'g'ri ishlatiladi." },
+    { re: /\b(He|She|It)\s+is\s+agree\b/gi, fix: (m) => m.replace(/\s+is\s+/i, ' '), msg: "'agree' — holat fe'li, 'is' kerak emas." },
+    { re: /\b(I|we|they|you)\s+am\s+understand\b/gi, fix: (m) => m.replace(/\s+am\s+/i, ' '), msg: "'understand' holat fe'li — 'am/is/are' bilan ishlatilmaydi." },
+    { re: /\bI\s+am\s+know\b/gi, fix: () => 'I know', msg: "'know' holat fe'li — 'am' kerak emas." },
+
+    // modal + to + verb (can to, should to, must to, will to)
+    { re: /\b(can|could|should|must|will|would|might|may)\s+to\s+(\w+)/gi, fix: (m, p1, p2) => `${p1} ${p2}`, msg: "Modal fe'ldan keyin 'to' ishlatilmaydi: modal + fe'lning asosiy shakli." },
+
+    // double comparative / superlative
+    { re: /\bmore\s+(better|worse|easier|harder|bigger|smaller|faster|higher|cheaper)\b/gi, fix: (m, p1) => p1, msg: "'more' + qiyoslash darajasidagi so'z birga ishlatilmaydi (ikkalasi ham qiyoslashni bildiradi)." },
+    { re: /\bmost\s+(best|worst|easiest|hardest|biggest|smallest)\b/gi, fix: (m, p1) => p1, msg: "'most' + ustunlik darajasidagi so'z birga ishlatilmaydi." },
+
+    // much + countable plural noun
+    { re: /\bmuch\s+(people|problems|things|friends|books|ideas|reasons|opportunities|options|students|countries|jobs)\b/gi, fix: (m, p1) => `many ${p1}`, msg: "Sanaladigan ko'plik otlar bilan 'much' emas, 'many' ishlatiladi." },
+    // many + uncountable noun
+    { re: /\bmany\s+(information|advice|money|time|traffic|homework|furniture|luggage|equipment)\b/gi, fix: (m, p1) => `a lot of ${p1}`, msg: "Sanalmaydigan otlar bilan 'many' emas, 'much' yoki 'a lot of' ishlatiladi." },
+
+    // since + duration (should be "for")
+    { re: /\bsince\s+(\d+|two|three|four|five|six|seven|eight|nine|ten|a few|many|several)\s+(years?|months?|weeks?|days?|hours?)\b/gi, fix: (m, p1, p2) => `for ${p1} ${p2}`, msg: "Davomiylik (necha vaqt) uchun 'since' emas, 'for' ishlatiladi. 'Since' aniq boshlanish nuqtasi uchun ishlatiladi." },
+
+    // common preposition confusions
+    { re: /\bmarried\s+with\b/gi, fix: () => 'married to', msg: "To'g'ri birikma: 'married to', 'married with' emas." },
+    { re: /\bdepends?\s+of\b/gi, fix: (m) => m.replace(/of/i, 'on'), msg: "To'g'ri birikma: 'depend on', 'depend of' emas." },
+    { re: /\bgood\s+in\s+(\w+ing)\b/gi, fix: (m, p1) => `good at ${p1}`, msg: "To'g'ri birikma: 'good at doing something', 'good in' emas." },
+    { re: /\blisten\s+music\b/gi, fix: () => 'listen to music', msg: "'listen' dan keyin 'to' predlogi kerak: 'listen to music'." },
+    { re: /\bdiscuss\s+about\b/gi, fix: () => 'discuss', msg: "'discuss' o'zidan keyin predlog talab qilmaydi: 'discuss something', 'discuss about' emas." },
+    { re: /\bexplain\s+me\b/gi, fix: () => 'explain to me', msg: "To'g'ri shakl: 'explain to me', 'explain me' emas." },
+    { re: /\bafraid\s+from\b/gi, fix: () => 'afraid of', msg: "To'g'ri birikma: 'afraid of', 'afraid from' emas." },
+    { re: /\binterested\s+for\b/gi, fix: () => 'interested in', msg: "To'g'ri birikma: 'interested in', 'interested for' emas." },
+
+    // double negatives
+    { re: /\b(don't|doesn't|didn't|can't|won't|isn't|aren't)\s+(\w+\s+)?no\s+(\w+)/gi, fix: (m, p1, p2, p3) => `${p1} ${p2 || ''}any ${p3}`, msg: "Ikkita inkor bir gapda ishlatilmaydi: 'no' o'rniga 'any' ishlating." },
+
+    // "a" before a vowel sound (basic heuristic, common exceptions excluded)
+    { re: /\ba\s+(hour|honest|honor|apple|idea|orange|umbrella|important|interesting|international|elephant|animal|answer|actor|award)\b/gi, fix: (m, p1) => `an ${p1}`, msg: "Unli tovush bilan boshlanadigan so'zdan oldin 'a' emas, 'an' ishlatiladi." },
+  ];
+  function runLocalGrammarCheck(text) {
+    const found = [];
+    const seenSpans = new Set();
+    LOCAL_GRAMMAR_RULES.forEach(rule => {
+      rule.re.lastIndex = 0;
+      let m;
+      while ((m = rule.re.exec(text)) !== null) {
+        const key = `${m.index}-${m[0].length}`;
+        if (seenSpans.has(key)) continue;
+        seenSpans.add(key);
+        let suggestion;
+        try { suggestion = rule.fix(m[0], m[1], m[2], m[3]); } catch (e) { suggestion = null; }
+        found.push({ offset: m.index, length: m[0].length, bad: m[0], suggestion, message: rule.msg });
+        if (found.length > 40) break; // safety cap
+      }
+    });
+    return found.sort((a, b) => a.offset - b.offset);
+  }
+
+  async function checkGrammarAndScore(qKey, text, wordCount, wpm, fillerCount) {
+    // 1) Local rule-based check — always runs, no network needed, guaranteed to work
+    const localIssues = runLocalGrammarCheck(text);
+
+    // 2) Online check (LanguageTool) — best-effort bonus layer, may fail silently (CORS/offline)
+    let apiIssues = [];
+    let apiAvailable = true;
+    try {
+      const res = await fetch('https://api.languagetool.org/v2/check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `text=${encodeURIComponent(text)}&language=en-US`
+      });
+      if (!res.ok) throw new Error('bad response');
+      const data = await res.json();
+      apiIssues = (data.matches || [])
+        .filter(m => m.rule && m.rule.category && m.rule.category.id !== 'TYPOS')
+        .map(m => ({
+          offset: m.offset, length: m.length,
+          bad: text.substring(m.offset, m.offset + m.length),
+          suggestion: (m.replacements && m.replacements[0] && m.replacements[0].value) || null,
+          message: m.shortMessage || m.message
+        }));
+    } catch (err) {
+      apiAvailable = false;
+    }
+
+    // merge, de-duplicating overlapping spans (prefer the local rule's clearer Uzbek explanation)
+    const merged = [...localIssues];
+    apiIssues.forEach(a => {
+      const overlaps = localIssues.some(l => a.offset < l.offset + l.length && l.offset < a.offset + a.length);
+      if (!overlaps) merged.push(a);
+    });
+    merged.sort((a, b) => a.offset - b.offset);
+
+    let grammarHtml = '';
+    if (merged.length === 0) {
+      grammarHtml = `<div class="grammar-check-status good">✓ Grammatik xato aniqlanmadi — ajoyib!</div>`;
+    } else {
+      const shown = merged.slice(0, 12);
+      grammarHtml = `<div class="power-title" style="margin-top:14px;">Grammatik xatolar va tuzatilgan versiyasi (${merged.length} ta topildi)</div>` +
+        shown.map(m => `
+          <div class="grammar-item">
+            <span class="grammar-bad">${m.bad}</span>${m.suggestion ? ` → <span class="grammar-fix">${m.suggestion}</span>` : ''}
+            <div class="grammar-msg">${m.message}</div>
+          </div>
+        `).join('') +
+        (merged.length > 12 ? `<div class="speech-warn">...va yana ${merged.length - 12} ta kichikroq taklif.</div>` : '');
+    }
+    if (!apiAvailable) {
+      grammarHtml += `<div class="grammar-check-status" style="margin-top:8px;">ℹ️ Onlayn qo'shimcha tekshiruv ishlamadi (internet/CORS), lekin asosiy grammatika tekshiruvi baribir ishladi.</div>`;
+    }
+
+    const grammarErrorCount = merged.length;
+    const band = computeEstimatedBand(wordCount, wpm, fillerCount, grammarErrorCount);
+
+    const scoreHtml = `
+      <div class="estimate-box">
+        <div class="estimate-label">TAXMINIY SPEAKING BAND</div>
+        <div class="estimate-value">${band.toFixed(1)}</div>
+        <div class="estimate-note">Tezlik, keraksiz so'zlar va grammatika xatolari asosida hisoblangan. Bu rasmiy IELTS bahosi emas — faqat mashq uchun mo'ljallangan yo'naltiruvchi ko'rsatkich.</div>
+      </div>
+    `;
+
+    const statusHost = document.getElementById(`grammarStatus-${qKey}`);
+    if (statusHost) statusHost.outerHTML = grammarHtml + scoreHtml;
+
+    if (wordCount > 3) {
+      logProgress({ label: 'Nutq tahlili', badge: `Band ${band.toFixed(1)} · ${wpm} so'z/daq` });
+    }
+  }
+
+  // ---------- 6. IELTS rubric self-assessment ----------
+  function updateRubric(qKey) {
+    const criteria = ['fluency','lexical','grammar','pronunciation'];
+    let total = 0;
+    criteria.forEach(c => {
+      const input = document.getElementById(`rubric-${c}-${qKey}`);
+      const val = parseInt(input.value, 10);
+      document.getElementById(`rubric-${c}-${qKey}-val`).textContent = val;
+      total += val;
+    });
+    document.getElementById(`rubric-avg-${qKey}`).textContent = (total / criteria.length).toFixed(1);
+  }
+  function saveRubric(qKey) {
+    const avg = document.getElementById(`rubric-avg-${qKey}`).textContent;
+    logProgress({ label: "O'z-o'zini baholash saqlandi", badge: `Band ${avg}` });
+    showToast(`✓ Baho saqlandi: Band ${avg}`);
+  }
+
+  // ---------- 7. Listen playback speed control ----------
+  let globalSpeechRate = 1;
+  function toggleSpeedMenu(qKey) {
+    const menu = document.getElementById(`speedMenu-${qKey}`);
+    const btn = document.getElementById(`speedMainBtn-${qKey}`);
+    const opening = !menu.classList.contains('open');
+    menu.classList.toggle('open', opening);
+    btn.classList.toggle('open', opening);
+  }
+  function setSpeechRate(rate, qKey) {
+    globalSpeechRate = rate;
+    // keep every question's speed control in sync, since Listen speed is one shared setting
+    document.querySelectorAll('[id^="speedMenu-"]').forEach(menu => {
+      menu.querySelectorAll('.speed-btn').forEach(b => {
+        const isMatch = b.textContent.trim().startsWith(String(rate));
+        b.classList.toggle('active', isMatch);
+      });
+    });
+    document.querySelectorAll('[id^="speedLabel-"]').forEach(label => { label.textContent = rate + 'x'; });
+    // close the menu that was just used
+    const menu = document.getElementById(`speedMenu-${qKey}`);
+    const btn = document.getElementById(`speedMainBtn-${qKey}`);
+    if (menu) menu.classList.remove('open');
+    if (btn) btn.classList.remove('open');
+
+    // if audio is currently playing or paused, seamlessly pick up from the exact
+    // same word at the new speed instead of forcing the person to wait for the
+    // current playback to finish
+    if (currentSpeakSession && activeSpeakState !== 'idle') {
+      const wasPaused = activeSpeakState === 'paused';
+      applyLiveRateChange();
+      if (wasPaused) { speechSynthesis.pause(); activeSpeakState = 'paused'; }
+      showToast(`🔊 Tezlik ${rate}x ga o'zgardi — davom etmoqda`);
+    } else {
+      showToast(`🔊 Listen tezligi: ${rate}x`);
+    }
+  }
+
+  // ---------- consolidated drawer: one toggle per question, tabbed content inside ----------
+  function togglePtDrawer(qKey) {
+    const toggle = document.getElementById(`ptToggle-${qKey}`);
+    const drawer = document.getElementById(`ptDrawer-${qKey}`);
+    const opening = !drawer.classList.contains('open');
+    drawer.classList.toggle('open', opening);
+    toggle.classList.toggle('open', opening);
+    if (opening && !drawer.dataset.built) {
+      buildDiff(qKey);
+      drawer.dataset.built = '1';
+    }
+  }
+  function switchPtTab(qKey, tab) {
+    const drawer = document.getElementById(`ptDrawer-${qKey}`);
+    drawer.querySelectorAll('.pt-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    drawer.querySelectorAll('.pt-tabpanel').forEach(p => p.classList.toggle('active', p.dataset.tab === tab));
+  }
+
+  function injectPowerFeatures() {
+    const questionKeys = ['part2', ...TOPIC_DATA.part3Questions.map(q => q.id)];
+    questionKeys.forEach(qKey => {
+      const practice = document.getElementById(`practice-${qKey}`);
+      if (!practice || !BAND_DATA[qKey]) return;
+      const isPart2 = qKey === 'part2';
+      const firstTab = isPart2 ? 'exam' : 'diff';
+
+      const wrap = document.createElement('div');
+      wrap.innerHTML = `
+        <button type="button" class="focus-exit" onclick="exitFocusMode()">✕ Diqqatni jamlash rejimidan chiqish</button>
+
+        <button type="button" class="pt-toggle" id="ptToggle-${qKey}" onclick="togglePtDrawer('${qKey}')">
+          🚀 Speaking Power Tools <span class="car">▾</span>
+        </button>
+
+        <div class="pt-drawer" id="ptDrawer-${qKey}">
+          <div class="pt-tabs">
+            ${isPart2 ? `<button type="button" class="pt-tab" data-tab="exam" onclick="switchPtTab('${qKey}','exam')">🎬 Imtihon</button>` : ``}
+            <button type="button" class="pt-tab" data-tab="diff" onclick="switchPtTab('${qKey}','diff')">🔍 Band 6 vs 9</button>
+            <button type="button" class="pt-tab" data-tab="speech" onclick="switchPtTab('${qKey}','speech')">📊 Nutq tahlili</button>
+            <button type="button" class="pt-tab" data-tab="rubric" onclick="switchPtTab('${qKey}','rubric')">📝 O'z-baho</button>
+          </div>
+
+          ${isPart2 ? `
+          <div class="pt-tabpanel" data-tab="exam">
+            <div class="power-title">Haqiqiy imtihon simulyatsiyasi</div>
+            <div class="exam-intro">1 daqiqa tayyorgarlik + 2 daqiqa majburiy gapirish — xuddi haqiqiy IELTS imtihonidagi kabi. Boshlanganda sahifa diqqatni jamlash rejimiga o'tadi.</div>
+            <button type="button" class="pt-action-btn" id="examBtn-${qKey}" onclick="startExamSim('${qKey}')">🎬 Simulyatsiyani boshlash</button>
+            <div class="exam-wrap" id="examWrap-${qKey}">
+              <div class="exam-label" id="examLabel-${qKey}">Tayyorgarlik ko'rilmoqda...</div>
+              <div class="exam-display" id="examDisplay-${qKey}">01:00</div>
+            </div>
+          </div>` : ``}
+
+          <div class="pt-tabpanel" data-tab="diff">
+            <div class="power-title">Band 6 → Band 9: nima o'zgardi?</div>
+            <div class="diff-grid">
+              <div class="diff-col"><h6>Band 6</h6><p id="diffB6-${qKey}"></p></div>
+              <div class="diff-col"><h6>Band 9</h6><p id="diffB9-${qKey}"></p></div>
+            </div>
+            <div class="diff-legend"><span>yashil</span> — Band 9'da paydo bo'lgan yangi so'z/ibora</div>
+          </div>
+
+          <div class="pt-tabpanel" data-tab="speech">
+            <div class="power-title">Nutqingizni tahlil qiling</div>
+            <button type="button" class="pt-action-btn" id="speechBtn-${qKey}" onclick="toggleSpeechCoach('${qKey}')">📊 Nutqimni tahlil qil</button>
+            <div class="speech-result" id="speechResult-${qKey}"></div>
+          </div>
+
+          <div class="pt-tabpanel" data-tab="rubric">
+            <div class="power-title">IELTS mezonlari bo'yicha o'z bahoyingiz</div>
+            <div class="rubric-row">
+              <div class="rubric-label"><span>Fluency &amp; Coherence</span><b id="rubric-fluency-${qKey}-val">7</b></div>
+              <input type="range" min="1" max="9" value="7" id="rubric-fluency-${qKey}" oninput="updateRubric('${qKey}')">
+            </div>
+            <div class="rubric-row">
+              <div class="rubric-label"><span>Lexical Resource</span><b id="rubric-lexical-${qKey}-val">7</b></div>
+              <input type="range" min="1" max="9" value="7" id="rubric-lexical-${qKey}" oninput="updateRubric('${qKey}')">
+            </div>
+            <div class="rubric-row">
+              <div class="rubric-label"><span>Grammatical Range &amp; Accuracy</span><b id="rubric-grammar-${qKey}-val">7</b></div>
+              <input type="range" min="1" max="9" value="7" id="rubric-grammar-${qKey}" oninput="updateRubric('${qKey}')">
+            </div>
+            <div class="rubric-row">
+              <div class="rubric-label"><span>Pronunciation</span><b id="rubric-pronunciation-${qKey}-val">7</b></div>
+              <input type="range" min="1" max="9" value="7" id="rubric-pronunciation-${qKey}" oninput="updateRubric('${qKey}')">
+            </div>
+            <div class="rubric-avg-box"><span>TAXMINIY O'RTACHA BAND</span><b id="rubric-avg-${qKey}">7.0</b></div>
+            <button type="button" class="pt-action-btn" style="margin-top:12px;width:100%;" onclick="saveRubric('${qKey}')">💾 Bahoni saqlash</button>
+          </div>
+        </div>
+      `;
+      practice.appendChild(wrap);
+      switchPtTab(qKey, firstTab);
+
+      // Speed control: sits directly below the audio player, collapsed by default
+      const playback = document.getElementById(`playback-${qKey}`);
+      if (playback && !document.getElementById(`speedWrap-${qKey}`)) {
+        playback.insertAdjacentHTML('afterend', `
+          <div class="speed-control-wrap" id="speedWrap-${qKey}">
+            <button type="button" class="speed-main-btn" id="speedMainBtn-${qKey}" onclick="toggleSpeedMenu('${qKey}')">
+              ⚡ O'qish tezligi: <span id="speedLabel-${qKey}">1x</span> <span class="car">▾</span>
+            </button>
+            <div class="speed-menu" id="speedMenu-${qKey}">
+              <button type="button" class="speed-btn" onclick="setSpeechRate(0.75,'${qKey}')">0.75x — sekin</button>
+              <button type="button" class="speed-btn active" onclick="setSpeechRate(1,'${qKey}')">1x — odatiy</button>
+              <button type="button" class="speed-btn" onclick="setSpeechRate(1.25,'${qKey}')">1.25x — tez</button>
+            </div>
+          </div>
+        `);
+      }
+    });
+  }
+  injectPowerFeatures();
+
+  // ---------- floating dashboard button + modal (once per page) ----------
+  (function initDashboardUI() {
+    const fab = document.createElement('button');
+    fab.type = 'button';
+    fab.className = 'vocab-fab';
+    fab.onclick = toggleVocabModal;
+    fab.innerHTML = `📖 Mening natijalarim <span class="vocab-fab-count" id="vocabFabCount">0</span>`;
+    document.body.appendChild(fab);
+
+    const modal = document.createElement('div');
+    modal.className = 'vocab-modal';
+    modal.id = 'vocabModal';
+    modal.innerHTML = `
+      <div class="vocab-sheet">
+        <div class="vocab-sheet-head">
+          <h4>🎯 Mening natijalarim</h4>
+          <button type="button" class="vocab-close" onclick="toggleVocabModal()">✕</button>
+        </div>
+        <div class="vocab-sheet-tabs">
+          <button type="button" class="vocab-sheet-tab active" data-tab="vocab" onclick="switchDashboardTab('vocab')">📖 Lug'atim</button>
+          <button type="button" class="vocab-sheet-tab" data-tab="progress" onclick="switchDashboardTab('progress')">📈 Progress</button>
+        </div>
+        <div class="vocab-sheet-body">
+          <div id="vocabTabBody"></div>
+          <div id="progressTabBody" style="display:none;"></div>
+        </div>
+        <div class="vocab-hint">Lug'at: rangli so'zga bosing → avtomatik qo'shiladi · kartochkaga bosib tarjima ko'rsating</div>
+      </div>
+    `;
+    modal.addEventListener('click', (e) => { if (e.target === modal) toggleVocabModal(); });
+    document.body.appendChild(modal);
+
+    renderVocabBank();
+    renderProgress();
+    updateVocabFabCount();
+  })();
+
+
+
+  /* ---------------- PRACTICE TIMER (per question) ---------------- */
+  const timers = {}; // panelId -> { seconds, interval, running }
+
+  function formatTime(totalSeconds) {
+    const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const s = Math.floor(totalSeconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function toggleTimer(panelId, targetSec) {
+    if (!timers[panelId]) timers[panelId] = { seconds: 0, interval: null, running: false };
+    const t = timers[panelId];
+    const btn = document.getElementById(`timerBtn-${panelId}`);
+    const display = document.getElementById(`timerDisplay-${panelId}`);
+
+    if (t.running) {
+      clearInterval(t.interval);
+      t.running = false;
+      btn.textContent = '▶ Resume timer';
+      return;
+    }
+
+    t.running = true;
+    btn.textContent = '⏸ Pause timer';
+    t.interval = setInterval(() => {
+      t.seconds += 1;
+      display.textContent = formatTime(t.seconds);
+      display.classList.remove('warn', 'good');
+      if (targetSec) {
+        const diff = t.seconds - targetSec;
+        if (Math.abs(diff) <= 5) display.classList.add('good');
+        else if (t.seconds > targetSec) display.classList.add('warn');
+      }
+    }, 1000);
+  }
+
+  function resetTimer(panelId) {
+    if (!timers[panelId]) return;
+    clearInterval(timers[panelId].interval);
+    timers[panelId] = { seconds: 0, interval: null, running: false };
+    document.getElementById(`timerDisplay-${panelId}`).textContent = '00:00';
+    document.getElementById(`timerDisplay-${panelId}`).classList.remove('warn', 'good');
+    document.getElementById(`timerBtn-${panelId}`).textContent = '▶ Start timer';
+  }
+
+  /* ---------------- PRACTICE RECORDER (per question) ---------------- */
+  const recorders = {}; // panelId -> { mediaRecorder, chunks, stream, blobUrl }
+
+  async function toggleRecording(panelId) {
+    const btn = document.getElementById(`recBtn-${panelId}`);
+    if (!recorders[panelId]) recorders[panelId] = { mediaRecorder: null, chunks: [], stream: null, blobUrl: null };
+    const rec = recorders[panelId];
+
+    if (rec.mediaRecorder && rec.mediaRecorder.state === 'recording') {
+      rec.mediaRecorder.stop();
+      return;
+    }
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert("Bu brauzer mikrofon yozishni qo'llab-quvvatlamaydi. Iltimos, Chrome yoki Safari'da oching.");
+      return;
+    }
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      rec.stream = stream;
+      rec.chunks = [];
+      const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
+      rec.mediaRecorder = new MediaRecorder(stream, { mimeType });
+
+      rec.mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) rec.chunks.push(e.data); };
+      rec.mediaRecorder.onstart = () => {
+        btn.textContent = '⏹ Stop recording';
+        btn.classList.add('recording');
+      };
+      rec.mediaRecorder.onstop = () => {
+        btn.textContent = '🎙️ Record my answer';
+        btn.classList.remove('recording');
+        stream.getTracks().forEach(tr => tr.stop());
+
+        const blob = new Blob(rec.chunks, { type: mimeType });
+        if (rec.blobUrl) URL.revokeObjectURL(rec.blobUrl);
+        rec.blobUrl = URL.createObjectURL(blob);
+        rec.mimeType = mimeType;
+
+        const player = document.getElementById(`audioPlayer-${panelId}`);
+        player.src = rec.blobUrl;
+        document.getElementById(`playback-${panelId}`).classList.add('show');
+      };
+
+      rec.mediaRecorder.start();
+    } catch (err) {
+      alert("Mikrofonga kirish rad etildi. Iltimos, brauzer sozlamalarida mikrofonga ruxsat bering.");
+    }
+  }
+
+  function downloadRecording(panelId) {
+    const rec = recorders[panelId];
+    if (!rec || !rec.blobUrl) return;
+    const ext = rec.mimeType && rec.mimeType.includes('mp4') ? 'm4a' : 'webm';
+    const a = document.createElement('a');
+    a.href = rec.blobUrl;
+    a.download = `ieltsshokh-${panelId}-practice.${ext}`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function updateLadderUI(section, activeBand) {
+    const bands = [6, 7, 8, 9];
+    const activeIndex = bands.indexOf(activeBand);
+    section.querySelectorAll('.lstep').forEach((step, i) => {
+      const isActive = bands[i] === activeBand;
+      step.querySelector('.lcircle').classList.toggle('active', isActive);
+      step.querySelector('.llabel').classList.toggle('active', isActive);
+    });
+    section.querySelectorAll('.lline').forEach((line, i) => {
+      line.classList.toggle('filled', i < activeIndex);
+    });
+  }
+
+  function selectBand(qKey, band) {
+    const bandGroup = BAND_DATA[qKey];
+    if (!bandGroup) return;
+    const data = bandGroup[band];
+    const section = document.getElementById(qKey);
+    if (!data || !section) return;
+
+    stopAllSpeech();
+    section.dataset.currentBand = band;
+    updateLadderUI(section, band);
+    section.querySelector('.band-pill').textContent = data.pill;
+
+    const answerEl = document.getElementById(answerIdFor(qKey));
+    if (answerEl) {
+      answerEl.innerHTML = data.text;
+      delete answerEl.dataset.karaokeReady;
+    }
+
+    // if the full translation panel is currently open, refresh it to match the new band
+    const transEl = section.querySelector('.answer-translation');
+    if (transEl && transEl.classList.contains('show')) {
+      transEl.textContent = data.textUz || "Bu namuna uchun tarjima hali qo'shilmagan.";
+    }
+
+    section.querySelector('.impact p').innerHTML = data.impact;
+    const impactB = section.querySelector('.impact-tag b');
+    impactB.textContent = data.impactValue;
+    impactB.classList.toggle('is-base', data.impactValue === 'BASE');
+    section.querySelector('.impact-ic').textContent = data.icon;
+  }
+
+  // expandable feature panels (each card toggles independently)
+  function togglePanel(btn) {
+    if (!btn.dataset.label) btn.dataset.label = btn.textContent.trim();
+    const panel = btn.nextElementSibling;
+    const opening = !panel.classList.contains('open');
+    panel.classList.toggle('open');
+    btn.textContent = opening ? 'Hide ↑' : btn.dataset.label;
+  }
+
+  // initialize every question to a consistent starting band
+  selectBand('part2', 7);
+  TOPIC_DATA.part3Questions.forEach(q => selectBand(q.id, 7));
+
+  // top-level Part 2 / Part 3 tab switching
+  document.querySelectorAll('.partchip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.partchip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      document.querySelectorAll('.part-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(chip.dataset.part).classList.add('active');
+      window.scrollTo({top: 0, behavior:'smooth'});
+    });
+  });
+
+  // gate: reveal the rest of the dossier only after the CTA is tapped
+  function startExperience() {
+    const main = document.getElementById('mainContent');
+    const startBtn = document.getElementById('startBtn');
+    const hint = document.getElementById('gateHint');
+    if (main.classList.contains('revealed')) return;
+    main.classList.add('revealed');
+    startBtn.querySelector('h4').textContent = "Let's go! 🎉";
+    if (hint) hint.style.display = 'none';
+    setTimeout(() => {
+      main.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 200);
+  }
+</script>
+
+</body>
+</html>
