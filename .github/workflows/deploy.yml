@@ -14,4 +14,12 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: bash /var/www/ielts-app/deploy/deploy.sh
+          script: |
+            set -e
+            cd /var/www/ielts-app
+            git fetch origin
+            git reset --hard origin/main
+            systemctl restart ielts-app
+            systemctl restart nginx || true
+            systemctl is-active ielts-app && echo "backend: OK" || echo "backend: FAILED"
+            systemctl is-active nginx && echo "nginx: OK" || echo "nginx: FAILED"
