@@ -76,23 +76,6 @@ export default function App() {
     }
   }, [isProtectedRoute])
 
-  // SVG watermark — screenshot'da aniq ko'rinadigan (kuchli opacity)
-  const wmText = user?.username ? `IELTSSHOKH · ${user.username}` : null
-  const watermarkBg = wmText
-    ? `url("data:image/svg+xml,${encodeURIComponent(
-        `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160">` +
-        `<text x="50%" y="42%" text-anchor="middle" transform="rotate(-25,160,80)" ` +
-        `font-family="Arial Black,Arial,sans-serif" font-size="22" fill="rgba(120,0,0,0.55)" font-weight="900" letter-spacing="1">` +
-        `${user.username}` +
-        `</text>` +
-        `<text x="50%" y="62%" text-anchor="middle" transform="rotate(-25,160,80)" ` +
-        `font-family="Arial,sans-serif" font-size="13" fill="rgba(120,0,0,0.40)" font-weight="700" letter-spacing="1.2">` +
-        `IELTSSHOKH · ieltsshokhspeaking.uz` +
-        `</text>` +
-        `</svg>`
-      )}")`
-    : 'none'
-
   return (
     <div className="min-h-screen">
       <Routes>
@@ -171,33 +154,6 @@ export default function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-
-      {/* Watermark — barcha himoyalangan sahifalarda */}
-      {!isPublicRoute && wmText && (
-        <div
-          className="watermark"
-          aria-hidden="true"
-          style={{ backgroundImage: watermarkBg, backgroundRepeat: 'repeat', backgroundSize: '320px 160px' }}
-        />
-      )}
-
-      {/* Fixed corner badge — mobilda ham screenshot da ko'rinadi */}
-      {!isPublicRoute && wmText && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'fixed', bottom: 10, right: 10, zIndex: 9999,
-            padding: '4px 10px', borderRadius: 8,
-            background: 'rgba(120,0,0,0.55)',
-            color: 'rgba(255,255,255,0.75)',
-            fontSize: 10, fontWeight: 700, letterSpacing: '0.8px',
-            fontFamily: 'Arial,sans-serif',
-            pointerEvents: 'none', userSelect: 'none',
-          }}
-        >
-          {user.username} · IELTSSHOKH
-        </div>
-      )}
 
       {/* Blur overlay — desktop blur + mobile visibilitychange */}
       {windowBlurred && isProtectedRoute && (
