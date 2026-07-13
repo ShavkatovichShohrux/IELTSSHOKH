@@ -15,11 +15,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "=== SSL cert check ==="
-            ls /etc/letsencrypt/live/ 2>/dev/null || echo "no letsencrypt dir"
-            ls /etc/nginx/sites-available/ 2>/dev/null
-            echo "=== curl localhost test ==="
-            curl -s -o /dev/null -w "%{http_code}" http://localhost/ || echo "curl failed"
-            echo ""
-            echo "=== ufw status ==="
-            ufw status 2>/dev/null || echo "ufw not available"
+            set -e
+            cd /var/www/ielts-app
+            git fetch origin
+            git reset --hard origin/main
+            bash /var/www/ielts-app/deploy/setup-nginx.sh
+            systemctl restart ielts-app
+            systemctl is-active ielts-app && echo "backend: OK" || echo "backend: FAILED"
