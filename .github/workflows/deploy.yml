@@ -19,7 +19,10 @@ jobs:
             cd /var/www/ielts-app
             git fetch origin
             git reset --hard origin/main
+            cp /var/www/ielts-app/deploy/nginx.conf /etc/nginx/sites-available/ielts-app
+            ln -sf /etc/nginx/sites-available/ielts-app /etc/nginx/sites-enabled/ielts-app
+            nginx -t
             systemctl restart ielts-app
-            systemctl restart nginx || true
+            systemctl restart nginx
             systemctl is-active ielts-app && echo "backend: OK" || echo "backend: FAILED"
             systemctl is-active nginx && echo "nginx: OK" || echo "nginx: FAILED"
