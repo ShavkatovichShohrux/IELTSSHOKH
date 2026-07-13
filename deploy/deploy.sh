@@ -6,7 +6,8 @@ APP_DIR="/var/www/ielts-app"
 
 echo "--- git pull ---"
 cd "$APP_DIR"
-git pull origin main
+git fetch origin
+git reset --hard origin/main
 
 echo "--- frontend build ---"
 cd "$APP_DIR/frontend"
