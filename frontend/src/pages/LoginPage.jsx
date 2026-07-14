@@ -45,14 +45,10 @@ export default function LoginPage() {
           <span style={{ background: '#dc2626', color: '#fff', padding: '4px 12px', borderRadius: 7, fontSize: 14, fontWeight: 900, letterSpacing: 1.5 }}>IELTS</span>
           <span style={{ color: '#f1f2f8', fontWeight: 700, fontSize: 16 }}>SHOKH</span>
         </div>
-        <a href="https://t.me/ieltsshokh"
-          onClick={e => {
-            e.preventDefault()
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-            const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
-            if (isMobile || isPWA) { window.location.href = 'tg://resolve?domain=ieltsshokh' }
-            else { window.open('https://t.me/ieltsshokh', '_blank', 'noopener,noreferrer') }
-          }}
+        <a
+          href={/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? 'tg://resolve?domain=ieltsshokh' : 'https://t.me/ieltsshokh'}
+          target={/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? undefined : '_blank'}
+          rel="noopener noreferrer"
           style={{ fontSize: 12, color: '#9aa0b4', textDecoration: 'none', fontWeight: 600 }}>
           @ieltsshokh ↗
         </a>

@@ -73,20 +73,22 @@ const MODULES = [
   },
 ]
 
-// Open Telegram links: use tg:// scheme on mobile to open app directly
-function openExternal(url) {
-  const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-  if (isMobile || isPWA) {
-    const tgMatch = url.match(/https?:\/\/t\.me\/([^?&#]+)/)
-    if (tgMatch) {
-      window.location.href = `tg://resolve?domain=${tgMatch[1]}`
-      return
-    }
-    window.location.href = url
-  } else {
-    window.open(url, '_blank', 'noopener,noreferrer')
+const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+// TgLink: mobile => tg:// (opens app directly), desktop => https://t.me in new tab
+function TgLink({ username, style, children }) {
+  if (IS_MOBILE) {
+    return (
+      <a href={`tg://resolve?domain=${username}`} style={style}>
+        {children}
+      </a>
+    )
   }
+  return (
+    <a href={`https://t.me/${username}`} target="_blank" rel="noopener noreferrer" style={style}>
+      {children}
+    </a>
+  )
 }
 
 const PLAN_RANK = { none: 0, basic: 1, elite: 2 }
@@ -228,10 +230,10 @@ export default function StudentHub() {
                 <Gem size={20} color={c.navClr} />
                 <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Natijalar</span>
               </Link>
-              <button onClick={() => openExternal('https://t.me/ieltsshokh')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+              <TgLink username="ieltsshokh" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
                 <ExternalLink size={20} color={c.navClr} />
                 <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Telegram</span>
-              </button>
+              </TgLink>
             </div>
           )}
         </div>
@@ -291,8 +293,7 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           )
         })}
 
-        <button onClick={() => openExternal('https://t.me/ieltsshokh')}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, width: '100%', display: 'block' }}>
+        <TgLink username="ieltsshokh" style={{ textDecoration: 'none', display: 'block' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '9px 12px', borderRadius: 9, marginBottom: 1,
@@ -300,10 +301,9 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           }}>
             <ExternalLink size={15} /> IELTS Insights
           </div>
-        </button>
+        </TgLink>
 
-        <button onClick={() => openExternal('https://t.me/shokh_shavkatovich')}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, width: '100%', display: 'block' }}>
+        <TgLink username="shokh_shavkatovich" style={{ textDecoration: 'none', display: 'block' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '9px 12px', borderRadius: 9, marginBottom: 1,
@@ -311,7 +311,7 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           }}>
             <ExternalLink size={15} /> Contact me
           </div>
-        </button>
+        </TgLink>
       </nav>
 
       {/* Upgrade card */}
@@ -894,7 +894,10 @@ function UpgradeModal({ isDark, onClose }) {
 
   const goTelegram = () => {
     const msg = `Salom! Men @${user?.username || ''} — ${selectedName} tarifiga to'lov qildim. Iltimos, tarifimni faollashtirib bering.`
-    openExternal(`https://t.me/${tg}?text=${encodeURIComponent(msg)}`)
+    const url = IS_MOBILE
+      ? `tg://resolve?domain=${tg}&text=${encodeURIComponent(msg)}`
+      : `https://t.me/${tg}?text=${encodeURIComponent(msg)}`
+    window.location.href = url
   }
 
   return createPortal(
