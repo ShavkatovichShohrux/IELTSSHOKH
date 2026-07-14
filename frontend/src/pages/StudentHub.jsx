@@ -73,6 +73,17 @@ const MODULES = [
   },
 ]
 
+// On iOS PWA standalone mode, target="_blank" is blocked — use location.href instead
+function openExternal(url) {
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  if (isPWA || isMobile) {
+    window.location.href = url
+  } else {
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+}
+
 const PLAN_RANK = { none: 0, basic: 1, elite: 2 }
 function hasAccess(userPlan, requiredPlan, userRole) {
   if (userRole === 'admin') return true
@@ -212,10 +223,10 @@ export default function StudentHub() {
                 <Gem size={20} color={c.navClr} />
                 <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Natijalar</span>
               </Link>
-              <a href="https://t.me/ieltsshokh" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+              <button onClick={() => openExternal('https://t.me/ieltsshokh')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
                 <ExternalLink size={20} color={c.navClr} />
                 <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Telegram</span>
-              </a>
+              </button>
             </div>
           )}
         </div>
@@ -275,8 +286,8 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           )
         })}
 
-        <a href="https://t.me/ieltsshokh" target="_blank" rel="noopener noreferrer"
-          style={{ textDecoration: 'none', display: 'block' }}>
+        <button onClick={() => openExternal('https://t.me/ieltsshokh')}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, width: '100%', display: 'block' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '9px 12px', borderRadius: 9, marginBottom: 1,
@@ -284,10 +295,10 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           }}>
             <ExternalLink size={15} /> IELTS Insights
           </div>
-        </a>
+        </button>
 
-        <a href="https://t.me/shokh_shavkatovich" target="_blank" rel="noopener noreferrer"
-          style={{ textDecoration: 'none', display: 'block' }}>
+        <button onClick={() => openExternal('https://t.me/shokh_shavkatovich')}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, width: '100%', display: 'block' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '9px 12px', borderRadius: 9, marginBottom: 1,
@@ -295,7 +306,7 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           }}>
             <ExternalLink size={15} /> Contact me
           </div>
-        </a>
+        </button>
       </nav>
 
       {/* Upgrade card */}
@@ -878,7 +889,7 @@ function UpgradeModal({ isDark, onClose }) {
 
   const goTelegram = () => {
     const msg = `Salom! Men @${user?.username || ''} — ${selectedName} tarifiga to'lov qildim. Iltimos, tarifimni faollashtirib bering.`
-    window.open(`https://t.me/${tg}?text=${encodeURIComponent(msg)}`, '_blank')
+    openExternal(`https://t.me/${tg}?text=${encodeURIComponent(msg)}`)
   }
 
   return createPortal(
