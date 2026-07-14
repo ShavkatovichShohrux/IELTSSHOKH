@@ -21,6 +21,7 @@ export default function PdfReader({
   const [current, setCurrent] = useState(1)
   const [loading, setLoading] = useState(true)
   const [loadingPage, setLoadingPage] = useState(0)
+  const [downloadPct, setDownloadPct] = useState(0)
   const [error, setError] = useState(null)
   const pageRefs = useRef([])
   const pdfRef = useRef(null)
@@ -62,11 +63,18 @@ export default function PdfReader({
     setPages([])
     setTotal(0)
     setCurrent(1)
+    setDownloadPct(0)
     pdfRef.current = null
 
     const load = async () => {
       try {
-        const res = await client.get(`/${apiPath}/${id}/${pathSuffix}?t=${token}`, { responseType: 'arraybuffer' })
+        const res = await client.get(`/${apiPath}/${id}/${pathSuffix}?t=${token}`, {
+          responseType: 'arraybuffer',
+          timeout: 120000,
+          onDownloadProgress: evt => {
+            if (evt.total) setDownloadPct(Math.round((evt.loaded / evt.total) * 100))
+          },
+        })
         if (cancelled) return
 
         const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(res.data) }).promise
@@ -153,7 +161,10 @@ export default function PdfReader({
         {loading && (
           <div className="flex flex-col items-center justify-center py-40 gap-4">
             <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-            <p className="text-gray-500 text-sm">PDF yuklanmoqda...</p>
+            {downloadPct > 0 && downloadPct < 100
+              ? <p className="text-gray-500 text-sm">Yuklanmoqda... {downloadPct}%</p>
+              : <p className="text-gray-500 text-sm">PDF yuklanmoqda...</p>
+            }
           </div>
         )}
 
