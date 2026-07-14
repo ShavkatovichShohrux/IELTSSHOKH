@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, Flame, CheckCircle2, Play, Pause, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { useAuthStore } from '../store/authStore'
-import { api } from '../api/client'
+import { api, API_ORIGIN } from '../api/client'
 import { useChallenge, buildSchedule } from '../hooks/useChallenge'
 
 const MILESTONES = [
@@ -17,7 +17,7 @@ function CueCard({ topicId, token, topicName, c, isDark }) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['cuecard', topicId],
     queryFn: async () => {
-      const res = await fetch(`/api/topics/${topicId}/content?t=${token}`)
+      const res = await fetch(`${API_ORIGIN}/api/topics/${topicId}/content?t=${token}`)
       if (!res.ok) throw new Error(res.status)
       const html = await res.text()
 

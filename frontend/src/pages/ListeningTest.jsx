@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Flag, CheckSquare, ArrowLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { api } from '../api/client'
+import { api, absUrl } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 import { useCopyProtection } from '../hooks/useCopyProtection'
 import AudioPlayer from '../components/AudioPlayer'
@@ -111,7 +111,7 @@ export default function ListeningTest() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       {/* Audio player */}
-      <AudioPlayer src={test?.audio_url} title={test?.title} />
+      <AudioPlayer src={absUrl(test?.audio_url)} title={test?.title} />
 
       {/* Content — offset for audio player height */}
       <div className="pt-28 pb-32 max-w-3xl mx-auto px-4">

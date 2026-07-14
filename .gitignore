@@ -28,6 +28,16 @@ frontend/node_modules/
 frontend/.env
 frontend/.env.local
 
+# Capacitor mobile app (local packaging only — dist-app is not the web build)
+frontend/dist-app/
+frontend/android/app/build/
+frontend/android/build/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/src/main/assets/public/
+*.keystore
+*.jks
+
 # Env files
 .env
 .env.local
@@ -61,3 +71,6 @@ icon
 .idea/
 *.suo
 *.user
+
+# Serena MCP
+.serena/

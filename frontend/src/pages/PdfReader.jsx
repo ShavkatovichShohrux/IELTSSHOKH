@@ -4,11 +4,18 @@ import * as pdfjsLib from 'pdfjs-dist'
 import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 import { ArrowLeft, BookOpen, ChevronUp, ChevronDown } from 'lucide-react'
 import client from '../api/client'
+import { useAuthStore } from '../store/authStore'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc
 
-export default function PdfReader() {
+export default function PdfReader({
+  apiPath = 'vocab',
+  pathSuffix = 'pdf',
+  backTo = '/vocabulary',
+  backLabel = 'Topic Based Vocabulary',
+}) {
   const { id } = useParams()
+  const { token } = useAuthStore()
   const [pages, setPages] = useState([])
   const [total, setTotal] = useState(0)
   const [current, setCurrent] = useState(1)
@@ -59,7 +66,7 @@ export default function PdfReader() {
 
     const load = async () => {
       try {
-        const res = await client.get(`/vocab/${id}/pdf`, { responseType: 'arraybuffer' })
+        const res = await client.get(`/${apiPath}/${id}/${pathSuffix}?t=${token}`, { responseType: 'arraybuffer' })
         if (cancelled) return
 
         const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(res.data) }).promise
@@ -93,7 +100,7 @@ export default function PdfReader() {
     }
     load()
     return () => { cancelled = true }
-  }, [id])
+  }, [id, apiPath, pathSuffix, token])
 
   const scrollToPage = (n) => {
     const el = pageRefs.current[n - 1]
@@ -109,14 +116,14 @@ export default function PdfReader() {
       {/* Sticky header */}
       <div className="sticky top-0 z-50 bg-gray-950/95 backdrop-blur border-b border-white/5
         flex items-center justify-between px-4 h-12 gap-4">
-        <Link to="/vocabulary"
+        <Link to={backTo}
           className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-white transition-colors flex-shrink-0">
           <ArrowLeft size={16} /> Orqaga
         </Link>
 
         <div className="flex items-center gap-2 text-gray-500 text-xs min-w-0 overflow-hidden">
           <BookOpen size={13} className="text-emerald-500 flex-shrink-0" />
-          <span className="truncate">Topic Based Vocabulary</span>
+          <span className="truncate">{backLabel}</span>
         </div>
 
         {/* Page counter + nav */}
@@ -154,7 +161,7 @@ export default function PdfReader() {
         {error && (
           <div className="flex flex-col items-center justify-center py-40 gap-3">
             <p className="text-red-400 text-sm">{error}</p>
-            <Link to="/vocabulary" className="text-emerald-400 text-sm hover:underline">← Orqaga qaytish</Link>
+            <Link to={backTo} className="text-emerald-400 text-sm hover:underline">← Orqaga qaytish</Link>
           </div>
         )}
 

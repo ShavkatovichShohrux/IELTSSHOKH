@@ -113,7 +113,12 @@ export default function App() {
         } />
         <Route path="/vocabulary/:id" element={
           <ProtectedRoute>
-            <PdfReader />
+            <PdfReader apiPath="vocab" pathSuffix="pdf" backTo="/vocabulary" backLabel="Topic Based Vocabulary" />
+          </ProtectedRoute>
+        } />
+        <Route path="/tests/question-types/:id" element={
+          <ProtectedRoute>
+            <PdfReader apiPath="question-types" pathSuffix="content" backTo="/tests/question-types" backLabel="Speaking Question Types" />
           </ProtectedRoute>
         } />
         <Route path="/listening/:id" element={

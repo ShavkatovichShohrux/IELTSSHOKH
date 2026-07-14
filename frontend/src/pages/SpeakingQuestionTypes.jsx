@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ChevronRight, Lock, ArrowLeft, HelpCircle, Crown, Zap } from 'lucide-react'
-import { api } from '../api/client'
+import { api, API_ORIGIN } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
 function PlanGate() {
@@ -31,6 +31,7 @@ function PlanGate() {
 
 export default function SpeakingQuestionTypes() {
   const { token, user } = useAuthStore()
+  const navigate = useNavigate()
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
 
   const getNum = s => parseInt((s || '').match(/\d+/)?.[0] ?? '9999', 10)
@@ -40,6 +41,10 @@ export default function SpeakingQuestionTypes() {
     queryFn: () => api.getQuestionTypes().then(r => r.data),
   })
   const topics = [...raw].sort((a, b) => getNum(a.name) - getNum(b.name))
+
+  // PDF fayllar saytning ichida (yuklab olib bo'lmaydigan tarzda) ochiladi.
+  // HTML dossierlar esa alohida oynada (o'z watermark/himoyasi bilan, popup-blockersiz) ochiladi.
+  const isPdf = topic => (topic.html_file || '').toLowerCase().endsWith('.pdf')
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -103,20 +108,36 @@ export default function SpeakingQuestionTypes() {
               </>
             )
 
-            return topic.html_file ? (
+            if (!topic.html_file) {
+              return (
+                <div key={topic.id} className="card p-5 opacity-60 cursor-not-allowed group">
+                  {cardContent}
+                </div>
+              )
+            }
+
+            if (isPdf(topic)) {
+              return (
+                <div
+                  key={topic.id}
+                  onClick={() => navigate(`/tests/question-types/${topic.id}`)}
+                  className="card p-5 transition-all group hover:shadow-md hover:border-violet-500/30 cursor-pointer"
+                >
+                  {cardContent}
+                </div>
+              )
+            }
+
+            return (
               <a
                 key={topic.id}
-                href={`/api/question-types/${topic.id}/content?t=${token}`}
+                href={`${API_ORIGIN}/api/question-types/${topic.id}/content?t=${token}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="card p-5 transition-all group hover:shadow-md hover:border-violet-500/30 block"
               >
                 {cardContent}
               </a>
-            ) : (
-              <div key={topic.id} className="card p-5 opacity-60 cursor-not-allowed group">
-                {cardContent}
-              </div>
             )
           })}
         </div>

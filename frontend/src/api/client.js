@@ -2,7 +2,20 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '../store/authStore'
 
-const client = axios.create({ baseURL: '/api', timeout: 30000 })
+// Native app (Capacitor) fayllari o'z lokal originidan yuklanadi, shuning uchun
+// backend so'rovlari mutlaq manzilga yo'naltiriladi. Veb-saytda bo'sh qoladi
+// (nisbiy /api — nginx bir xil origin'dan proxy qiladi).
+export const API_ORIGIN = import.meta.env.VITE_API_ORIGIN || ''
+
+// audio_url, /uploads/..., /api/... kabi nisbiy yo'llarni to'liq manzilga aylantiradi.
+// Manzil allaqachon http(s):// bilan boshlangan bo'lsa o'zgarishsiz qaytadi.
+export const absUrl = (path) => {
+  if (!path) return path
+  if (/^https?:\/\//i.test(path)) return path
+  return `${API_ORIGIN}${path}`
+}
+
+const client = axios.create({ baseURL: `${API_ORIGIN}/api`, timeout: 30000 })
 
 client.interceptors.request.use(cfg => {
   const token = useAuthStore.getState().token

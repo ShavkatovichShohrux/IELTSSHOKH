@@ -138,6 +138,8 @@ app.add_middleware(
         "http://127.0.0.1:5173",
         "https://ieltsshokhspeaking.uz",
         "https://www.ieltsshokhspeaking.uz",
+        "https://localhost",       # Capacitor Android/iOS WebView origin
+        "capacitor://localhost",
     ],
     allow_credentials=True,
     allow_methods=["*"],

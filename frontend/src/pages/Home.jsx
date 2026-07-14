@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { ChevronRight, Mic, Lock, ArrowLeft, Crown, Zap } from 'lucide-react'
-import { api } from '../api/client'
+import { api, API_ORIGIN } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
 function PlanGate({ plan }) {
@@ -45,7 +45,7 @@ export default function Home() {
   })
 
   const openTopic = (id) => {
-    window.open(`/api/topics/${id}/content?t=${token}`, '_blank')
+    window.open(`${API_ORIGIN}/api/topics/${id}/content?t=${token}`, '_blank')
   }
 
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
