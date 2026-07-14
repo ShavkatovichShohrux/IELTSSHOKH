@@ -55,13 +55,21 @@ server {
         proxy_set_header X-Real-IP \$remote_addr;
     }
 
+    # index.html — never cache (always fresh so new JS is loaded)
+    location = /index.html {
+        root $APP_DIR/frontend/dist;
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate";
+    }
+
     location / {
         root $APP_DIR/frontend/dist;
         try_files \$uri \$uri/ /index.html;
-        expires 1h;
-        add_header Cache-Control "public, no-transform";
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate";
     }
 
+    # Hashed assets (JS/CSS/images) — cache 7 days, immutable
     location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         root $APP_DIR/frontend/dist;
         expires 7d;
