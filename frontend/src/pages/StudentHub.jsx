@@ -74,7 +74,8 @@ const MODULES = [
 ]
 
 const PLAN_RANK = { none: 0, basic: 1, elite: 2 }
-function hasAccess(userPlan, requiredPlan) {
+function hasAccess(userPlan, requiredPlan, userRole) {
+  if (userRole === 'admin') return true
   return (PLAN_RANK[userPlan] ?? 0) >= (PLAN_RANK[requiredPlan] ?? 0)
 }
 
@@ -186,7 +187,7 @@ export default function StudentHub() {
             <ChallengeBanner c={c} isDark={isDark} isMobile={isMobile} />
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? 10 : 14 }}>
               {MODULES.map((m, i) => (
-                <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan)} c={c} isDark={isDark} isMobile={isMobile} />
+                <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan, user?.role)} c={c} isDark={isDark} isMobile={isMobile} />
               ))}
             </div>
           </div>

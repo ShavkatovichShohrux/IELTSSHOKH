@@ -41,10 +41,6 @@ export default function SpeakingQuestionTypes() {
   })
   const topics = [...raw].sort((a, b) => getNum(a.name) - getNum(b.name))
 
-  const openTopic = (id) => {
-    window.open(`/api/question-types/${id}/content?t=${token}`, '_blank')
-  }
-
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Header */}
@@ -78,41 +74,51 @@ export default function SpeakingQuestionTypes() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {topics.map(topic => (
-            <div
-              key={topic.id}
-              onClick={() => topic.html_file ? openTopic(topic.id) : null}
-              className={`card p-5 transition-all group ${
-                topic.html_file
-                  ? 'hover:shadow-md hover:border-violet-500/30 cursor-pointer'
-                  : 'opacity-60 cursor-not-allowed'
-              }`}
-            >
-              <div className="flex items-start justify-between mb-3">
-                <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400">
-                  <HelpCircle size={11} /> Question Type
-                </span>
-                {topic.html_file
-                  ? <ChevronRight size={18} className="text-gray-400 group-hover:text-violet-500 group-hover:translate-x-0.5 transition-all" />
-                  : <Lock size={16} className="text-gray-400" />
-                }
+          {topics.map(topic => {
+            const cardContent = (
+              <>
+                <div className="flex items-start justify-between mb-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400">
+                    <HelpCircle size={11} /> Question Type
+                  </span>
+                  {topic.html_file
+                    ? <ChevronRight size={18} className="text-gray-400 group-hover:text-violet-500 group-hover:translate-x-0.5 transition-all" />
+                    : <Lock size={16} className="text-gray-400" />
+                  }
+                </div>
+                <h3 className={`font-bold mb-1 transition-colors ${
+                  topic.html_file
+                    ? 'text-gray-900 dark:text-gray-100 group-hover:text-violet-500'
+                    : 'text-gray-500 dark:text-gray-500'
+                }`}>
+                  {topic.name}
+                  {topic.name_uz && <span className="font-normal text-sm text-gray-400 ml-1">· {topic.name_uz}</span>}
+                </h3>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-xs text-gray-400">Speaking · Band 6/7/8/9</span>
+                </div>
+                {!topic.html_file && (
+                  <p className="text-xs text-orange-500 mt-2 font-medium">Tez kunda qo'shiladi</p>
+                )}
+              </>
+            )
+
+            return topic.html_file ? (
+              <a
+                key={topic.id}
+                href={`/api/question-types/${topic.id}/content?t=${token}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="card p-5 transition-all group hover:shadow-md hover:border-violet-500/30 block"
+              >
+                {cardContent}
+              </a>
+            ) : (
+              <div key={topic.id} className="card p-5 opacity-60 cursor-not-allowed group">
+                {cardContent}
               </div>
-              <h3 className={`font-bold mb-1 transition-colors ${
-                topic.html_file
-                  ? 'text-gray-900 dark:text-gray-100 group-hover:text-violet-500'
-                  : 'text-gray-500 dark:text-gray-500'
-              }`}>
-                {topic.name}
-                {topic.name_uz && <span className="font-normal text-sm text-gray-400 ml-1">· {topic.name_uz}</span>}
-              </h3>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs text-gray-400">Speaking · Band 6/7/8/9</span>
-              </div>
-              {!topic.html_file && (
-                <p className="text-xs text-orange-500 mt-2 font-medium">Tez kunda qo'shiladi</p>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>
