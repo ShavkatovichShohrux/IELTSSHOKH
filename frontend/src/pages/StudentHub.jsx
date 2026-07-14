@@ -73,11 +73,16 @@ const MODULES = [
   },
 ]
 
-// On iOS PWA standalone mode, target="_blank" is blocked — use location.href instead
+// Open Telegram links: use tg:// scheme on mobile to open app directly
 function openExternal(url) {
   const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-  if (isPWA || isMobile) {
+  if (isMobile || isPWA) {
+    const tgMatch = url.match(/https?:\/\/t\.me\/([^?&#]+)/)
+    if (tgMatch) {
+      window.location.href = `tg://resolve?domain=${tgMatch[1]}`
+      return
+    }
     window.location.href = url
   } else {
     window.open(url, '_blank', 'noopener,noreferrer')

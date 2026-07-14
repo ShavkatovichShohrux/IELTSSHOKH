@@ -46,7 +46,13 @@ export default function LoginPage() {
           <span style={{ color: '#f1f2f8', fontWeight: 700, fontSize: 16 }}>SHOKH</span>
         </div>
         <a href="https://t.me/ieltsshokh"
-          onClick={e => { e.preventDefault(); const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone; const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); if (isPWA || isMobile) { window.location.href = 'https://t.me/ieltsshokh' } else { window.open('https://t.me/ieltsshokh', '_blank', 'noopener,noreferrer') } }}
+          onClick={e => {
+            e.preventDefault()
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+            const isPWA = window.matchMedia('(display-mode: standalone)').matches || !!window.navigator.standalone
+            if (isMobile || isPWA) { window.location.href = 'tg://resolve?domain=ieltsshokh' }
+            else { window.open('https://t.me/ieltsshokh', '_blank', 'noopener,noreferrer') }
+          }}
           style={{ fontSize: 12, color: '#9aa0b4', textDecoration: 'none', fontWeight: 600 }}>
           @ieltsshokh ↗
         </a>
