@@ -62,11 +62,12 @@ server {
         add_header Cache-Control "no-store, no-cache, must-revalidate";
     }
 
-    location / {
+    # PDF.js worker (.mjs) — must have JS MIME type or browser refuses to run it
+    location ~* \.mjs$ {
         root $APP_DIR/frontend/dist;
-        try_files \$uri \$uri/ /index.html;
-        expires -1;
-        add_header Cache-Control "no-store, no-cache, must-revalidate";
+        add_header Content-Type "application/javascript; charset=utf-8";
+        expires 7d;
+        add_header Cache-Control "public, immutable";
     }
 
     # Hashed assets (JS/CSS/images) — cache 7 days, immutable
@@ -74,6 +75,13 @@ server {
         root $APP_DIR/frontend/dist;
         expires 7d;
         add_header Cache-Control "public, immutable";
+    }
+
+    location / {
+        root $APP_DIR/frontend/dist;
+        try_files \$uri \$uri/ /index.html;
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate";
     }
 }
 NGINXEOF
