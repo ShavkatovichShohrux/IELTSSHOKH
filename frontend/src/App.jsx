@@ -8,6 +8,7 @@ import Navbar from './components/Layout/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 
 import Landing from './pages/Landing'
+import DownloadApp from './pages/DownloadApp'
 import Home from './pages/Home'
 import StudentHub from './pages/StudentHub'
 import Vocabulary from './pages/Vocabulary'
@@ -48,7 +49,7 @@ export default function App() {
 
   // Admin va login sahifalarida himoya shart emas
   const isAdminRoute = location.pathname.startsWith('/admin')
-  const isPublicRoute = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/speaking'
+  const isPublicRoute = location.pathname === '/login' || location.pathname === '/register' || location.pathname === '/' || location.pathname === '/speaking' || location.pathname === '/download'
   const isProtectedRoute = !isPublicRoute   // admin + student — barchasi himoyalangan
 
   useCopyProtection(isAdminRoute)
@@ -83,6 +84,7 @@ export default function App() {
         <Route path="/" element={<AuthGate />} />
         <Route path="/login" element={<AuthGate />} />
         <Route path="/speaking" element={<Landing />} />
+        <Route path="/download" element={<DownloadApp />} />
         <Route path="/register" element={<Register />} />
 
         {/* Protected user pages */}

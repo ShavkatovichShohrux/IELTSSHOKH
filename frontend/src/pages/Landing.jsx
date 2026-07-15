@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Mic, Star, ExternalLink, ShieldCheck, Zap, MessageCircle } from 'lucide-react'
+import { Mic, Star, ExternalLink, ShieldCheck, Zap, MessageCircle, Smartphone } from 'lucide-react'
 import { useLangStore } from '../store/langStore'
 import { api } from '../api/client'
 
@@ -59,6 +59,12 @@ export default function Landing() {
               </button>
             ))}
           </div>
+          <Link to="/download"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#9aa0b4', textDecoration: 'none', padding: '7px 16px', border: '1px solid #2a2c40', borderRadius: 10, transition: 'all .15s' }}
+            onMouseEnter={e => { e.currentTarget.style.color='#f1f2f8'; e.currentTarget.style.borderColor='#4a6cf7' }}
+            onMouseLeave={e => { e.currentTarget.style.color='#9aa0b4'; e.currentTarget.style.borderColor='#2a2c40' }}>
+            <Smartphone size={13} /> Android
+          </Link>
           <Link to="/login"
             style={{ fontSize: 12, fontWeight: 700, color: '#9aa0b4', textDecoration: 'none', padding: '7px 16px', border: '1px solid #2a2c40', borderRadius: 10, transition: 'all .15s' }}
             onMouseEnter={e => { e.currentTarget.style.color='#f1f2f8'; e.currentTarget.style.borderColor='#4a6cf7' }}

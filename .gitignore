@@ -35,6 +35,8 @@ frontend/android/build/
 frontend/android/.gradle/
 frontend/android/local.properties
 frontend/android/app/src/main/assets/public/
+frontend/android/keystore.properties
+frontend/android/keystore/
 *.keystore
 *.jks
 
