@@ -36,16 +36,11 @@ def _topic_resp(t: models.Topic) -> schemas.TopicResponse:
     )
 
 
-def _inject_watermark(html: str, username: str) -> str:
+def _inject_watermark(html: str) -> str:
     badge = f"""
 <style>
-.wm{{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);
-background:rgba(0,0,0,0.06);color:rgba(0,0,0,0.25);font-size:11px;
-font-family:monospace;padding:3px 10px;border-radius:999px;pointer-events:none;
-z-index:99999;user-select:none;white-space:nowrap;}}
 @media print{{body{{display:none!important;}}}}
 </style>
-<div class="wm">IELTSSHOKH · {username}</div>
 <script>
 (function(){{
 document.addEventListener('contextmenu',function(e){{e.preventDefault();}});
@@ -84,7 +79,7 @@ def view_topic_content(
         raise HTTPException(status_code=404, detail="Fayl topilmadi")
     with open(path, encoding="utf-8") as f:
         html = f.read()
-    return HTMLResponse(content=_inject_watermark(html, user.username))
+    return HTMLResponse(content=_inject_watermark(html))
 
 
 @router.get("/", response_model=List[schemas.TopicResponse])

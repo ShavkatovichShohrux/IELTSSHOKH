@@ -4,7 +4,7 @@ import { Download, ShieldCheck, Smartphone, ArrowLeft, CheckCircle2 } from 'luci
 
 const APK_URL = '/downloads/ieltsshokh.apk'
 const APK_SIZE = '4.4 MB'
-const APK_VERSION = '1.0'
+const APK_VERSION = '1.1'
 
 export default function DownloadApp() {
   const [downloading, setDownloading] = useState(false)

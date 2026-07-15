@@ -43,7 +43,7 @@ export default function SpeakingQuestionTypes() {
   const topics = [...raw].sort((a, b) => getNum(a.name) - getNum(b.name))
 
   // PDF fayllar saytning ichida (yuklab olib bo'lmaydigan tarzda) ochiladi.
-  // HTML dossierlar esa alohida oynada (o'z watermark/himoyasi bilan, popup-blockersiz) ochiladi.
+  // HTML dossierlar esa alohida oynada (o'z himoyasi bilan, popup-blockersiz) ochiladi.
   const isPdf = topic => (topic.html_file || '').toLowerCase().endsWith('.pdf')
 
   return (
