@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Download, ShieldCheck, Smartphone, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { Download, ShieldCheck, Smartphone, ArrowLeft } from 'lucide-react'
 
 const APK_URL = '/downloads/ieltsshokh.apk'
 const APK_SIZE = '4.4 MB'
@@ -17,7 +17,7 @@ export default function DownloadApp() {
   return (
     <div style={{ background: '#0a0b18', minHeight: '100vh', color: '#f1f2f8', fontFamily: "'Helvetica Neue', Arial, sans-serif" }}>
       <header style={{ maxWidth: 720, margin: '0 auto', padding: '18px 28px' }}>
-        <Link to="/speaking" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#9aa0b4', textDecoration: 'none', fontSize: 13, fontWeight: 600 }}>
+        <Link to="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#9aa0b4', textDecoration: 'none', fontSize: 13, fontWeight: 600 }}>
           <ArrowLeft size={15} /> Bosh sahifa
         </Link>
       </header>
@@ -79,11 +79,6 @@ export default function DownloadApp() {
         <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#6b7280', fontSize: 12 }}>
           <ShieldCheck size={14} />
           <span>Play Store'dan tashqarida tarqatiladi, shu sabab telefon "noma'lum manba" haqida ogohlantiradi — bu normal holat.</span>
-        </div>
-
-        <div style={{ marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, color: '#4ade80', fontSize: 12, fontWeight: 600 }}>
-          <CheckCircle2 size={14} />
-          <span>Login talab qilinmaydi — bu sahifa ochiq</span>
         </div>
       </section>
     </div>
