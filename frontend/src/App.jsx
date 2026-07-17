@@ -6,6 +6,7 @@ import { api } from './api/client'
 
 import Navbar from './components/Layout/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
+import UserWatermark from './components/UserWatermark'
 
 import Landing from './pages/Landing'
 import DownloadApp from './pages/DownloadApp'
@@ -161,6 +162,9 @@ export default function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      {/* User identity watermark — visible in screenshots */}
+      <UserWatermark />
 
       {/* Blur overlay — desktop blur + mobile visibilitychange */}
       {windowBlurred && isProtectedRoute && (

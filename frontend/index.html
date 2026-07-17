@@ -28,24 +28,57 @@
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
   <script>
-    // Disable right-click
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    // Disable copy/cut/paste shortcuts
-    document.addEventListener('keydown', e => {
-      if (e.ctrlKey && ['c','C','u','U','s','S','a','A','p','P'].includes(e.key)) e.preventDefault();
-      if (e.key === 'F12') e.preventDefault();
-      if (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) e.preventDefault();
-    });
-    // Disable copy event
-    document.addEventListener('copy', e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
-    document.addEventListener('cut', e => { e.clipboardData.setData('text/plain', ''); e.preventDefault(); });
-    // Disable drag
-    document.addEventListener('dragstart', e => e.preventDefault());
-    // Blur on visibility change (anti-screen-share recording)
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) document.title = '— IELTSSHOKH';
-      else document.title = 'IELTSSHOKH — Practice Platform';
-    });
+    (function() {
+      var OVERLAY = '__g_protect__';
+      function showBlack() {
+        if (document.getElementById(OVERLAY)) return;
+        var el = document.createElement('div');
+        el.id = OVERLAY;
+        el.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#000;pointer-events:none;display:flex;align-items:center;justify-content:center';
+        el.innerHTML = '<span style="color:rgba(255,255,255,0.08);font:11px monospace;letter-spacing:3px">IELTSSHOKH \xB7 PROTECTED</span>';
+        document.body.appendChild(el);
+      }
+      function hideBlack(delay) { setTimeout(function(){ var e=document.getElementById(OVERLAY); if(e) e.remove(); }, delay||0); }
+
+      // PrintScreen → black screen
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'PrintScreen' || e.code === 'PrintScreen' || e.keyCode === 44) {
+          e.preventDefault(); showBlack(); navigator.clipboard && navigator.clipboard.writeText('').catch(function(){});
+          hideBlack(1800);
+        }
+        if (e.ctrlKey && ['c','u','s','a','p'].includes(e.key.toLowerCase())) e.preventDefault();
+        if (e.key === 'F12') e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && ['i','j','c','k'].includes(e.key.toLowerCase())) e.preventDefault();
+      });
+      document.addEventListener('keyup', function(e) {
+        if (e.key === 'PrintScreen' || e.code === 'PrintScreen' || e.keyCode === 44) {
+          navigator.clipboard && navigator.clipboard.writeText('').catch(function(){});
+        }
+      });
+
+      // Screen share / recording via getDisplayMedia → show black while active
+      if (navigator.mediaDevices) {
+        var orig = navigator.mediaDevices.getDisplayMedia && navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices);
+        if (orig) navigator.mediaDevices.getDisplayMedia = function(c) {
+          showBlack();
+          return orig(c).then(function(stream) {
+            stream.getTracks().forEach(function(t){ t.addEventListener('ended', function(){ hideBlack(0); }); });
+            return stream;
+          }, function(err) { hideBlack(0); return Promise.reject(err); });
+        };
+      }
+
+      // visibilitychange — title change to deter screen recorders indexing the tab
+      document.addEventListener('visibilitychange', function() {
+        document.title = document.hidden ? '■ IELTSSHOKH' : 'IELTSSHOKH — Practice Platform';
+      });
+
+      // Disable right-click, copy, drag
+      document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+      document.addEventListener('copy', function(e){ if(e.clipboardData) e.clipboardData.setData('text/plain',''); e.preventDefault(); });
+      document.addEventListener('cut', function(e){ if(e.clipboardData) e.clipboardData.setData('text/plain',''); e.preventDefault(); });
+      document.addEventListener('dragstart', function(e){ e.preventDefault(); });
+    })();
   </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1766,57 +1766,84 @@
   });
 
   /* ---------------- TEXT TO SPEECH (US/UK + Female/Male) ---------------- */
+  /* Female: Google Translate TTS — same voice on ALL devices, no API key  */
+  /* Male:   Web Speech API with neural voice priority + pitch/rate tuning  */
+
   let voiceCache = [];
   function refreshVoices() { voiceCache = (window.speechSynthesis && speechSynthesis.getVoices()) || []; }
   if ('speechSynthesis' in window) {
     refreshVoices();
     speechSynthesis.onvoiceschanged = refreshVoices;
-    // Some browsers (notably Chrome) populate the voice list a moment late
     setTimeout(refreshVoices, 300);
     setTimeout(refreshVoices, 1200);
   }
 
-  // Ranked from most natural-sounding to least, per accent + gender.
-  // These prioritise modern neural/cloud voices (Edge "Online (Natural)", Google)
-  // and well-regarded OS voices, ahead of generic fallbacks.
-  const VOICE_RANK = {
-    'en-us-female': ['jenny','aria','samantha','ava','victoria','allison','susan','google us english'],
-    'en-us-male':   ['guy','andrew','alex','tom','fred','google us english'],
-    'en-gb-female': ['libby','sonia','kate','serena','fiona','martha','google uk english female'],
-    'en-gb-male':   ['ryan','daniel','oliver','arthur','george','google uk english male']
+  // Male Web Speech API — neural/online voices ranked best-first
+  const VOICE_RANK_MALE = {
+    'en-us': ['guy','andrew','eric','christopher','blue','david','mark','fred','tom','google us english'],
+    'en-gb': ['ryan','daniel','oliver','arthur','george','james','harry','google uk english male']
   };
-  // Known low-quality / robotic-sounding engines — avoided when a better option exists
-  const AVOID_HINTS = ['espeak','pico','compact','desktop'];
+  const AVOID_HINTS = ['espeak','pico','compact','desktop','zira','hazel'];
+  const MALE_TUNE = {
+    'en-us': { pitch: 0.58, rate: 0.88 },
+    'en-gb': { pitch: 0.65, rate: 0.88 }
+  };
 
-  // Per accent + gender pitch/rate tuning, dialed in for a warmer, less "thin"
-  // result than the OS defaults. US voices in particular default to sounding
-  // high and a bit nasal in most browser engines, so they're pulled down more.
-  const VOICE_TUNE = {
-    'en-us-female': { pitch: 0.92, rate: 0.87 },
-    'en-us-male':   { pitch: 0.62, rate: 0.89 },
-    'en-gb-female': { pitch: 0.95, rate: 0.88 },
-    'en-gb-male':   { pitch: 0.72, rate: 0.90 }
-  };
-  function getTune(accent, gender) {
-    const key = `${accent.toLowerCase()}-${gender}`;
-    return VOICE_TUNE[key] || { pitch: gender === 'female' ? 0.93 : 0.68, rate: 0.89 };
+  function getMaleTune(accent) {
+    const key = accent.toLowerCase().slice(0, 5);
+    return MALE_TUNE[key] || { pitch: 0.60, rate: 0.88 };
   }
 
-  function pickVoice(langCode, gender) {
+  function pickMaleVoice(langCode) {
     if (!voiceCache.length) refreshVoices();
-    const target = langCode.toLowerCase();
-    const sameLocale = voiceCache.filter(v => v.lang.toLowerCase() === target);
-    const sameLanguage = voiceCache.filter(v => v.lang.toLowerCase().startsWith('en'));
-    const pool = sameLocale.length ? sameLocale : sameLanguage;
+    const pool = voiceCache.filter(v => v.lang.toLowerCase().startsWith('en'));
     const clean = pool.filter(v => !AVOID_HINTS.some(a => v.name.toLowerCase().includes(a)));
-    const searchPool = clean.length ? clean : pool;
-
-    const ranked = VOICE_RANK[`${target}-${gender}`] || [];
+    const sp = clean.length ? clean : pool;
+    const key = langCode.toLowerCase().slice(0, 5);
+    const ranked = VOICE_RANK_MALE[key] || VOICE_RANK_MALE['en-us'];
     for (const hint of ranked) {
-      const found = searchPool.find(v => v.name.toLowerCase().includes(hint));
-      if (found) return found;
+      const v = sp.find(v => v.name.toLowerCase().includes(hint));
+      if (v) return v;
     }
-    return searchPool[0] || pool[0] || voiceCache[0] || null;
+    return sp.find(v => v.name.toLowerCase().includes('male')) || sp[0] || voiceCache[0] || null;
+  }
+
+  // --- Google Translate TTS helpers (female voice) ---
+  // Split long text into chunks of ≤185 chars at sentence/comma boundaries
+  function chunkText(text, maxLen) {
+    maxLen = maxLen || 185;
+    const raw = text.replace(/\s+/g, ' ').trim();
+    const chunks = [];
+    let rem = raw;
+    while (rem.length > 0) {
+      if (rem.length <= maxLen) { chunks.push(rem); break; }
+      let bk = -1;
+      for (let i = Math.min(maxLen, rem.length) - 1; i > maxLen * 0.4; i--) {
+        if ('.!?,;'.includes(rem[i]) && rem[i + 1] === ' ') { bk = i + 2; break; }
+      }
+      if (bk < 1) { for (let i = maxLen; i > 0; i--) { if (rem[i] === ' ') { bk = i + 1; break; } } }
+      if (bk < 1) bk = maxLen;
+      chunks.push(rem.slice(0, bk).trim());
+      rem = rem.slice(bk).trim();
+    }
+    return chunks.filter(s => s.length > 0);
+  }
+
+  function gTTSUrl(chunk, langCode) {
+    const tl = langCode === 'en-GB' ? 'en-GB' : 'en-US';
+    return 'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&ttsspeed=0.85&tl=' + tl + '&q=' + encodeURIComponent(chunk);
+  }
+
+  // Map chunks → consecutive kword index ranges for sentence-level karaoke
+  function buildChunkRanges(chunks, words) {
+    const ranges = []; let wi = 0;
+    for (const ch of chunks) {
+      const wc = ch.trim().split(/\s+/).length;
+      const end = Math.min(wi + wc, words.length);
+      ranges.push({ start: wi, end });
+      wi = end;
+    }
+    return ranges;
   }
 
   // Wrap every word of an answer in a <span class="kword"> so we can highlight
@@ -1844,106 +1871,97 @@
     container.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
   }
 
-  // Tracks whichever Listen button is currently mid-playback/paused, so a
-  // second click pauses it, and a third click resumes from where it left off.
-  // currentSpeakSession additionally keeps enough state (container, word list,
-  // accent/gender, current word index) to let the ULTRA speed control restart
-  // playback from the exact current word at a new rate — the Web Speech API has
-  // no way to change an utterance's rate while it's already speaking, so a
-  // "live" speed change is simulated by re-firing a fresh utterance for just
-  // the remaining words.
-  let activeSpeakBtn = null;
-  let activeSpeakState = 'idle'; // 'idle' | 'speaking' | 'paused'
-  let currentSpeakSession = null;
+  // --- Active playback state ---
+  let activeSpeakBtn = null, activeSpeakState = 'idle', currentSpeakSession = null;
+  let activeAudio = null;
+
   function resetSpeakBtn(btn) {
     if (!btn) return;
-    btn.textContent = '🔊';
-    btn.title = 'Listen';
-    btn.classList.remove('on');
+    btn.textContent = '🔊'; btn.title = 'Listen'; btn.classList.remove('on');
   }
 
-  // Fully stops any in-progress/paused audio and clears the reading-highlight state.
-  // Must be called any time the underlying content could change out from under an
-  // active speak button — switching band, switching accent, or switching Part 3
-  // question — otherwise a stale "speaking"/"paused" state makes the next Listen
-  // tap try to resume old (now-detached) audio instead of starting fresh, and the
-  // karaoke word highlight never (re)appears.
   function stopAllSpeech() {
-    speechSynthesis.cancel();
+    if (window.speechSynthesis) speechSynthesis.cancel();
+    if (activeAudio) { try { activeAudio.pause(); } catch(_){} activeAudio.src = ''; activeAudio = null; }
     document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
     if (activeSpeakBtn) resetSpeakBtn(activeSpeakBtn);
-    activeSpeakBtn = null;
-    activeSpeakState = 'idle';
-    currentSpeakSession = null;
+    activeSpeakBtn = null; activeSpeakState = 'idle'; currentSpeakSession = null;
   }
 
-  function speak(id, btn) {
-    if (!('speechSynthesis' in window)) {
-      alert("Bu brauzer ovozli o'qishni qo'llab-quvvatlamaydi. Iltimos, Chrome, Edge yoki Safari'da oching.");
-      return;
-    }
-    const container = document.getElementById(id);
+  // --- Female: Google TTS — chunk-by-chunk, sentence-level karaoke ---
+  function speakFemaleGoogleTTS(session) {
+    const { btn, container, words, chunks, ranges } = session;
+    let ci = 0;
 
-    // Clicking the SAME button that's already playing/paused toggles pause <-> resume
-    if (activeSpeakBtn === btn && activeSpeakState !== 'idle') {
-      if (activeSpeakState === 'speaking') {
-        speechSynthesis.pause();
-        activeSpeakState = 'paused';
-        btn.textContent = '▶';
-        btn.title = 'Resume';
-      } else {
-        speechSynthesis.resume();
-        activeSpeakState = 'speaking';
-        btn.textContent = '⏸';
-        btn.title = 'Pause';
+    function playNext() {
+      if (currentSpeakSession !== session) return;
+      if (ci >= chunks.length) {
+        document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
+        resetSpeakBtn(btn);
+        activeSpeakBtn = null; activeSpeakState = 'idle'; currentSpeakSession = null;
+        return;
       }
-      return;
+      const chunk = chunks[ci];
+      const range = ranges[ci];
+      ci++;
+
+      // Highlight words for this sentence chunk
+      document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
+      for (let i = range.start; i < range.end; i++) {
+        if (words[i]) words[i].classList.add('tts-active');
+      }
+
+      const audio = new Audio(gTTSUrl(chunk, session.accent));
+      activeAudio = audio;
+      audio.onended = playNext;
+      audio.onerror = function() {
+        // Google TTS failed — fall back to Web Speech API for remaining text
+        activeAudio = null;
+        document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
+        const fallbackText = chunks.slice(ci - 1).join(' ');
+        speakViaSpeechAPI(session, fallbackText, range.start);
+      };
+      audio.play().catch(function() { if (audio.onerror) audio.onerror(); });
     }
 
-    // Starting a different button: stop whatever else is playing/paused first
-    if (activeSpeakBtn && activeSpeakBtn !== btn) resetSpeakBtn(activeSpeakBtn);
-    speechSynthesis.cancel();
-
-    prepareKaraoke(container);
-    const words = Array.from(container.querySelectorAll('.kword'));
-    const section = btn.closest('.qsection, .part-section');
-    const activeFlag = section ? section.querySelector('.flagbtn.active') : document.querySelector('.flagbtn.active');
-    const accent = activeFlag && activeFlag.dataset.accent === 'GB' ? 'en-GB' : 'en-US';
-    const isFemale = document.getElementById('vFemale').classList.contains('active');
-    const gender = isFemale ? 'female' : 'male';
-
-    currentSpeakSession = { btn, container, words, accent, gender, wordIdx: 0 };
-    speakFromWordIndex(0);
+    playNext();
   }
 
-  // Speaks the answer starting at a given word index (0 = from the very start).
-  // Used both for the initial Listen tap and for resuming mid-sentence at a new speed.
-  function speakFromWordIndex(startIdx) {
-    const session = currentSpeakSession;
-    if (!session) return;
+  // --- Male (+ female fallback): Web Speech API with word-level karaoke ---
+  function speakViaSpeechAPI(session, textOverride, startWordIdx) {
+    if (!('speechSynthesis' in window)) return;
     const { btn, container, words, accent, gender } = session;
-    const remainingText = words.slice(startIdx).map(w => w.textContent).join(' ');
-    if (!remainingText.trim()) return;
+    startWordIdx = startWordIdx || 0;
+    const text = textOverride || words.slice(startWordIdx).map(w => w.textContent).join(' ');
+    if (!text.trim()) return;
 
     const fire = () => {
-      const utter = new SpeechSynthesisUtterance(remainingText);
-      const voice = pickVoice(accent, gender);
+      const utter = new SpeechSynthesisUtterance(text);
+      let voice, pitch, rate;
+      if (gender === 'male') {
+        voice = pickMaleVoice(accent);
+        const tune = getMaleTune(accent);
+        pitch = tune.pitch; rate = tune.rate;
+      } else {
+        // Female fallback when Google TTS is blocked
+        const pool = voiceCache.filter(v => v.lang.toLowerCase().startsWith('en'));
+        const clean = pool.filter(v => !AVOID_HINTS.some(a => v.name.toLowerCase().includes(a)));
+        const sp = clean.length ? clean : pool;
+        const hints = accent === 'en-GB'
+          ? ['libby','sonia','kate','serena','fiona','google uk english female']
+          : ['jenny','aria','samantha','ava','victoria','google us english'];
+        voice = hints.map(h => sp.find(v => v.name.toLowerCase().includes(h))).find(Boolean)
+               || sp[0] || voiceCache[0];
+        pitch = 0.95; rate = 0.87;
+      }
       utter.lang = voice ? voice.lang : accent;
       if (voice) utter.voice = voice;
-      // Accent + gender specific pitch/rate keeps it from sounding rushed, thin, or robotic
-      const tune = getTune(accent, gender);
-      utter.rate = tune.rate * (typeof globalSpeechRate !== 'undefined' ? globalSpeechRate : 1);
-      utter.pitch = tune.pitch;
+      utter.rate = rate * (typeof globalSpeechRate !== 'undefined' ? globalSpeechRate : 1);
+      utter.pitch = pitch;
       utter.volume = 1;
 
-      let localIdx = startIdx;
-      clearKaraoke(container);
-
-      activeSpeakBtn = btn;
-      activeSpeakState = 'speaking';
-      btn.textContent = '⏸';
-      btn.title = 'Pause';
-      btn.classList.add('on');
+      let localIdx = startWordIdx;
+      document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
 
       utter.onboundary = (e) => {
         if (e.name && e.name !== 'word') return;
@@ -1955,64 +1973,107 @@
         }
       };
       utter.onend = () => {
-        clearKaraoke(container);
+        document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
         resetSpeakBtn(btn);
         if (activeSpeakBtn === btn) { activeSpeakBtn = null; activeSpeakState = 'idle'; }
         if (currentSpeakSession === session) currentSpeakSession = null;
       };
       utter.onerror = () => {
-        // fires on speechSynthesis.cancel() too (e.g. when changing speed) — only
-        // tear down the button/session if this utterance is still the active one
         if (activeSpeakBtn === btn && currentSpeakSession === session) {
-          clearKaraoke(container);
+          document.querySelectorAll('.kword.tts-active').forEach(s => s.classList.remove('tts-active'));
           resetSpeakBtn(btn);
           activeSpeakBtn = null; activeSpeakState = 'idle'; currentSpeakSession = null;
         }
       };
-
       speechSynthesis.speak(utter);
     };
 
-    if (!voiceCache.length) {
-      setTimeout(() => { refreshVoices(); fire(); }, 150);
+    if (!voiceCache.length) { setTimeout(() => { refreshVoices(); fire(); }, 150); }
+    else { fire(); }
+  }
+
+  function speak(id, btn) {
+    const container = document.getElementById(id);
+
+    // Toggle pause/resume on same button
+    if (activeSpeakBtn === btn && activeSpeakState !== 'idle') {
+      if (activeSpeakState === 'speaking') {
+        if (activeAudio) { try { activeAudio.pause(); } catch(_){} }
+        else if (window.speechSynthesis) { speechSynthesis.pause(); }
+        activeSpeakState = 'paused'; btn.textContent = '▶'; btn.title = 'Resume';
+      } else {
+        if (activeAudio) { activeAudio.play().catch(() => {}); }
+        else if (window.speechSynthesis) { speechSynthesis.resume(); }
+        activeSpeakState = 'speaking'; btn.textContent = '⏸'; btn.title = 'Pause';
+      }
+      return;
+    }
+
+    if (activeSpeakBtn && activeSpeakBtn !== btn) resetSpeakBtn(activeSpeakBtn);
+    stopAllSpeech();
+
+    prepareKaraoke(container);
+    const words = Array.from(container.querySelectorAll('.kword'));
+    const section = btn.closest('.qsection, .part-section');
+    const activeFlag = section ? section.querySelector('.flagbtn.active') : document.querySelector('.flagbtn.active');
+    const accent = activeFlag && activeFlag.dataset.accent === 'GB' ? 'en-GB' : 'en-US';
+    const isFemale = document.getElementById('vFemale').classList.contains('active');
+    const gender = isFemale ? 'female' : 'male';
+    const fullText = words.map(w => w.textContent).join(' ');
+    const chunks = chunkText(fullText);
+    const ranges = buildChunkRanges(chunks, words);
+
+    currentSpeakSession = { btn, container, words, accent, gender, wordIdx: 0, chunks, ranges };
+    activeSpeakBtn = btn; activeSpeakState = 'speaking';
+    btn.textContent = '⏸'; btn.title = 'Pause'; btn.classList.add('on');
+
+    if (gender === 'female') {
+      speakFemaleGoogleTTS(currentSpeakSession);
     } else {
-      fire();
+      speakViaSpeechAPI(currentSpeakSession, null, 0);
     }
   }
 
-  // Called by the ULTRA speed control. If nothing is playing, the new rate simply
-  // applies to the next Listen tap. If something IS actively playing/paused, we
-  // restart the utterance from the exact word we were on, at the new rate — this
-  // is the only way to change speed "live", since browsers don't support changing
-  // an utterance's rate once speechSynthesis.speak() has been called.
+  // Live speed change — only applies to male (Web Speech API)
   function applyLiveRateChange() {
     if (!currentSpeakSession || activeSpeakState === 'idle') return;
-    const resumeIdx = currentSpeakSession.wordIdx;
-    speechSynthesis.cancel();
-    speakFromWordIndex(resumeIdx);
-  }
-
-  // Short instant confirmation when a voice/accent toggle is pressed
-  function speakSample(text, gender, accent) {
-    if (!('speechSynthesis' in window)) return;
-    const isFemale = gender === 'female';
-    const fire = () => {
-      const utter = new SpeechSynthesisUtterance(text);
-      const voice = pickVoice(accent, gender);
-      utter.lang = voice ? voice.lang : accent;
-      if (voice) utter.voice = voice;
-      const tune = getTune(accent, gender);
-      utter.rate = tune.rate;
-      utter.pitch = tune.pitch;
+    if (currentSpeakSession.gender === 'male') {
+      const resumeIdx = currentSpeakSession.wordIdx;
       speechSynthesis.cancel();
-      speechSynthesis.speak(utter);
-    };
-    if (!voiceCache.length) {
-      setTimeout(() => { refreshVoices(); fire(); }, 150);
-    } else {
-      fire();
+      speakViaSpeechAPI(currentSpeakSession, null, resumeIdx);
     }
   }
+
+  function speakSample(text, gender, accent) {
+    stopAllSpeech();
+    if (gender === 'female') {
+      const audio = new Audio(gTTSUrl(text, accent === 'en-GB' ? 'en-GB' : 'en-US'));
+      activeAudio = audio;
+      audio.onended = () => { activeAudio = null; };
+      audio.onerror = () => {
+        activeAudio = null;
+        if (!('speechSynthesis' in window)) return;
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = accent; u.pitch = 0.95; u.rate = 0.87;
+        speechSynthesis.speak(u);
+      };
+      audio.play().catch(() => { if (audio.onerror) audio.onerror(); });
+    } else {
+      if (!('speechSynthesis' in window)) return;
+      const fire = () => {
+        const u = new SpeechSynthesisUtterance(text);
+        const voice = pickMaleVoice(accent || 'en-US');
+        const tune = getMaleTune(accent || 'en-US');
+        u.lang = voice ? voice.lang : (accent || 'en-US');
+        if (voice) u.voice = voice;
+        u.rate = tune.rate; u.pitch = tune.pitch;
+        speechSynthesis.speak(u);
+      };
+      if (!voiceCache.length) { setTimeout(() => { refreshVoices(); fire(); }, 150); }
+      else { fire(); }
+    }
+  }
+
 
 
   /* ---------------- BAND LADDER (6 / 7 / 8 / 9 samples) ---------------- */

@@ -7,9 +7,11 @@ echo.
 
 cd /d "%~dp0frontend"
 
+set NODE_PATH=C:\Program Files\nodejs
+
 if not exist "node_modules" (
     echo [1/2] Node modules o'rnatilmoqda...
-    npm install
+    "%NODE_PATH%\npm.cmd" install
 )
 
 echo.
@@ -19,6 +21,6 @@ echo  URL: http://localhost:5173
 echo ==========================================
 echo.
 
-npm run dev
+"%NODE_PATH%\npm.cmd" run dev
 
 pause
