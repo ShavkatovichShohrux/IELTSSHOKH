@@ -163,15 +163,6 @@ export default function LoginPage() {
           }}/>
         </div>
 
-        {/* ── Mountain silhouettes ───────────────────────────────────────── */}
-        <div style={{ position:'absolute',bottom:0,left:0,right:0,zIndex:2,height:230,pointerEvents:'none' }}>
-          <svg viewBox="0 0 1280 230" style={{ width:'100%',height:'100%' }} preserveAspectRatio="none">
-            <path d="M0,230 L0,155 L70,80 L155,145 L235,55 L335,128 L415,38 L498,108 L558,65 L620,118 L678,45 L758,128 L840,28 L922,118 L1002,58 L1082,138 L1162,78 L1280,148 L1280,230 Z"
-              fill="#030710"/>
-            <path d="M0,230 L0,180 L110,118 L190,158 L270,98 L370,148 L468,108 L545,148 L608,118 L672,152 L742,108 L824,158 L905,98 L982,148 L1062,118 L1145,158 L1225,128 L1280,158 L1280,230 Z"
-              fill="#02060e" opacity=".75"/>
-          </svg>
-        </div>
 
         {/* ── Floating geometric shapes ──────────────────────────────────── */}
         {[
@@ -224,7 +215,7 @@ export default function LoginPage() {
         }}>
 
           {/* Top-left logo */}
-          <div style={{ padding:'26px 32px' }}>
+          <div style={{ padding:'18px 28px' }}>
             <div style={{ fontSize:15,fontWeight:700,letterSpacing:4,color:'#fff',marginBottom:5 }}>
               IELTSSHOKH
             </div>
@@ -255,20 +246,30 @@ export default function LoginPage() {
           <div style={{
             flex:1, display:'flex', flexDirection:'column',
             alignItems:'center', justifyContent:'center',
-            padding:'0 16px 20px',
+            padding:'0 16px 12px',
+            overflowY:'auto',
           }}>
 
             {/* Headline */}
-            <div style={{ textAlign:'center', marginBottom:22 }}>
+            <div style={{ textAlign:'center', marginBottom:18 }}>
+              {/* Logo */}
+              <img
+                src="/logo.png"
+                alt="IELTSSHOKH"
+                style={{
+                  width:70, height:70, objectFit:'contain', marginBottom:12, display:'block', margin:'0 auto 12px',
+                  filter:'drop-shadow(0 0 18px rgba(74,144,255,.55))',
+                }}
+              />
               <div style={{
                 fontSize:10, letterSpacing:5.5,
-                color:'rgba(74,144,255,.75)', fontWeight:600, marginBottom:14,
+                color:'rgba(74,144,255,.75)', fontWeight:600, marginBottom:10,
               }}>
                 WELCOME BACK
               </div>
               <h1 style={{
-                margin:'0 0 14px',
-                fontSize:'clamp(26px,3.8vw,46px)',
+                margin:'0 0 8px',
+                fontSize:'clamp(22px,3.2vw,40px)',
                 fontWeight:800, lineHeight:1.18,
                 color:'#fff', letterSpacing:-0.8,
               }}>
@@ -277,7 +278,7 @@ export default function LoginPage() {
                 <span style={{ color:'#4a90ff' }}>future.</span>
               </h1>
               <p style={{
-                margin:0, fontSize:11.5, letterSpacing:3,
+                margin:0, fontSize:11, letterSpacing:3,
                 color:'rgba(255,255,255,.35)', fontWeight:500,
               }}>
                 Discipline today, success tomorrow.
@@ -286,22 +287,22 @@ export default function LoginPage() {
 
             {/* Login card */}
             <div style={{
-              width:'100%', maxWidth:448,
+              width:'100%', maxWidth:440,
               background:'rgba(7,13,38,.88)',
               backdropFilter:'blur(22px)',
               WebkitBackdropFilter:'blur(22px)',
               border:'1px solid rgba(74,108,247,.22)',
               borderRadius:16,
-              padding:'32px 34px',
+              padding:'24px 28px',
               boxShadow:'0 8px 64px rgba(0,0,0,.65), 0 0 48px rgba(74,108,247,.07)',
             }}>
               <form onSubmit={submit}>
 
                 {/* USERNAME */}
-                <div style={{ marginBottom:18 }}>
+                <div style={{ marginBottom:14 }}>
                   <label style={{
                     display:'block', fontSize:10.5, letterSpacing:2.2,
-                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:9,
+                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:7,
                   }}>USERNAME</label>
                   <div style={{ position:'relative' }}>
                     <span style={{
@@ -317,7 +318,7 @@ export default function LoginPage() {
                       autoComplete="username"
                       className="li"
                       style={{
-                        width:'100%', padding:'13px 14px 13px 42px',
+                        width:'100%', padding:'10px 14px 10px 42px',
                         borderRadius:10,
                         background:'rgba(4,10,30,.82)',
                         border:'1px solid rgba(74,108,247,.18)',
@@ -330,7 +331,7 @@ export default function LoginPage() {
                 </div>
 
                 {/* PASSWORD */}
-                <div style={{ marginBottom:26 }}>
+                <div style={{ marginBottom:18 }}>
                   <label style={{
                     display:'block', fontSize:10.5, letterSpacing:2.2,
                     color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:9,
@@ -349,7 +350,7 @@ export default function LoginPage() {
                       autoComplete="current-password"
                       className="li"
                       style={{
-                        width:'100%', padding:'13px 44px 13px 42px',
+                        width:'100%', padding:'10px 44px 10px 42px',
                         borderRadius:10,
                         background:'rgba(4,10,30,.82)',
                         border:'1px solid rgba(74,108,247,.18)',
@@ -404,7 +405,7 @@ export default function LoginPage() {
               </form>
 
               {/* OR divider */}
-              <div style={{ display:'flex',alignItems:'center',gap:12,margin:'22px 0' }}>
+              <div style={{ display:'flex',alignItems:'center',gap:12,margin:'16px 0' }}>
                 <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
                 <span style={{ fontSize:12,color:'rgba(255,255,255,.28)',fontWeight:500 }}>or</span>
                 <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
@@ -424,7 +425,7 @@ export default function LoginPage() {
 
           {/* Bottom row: feature cards + footer */}
           <div style={{
-            padding:'0 32px 36px',
+            padding:'0 24px 20px',
             display:'flex', alignItems:'flex-end', justifyContent:'space-between',
             gap:12,
           }}>
