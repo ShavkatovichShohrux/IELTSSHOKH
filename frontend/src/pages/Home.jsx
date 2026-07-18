@@ -63,8 +63,11 @@ export default function Home() {
         // Inject subtle watermark
         html = html.replace('</head>',
           '<style>#_ielts_wm{color:#0d1b4b;opacity:.15;}[data-theme="dark"] #_ielts_wm{color:#fff;opacity:.10;}</style></head>')
+        // Auto-reveal content + watermark before </body>
         html = html.replace('</body>',
-          '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div></body>')
+          '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div>' +
+          '<script>try{if(typeof startExperience==="function")startExperience();else{var m=document.getElementById("mainContent");if(m){m.classList.add("revealed");}}}catch(e){}</script>' +
+          '</body>')
         setTopicHtml(html)
       } catch {
         history.back()
