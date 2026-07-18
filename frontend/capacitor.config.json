@@ -3,6 +3,7 @@
   "appName": "IELTSSHOKH",
   "webDir": "dist",
   "server": {
+    "url": "https://ieltsshokhspeaking.uz",
     "androidScheme": "https",
     "cleartext": false
   },
