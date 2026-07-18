@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Download, ShieldCheck, Smartphone, ArrowLeft } from 'lucide-react'
 
-const APK_URL = '/downloads/ieltsshokh.apk'
-const APK_SIZE = '4.4 MB'
-const APK_VERSION = '1.2'
+const APK_URL = '/downloads/ieltsshokh.apk?v=20260719'
+const APK_SIZE = '7.0 MB'
+const APK_VERSION = '1.3'
 
 export default function DownloadApp() {
   const [downloading, setDownloading] = useState(false)
