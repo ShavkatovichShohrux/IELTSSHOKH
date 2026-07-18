@@ -32,8 +32,9 @@ function PlanGate({ plan }) {
 
 export default function Home() {
   const { token, user } = useAuthStore()
-  const [topicHtml, setTopicHtml] = useState(null)
+  const [topicUrl, setTopicUrl] = useState(null)
   const [topicLoading, setTopicLoading] = useState(false)
+  const blobRef = useState(null)
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ['topics'],
@@ -60,15 +61,20 @@ export default function Home() {
         let html = await res.text()
         // Strip client-side auth gate (server already validated token)
         html = html.replace(/<!-- AUTH GATE -->\s*<script>[\s\S]*?<\/script>/, '')
-        // Inject subtle watermark
+        // Inject watermark style
         html = html.replace('</head>',
           '<style>#_ielts_wm{color:#0d1b4b;opacity:.15;}[data-theme="dark"] #_ielts_wm{color:#fff;opacity:.10;}</style></head>')
-        // Auto-reveal content + watermark before </body>
+        // Inject watermark div + auto-reveal script before </body>
         html = html.replace('</body>',
           '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div>' +
-          '<script>try{if(typeof startExperience==="function")startExperience();else{var m=document.getElementById("mainContent");if(m){m.classList.add("revealed");}}}catch(e){}</script>' +
+          '<scr' + 'ipt>try{if(typeof startExperience==="function")startExperience();else{var m=document.getElementById("mainContent");if(m)m.classList.add("revealed");}}catch(e){}</scr' + 'ipt>' +
           '</body>')
-        setTopicHtml(html)
+        // Blob URL: scripts execute + X-Frame-Options bypassed + audio works
+        if (blobRef[0]) URL.revokeObjectURL(blobRef[0])
+        const blob = new Blob([html], { type: 'text/html; charset=utf-8' })
+        const bUrl = URL.createObjectURL(blob)
+        blobRef[0] = bUrl
+        setTopicUrl(bUrl)
       } catch {
         history.back()
       } finally {
@@ -80,17 +86,21 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (!topicHtml && !topicLoading) return
-    const onPop = () => { setTopicHtml(null); setTopicLoading(false) }
+    if (!topicUrl && !topicLoading) return
+    const onPop = () => {
+      if (blobRef[0]) { URL.revokeObjectURL(blobRef[0]); blobRef[0] = null }
+      setTopicUrl(null)
+      setTopicLoading(false)
+    }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
-  }, [topicHtml, topicLoading])
+  }, [topicUrl, topicLoading])
 
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
 
   return (
     <>
-    {(topicHtml || topicLoading) && (
+    {(topicUrl || topicLoading) && (
       <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#f2f3fa' }}>
         {topicLoading ? (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#555', fontSize: 15 }}>
@@ -98,7 +108,8 @@ export default function Home() {
           </div>
         ) : (
           <iframe
-            srcDoc={topicHtml}
+            key={topicUrl}
+            src={topicUrl}
             style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
             title="Speaking Topic"
           />
