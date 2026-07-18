@@ -84,20 +84,21 @@ export default function DownloadApp() {
             'Yuqoridagi tugma orqali APK faylni yuklab oling.',
             'Fayl menejerda ieltsshokh.apk ustiga bosing.',
             '"Noma\'lum manbalar" (Install unknown apps) ruxsatini so\'rasa — yoqing.',
+            'Google Play Protect ogohlantirishi chiqsa: "Batafsil" tugmasini bosing → "Baribir o\'rnatish" ni tanlang.',
             '"O\'rnatish" tugmasini bosing va kuting.',
           ].map((step, i) => (
-            <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: i < 3 ? 14 : 0 }}>
-              <div style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: 'rgba(124,92,255,0.15)', color: '#b89bff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800 }}>
+            <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: i < 4 ? 14 : 0 }}>
+              <div style={{ flexShrink: 0, width: 22, height: 22, borderRadius: '50%', background: i === 3 ? 'rgba(251,191,36,0.15)' : 'rgba(124,92,255,0.15)', color: i === 3 ? '#fbbf24' : '#b89bff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800 }}>
                 {i + 1}
               </div>
-              <p style={{ margin: 0, fontSize: 13, color: '#9aa0b4', lineHeight: 1.55 }}>{step}</p>
+              <p style={{ margin: 0, fontSize: 13, color: i === 3 ? '#d4a820' : '#9aa0b4', lineHeight: 1.55, fontWeight: i === 3 ? 600 : 400 }}>{step}</p>
             </div>
           ))}
         </div>
 
         <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#6b7280', fontSize: 12 }}>
           <ShieldCheck size={14} />
-          <span>Play Store'dan tashqarida tarqatiladi, shu sabab telefon "noma'lum manba" haqida ogohlantiradi — bu normal holat.</span>
+          <span>Play Store'dan tashqarida tarqatiladi. Play Protect ogohlantirishi chiqsa — "Batafsil" → "Baribir o'rnatish" bosing. Bu mutlaqo xavfsiz.</span>
         </div>
       </section>
     </div>
