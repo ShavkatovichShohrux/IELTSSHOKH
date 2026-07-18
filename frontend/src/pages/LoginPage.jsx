@@ -85,16 +85,18 @@ export default function LoginPage() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)()
       const t = ctx.currentTime
 
-      // Hard compressor — crushes everything flat, maximizes punch
+      // Bass boost → compressor → output
+      const bassBoost = ctx.createBiquadFilter()
+      bassBoost.type = 'lowshelf'; bassBoost.frequency.value = 120; bassBoost.gain.value = 14
+      bassBoost.connect(ctx.destination)
       const comp = ctx.createDynamicsCompressor()
-      comp.threshold.value = -6; comp.knee.value = 1
-      comp.ratio.value = 20; comp.attack.value = 0.0003; comp.release.value = 0.04
-      comp.connect(ctx.destination)
+      comp.threshold.value = -4; comp.knee.value = 1
+      comp.ratio.value = 20; comp.attack.value = 0.0002; comp.release.value = 0.03
+      comp.connect(bassBoost)
       const master = ctx.createGain()
-      master.gain.value = 2.2
+      master.gain.value = 2.8
       master.connect(comp)
 
-      // Heavy tanh distortion waveshaper
       const makeDist = (amount) => {
         const ws = ctx.createWaveShaper()
         const curve = new Float32Array(512)
@@ -106,73 +108,74 @@ export default function LoginPage() {
         return ws
       }
 
-      // 1. MASSIVE SUB THUD — 38Hz hits chest, drops to 18Hz (pure weight)
+      // 1. ULTRA SUB THUD — 28Hz → 14Hz, sub-woofer territory
       const o1 = ctx.createOscillator(), g1 = ctx.createGain()
       o1.type = 'sine'
-      o1.frequency.setValueAtTime(38, t)
-      o1.frequency.exponentialRampToValueAtTime(18, t + 0.22)
-      g1.gain.setValueAtTime(1.6, t)
-      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.28)
+      o1.frequency.setValueAtTime(28, t)
+      o1.frequency.exponentialRampToValueAtTime(14, t + 0.28)
+      g1.gain.setValueAtTime(2.0, t)
+      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.34)
       o1.connect(g1); g1.connect(master)
-      o1.start(t); o1.stop(t + 0.32)
+      o1.start(t); o1.stop(t + 0.38)
 
-      // 2. DETUNED DIRTY GROWL — two saws at 78+82Hz through hard distortion
-      // Beating 4Hz between them creates thick, evil pulsing growl
-      const oA = ctx.createOscillator(), oB = ctx.createOscillator()
-      const dist = makeDist(18)
+      // 2. TRIPLE DETUNED GROWL — three saws at 55+59+63Hz, massive beating wall
+      const oA = ctx.createOscillator(), oB = ctx.createOscillator(), oC2 = ctx.createOscillator()
+      const dist = makeDist(22)
       const fLow = ctx.createBiquadFilter()
-      fLow.type = 'lowpass'; fLow.frequency.value = 380; fLow.Q.value = 2.5
+      fLow.type = 'lowpass'; fLow.frequency.value = 320; fLow.Q.value = 3
       const g2 = ctx.createGain()
-      oA.type = 'sawtooth'; oA.frequency.setValueAtTime(78, t); oA.frequency.linearRampToValueAtTime(55, t + 0.7)
-      oB.type = 'sawtooth'; oB.frequency.setValueAtTime(82, t); oB.frequency.linearRampToValueAtTime(58, t + 0.7)
-      oA.connect(dist); oB.connect(dist)
+      oA.type = 'sawtooth'; oA.frequency.setValueAtTime(55, t); oA.frequency.linearRampToValueAtTime(38, t + 0.8)
+      oB.type = 'sawtooth'; oB.frequency.setValueAtTime(59, t); oB.frequency.linearRampToValueAtTime(41, t + 0.8)
+      oC2.type = 'sawtooth'; oC2.frequency.setValueAtTime(63, t); oC2.frequency.linearRampToValueAtTime(44, t + 0.8)
+      oA.connect(dist); oB.connect(dist); oC2.connect(dist)
       dist.connect(fLow); fLow.connect(g2); g2.connect(master)
-      g2.gain.setValueAtTime(0, t); g2.gain.linearRampToValueAtTime(0.55, t + 0.04)
-      g2.gain.setValueAtTime(0.55, t + 0.55); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.82)
-      oA.start(t); oA.stop(t + 0.86)
-      oB.start(t); oB.stop(t + 0.86)
+      g2.gain.setValueAtTime(0, t); g2.gain.linearRampToValueAtTime(0.65, t + 0.04)
+      g2.gain.setValueAtTime(0.65, t + 0.6); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.9)
+      oA.start(t); oA.stop(t + 0.94)
+      oB.start(t); oB.stop(t + 0.94)
+      oC2.start(t); oC2.stop(t + 0.94)
 
-      // 3. TRITONE STAB — A2(110Hz) + Eb3(155Hz) = devil's interval, pure evil
-      const oC = ctx.createOscillator(), oD = ctx.createOscillator()
-      const dist2 = makeDist(12)
+      // 3. LOW TRITONE STAB — 80Hz + 113Hz devil's interval, massive square
+      const oD = ctx.createOscillator(), oE = ctx.createOscillator()
+      const dist2 = makeDist(16)
       const fMid = ctx.createBiquadFilter()
-      fMid.type = 'lowpass'; fMid.frequency.value = 500; fMid.Q.value = 3
+      fMid.type = 'lowpass'; fMid.frequency.value = 380; fMid.Q.value = 4
       const g3 = ctx.createGain()
-      oC.type = 'square'; oC.frequency.value = 110
-      oD.type = 'square'; oD.frequency.value = 155
-      oC.connect(dist2); oD.connect(dist2)
+      oD.type = 'square'; oD.frequency.value = 80
+      oE.type = 'square'; oE.frequency.value = 113
+      oD.connect(dist2); oE.connect(dist2)
       dist2.connect(fMid); fMid.connect(g3); g3.connect(master)
-      g3.gain.setValueAtTime(0, t + 0.06); g3.gain.linearRampToValueAtTime(0.38, t + 0.11)
-      g3.gain.setValueAtTime(0.38, t + 0.48); g3.gain.exponentialRampToValueAtTime(0.001, t + 0.72)
-      oC.start(t + 0.06); oC.stop(t + 0.76)
-      oD.start(t + 0.06); oD.stop(t + 0.76)
+      g3.gain.setValueAtTime(0, t + 0.05); g3.gain.linearRampToValueAtTime(0.45, t + 0.1)
+      g3.gain.setValueAtTime(0.45, t + 0.5); g3.gain.exponentialRampToValueAtTime(0.001, t + 0.78)
+      oD.start(t + 0.05); oD.stop(t + 0.82)
+      oE.start(t + 0.05); oE.stop(t + 0.82)
 
-      // 4. DARK NOISE RUMBLE — low filtered noise, industrial texture
-      const bufSize = Math.floor(ctx.sampleRate * 0.7)
+      // 4. ULTRA-LOW NOISE RUMBLE — 100Hz lowpass, earthquake texture
+      const bufSize = Math.floor(ctx.sampleRate * 0.8)
       const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate)
       const d = buf.getChannelData(0)
       for (let i = 0; i < bufSize; i++) d[i] = Math.random() * 2 - 1
       const ns = ctx.createBufferSource(); ns.buffer = buf
       const fNoise = ctx.createBiquadFilter()
-      fNoise.type = 'lowpass'; fNoise.frequency.value = 160; fNoise.Q.value = 1
+      fNoise.type = 'lowpass'; fNoise.frequency.value = 100; fNoise.Q.value = 0.8
       const gNoise = ctx.createGain()
       ns.connect(fNoise); fNoise.connect(gNoise); gNoise.connect(master)
-      gNoise.gain.setValueAtTime(0, t); gNoise.gain.linearRampToValueAtTime(0.32, t + 0.07)
-      gNoise.gain.setValueAtTime(0.32, t + 0.45); gNoise.gain.exponentialRampToValueAtTime(0.001, t + 0.72)
+      gNoise.gain.setValueAtTime(0, t); gNoise.gain.linearRampToValueAtTime(0.42, t + 0.06)
+      gNoise.gain.setValueAtTime(0.42, t + 0.5); gNoise.gain.exponentialRampToValueAtTime(0.001, t + 0.78)
       ns.start(t)
 
-      // 5. DESCENDING OMINOUS FALL — 200→55Hz drop, never rises, pure dread
+      // 5. DEEP DESCENDING FALL — 160→55→28Hz, slow heavy collapse
       const o5 = ctx.createOscillator(), g5 = ctx.createGain()
       o5.type = 'sine'
-      o5.frequency.setValueAtTime(200, t + 0.1)
-      o5.frequency.exponentialRampToValueAtTime(80, t + 0.48)
-      o5.frequency.exponentialRampToValueAtTime(42, t + 0.78)
-      g5.gain.setValueAtTime(0, t + 0.1); g5.gain.linearRampToValueAtTime(0.5, t + 0.17)
-      g5.gain.setValueAtTime(0.5, t + 0.55); g5.gain.exponentialRampToValueAtTime(0.001, t + 0.85)
+      o5.frequency.setValueAtTime(160, t + 0.08)
+      o5.frequency.exponentialRampToValueAtTime(55, t + 0.45)
+      o5.frequency.exponentialRampToValueAtTime(28, t + 0.85)
+      g5.gain.setValueAtTime(0, t + 0.08); g5.gain.linearRampToValueAtTime(0.65, t + 0.15)
+      g5.gain.setValueAtTime(0.65, t + 0.6); g5.gain.exponentialRampToValueAtTime(0.001, t + 0.95)
       o5.connect(g5); g5.connect(master)
-      o5.start(t + 0.1); o5.stop(t + 0.9)
+      o5.start(t + 0.08); o5.stop(t + 1.0)
 
-      setTimeout(() => ctx.close(), 1200)
+      setTimeout(() => ctx.close(), 1400)
     } catch (_) {}
   }
 
