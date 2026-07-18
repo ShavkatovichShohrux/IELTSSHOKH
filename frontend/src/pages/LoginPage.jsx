@@ -80,9 +80,61 @@ export default function LoginPage() {
   const location = useLocation()
   const from = location.state?.from?.pathname
 
+  const playSound = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)()
+      const t = ctx.currentTime
+
+      // Thump — low punch
+      const o1 = ctx.createOscillator(), g1 = ctx.createGain()
+      o1.connect(g1); g1.connect(ctx.destination)
+      o1.type = 'sine'
+      o1.frequency.setValueAtTime(90, t)
+      o1.frequency.exponentialRampToValueAtTime(35, t + 0.12)
+      g1.gain.setValueAtTime(0.55, t)
+      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.14)
+      o1.start(t); o1.stop(t + 0.14)
+
+      // Rising sweep — sci-fi whoosh
+      const o2 = ctx.createOscillator(), g2 = ctx.createGain()
+      o2.connect(g2); g2.connect(ctx.destination)
+      o2.type = 'sine'
+      o2.frequency.setValueAtTime(280, t + 0.02)
+      o2.frequency.exponentialRampToValueAtTime(1400, t + 0.22)
+      g2.gain.setValueAtTime(0.22, t + 0.02)
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.26)
+      o2.start(t + 0.02); o2.stop(t + 0.26)
+
+      // High digital tick
+      const o3 = ctx.createOscillator(), g3 = ctx.createGain()
+      const filt = ctx.createBiquadFilter()
+      filt.type = 'bandpass'; filt.frequency.value = 3200; filt.Q.value = 2
+      o3.connect(filt); filt.connect(g3); g3.connect(ctx.destination)
+      o3.type = 'square'
+      o3.frequency.setValueAtTime(2200, t + 0.12)
+      o3.frequency.exponentialRampToValueAtTime(4400, t + 0.22)
+      g3.gain.setValueAtTime(0.07, t + 0.12)
+      g3.gain.exponentialRampToValueAtTime(0.001, t + 0.24)
+      o3.start(t + 0.12); o3.stop(t + 0.24)
+
+      // Confirmation ping
+      const o4 = ctx.createOscillator(), g4 = ctx.createGain()
+      o4.connect(g4); g4.connect(ctx.destination)
+      o4.type = 'sine'
+      o4.frequency.setValueAtTime(1800, t + 0.2)
+      o4.frequency.exponentialRampToValueAtTime(1200, t + 0.36)
+      g4.gain.setValueAtTime(0.15, t + 0.2)
+      g4.gain.exponentialRampToValueAtTime(0.001, t + 0.38)
+      o4.start(t + 0.2); o4.stop(t + 0.38)
+
+      setTimeout(() => ctx.close(), 600)
+    } catch (_) {}
+  }
+
   const submit = async e => {
     e.preventDefault()
     if (!form.username || !form.password) return toast.error("Barcha maydonlarni to'ldiring")
+    playSound()
     setLoading(true)
     try {
       const res = await api.login(form)
