@@ -133,9 +133,9 @@ export default function LoginPage() {
         {/* ── Globe ─────────────────────────────────────────────────────── */}
         <div style={{
           position: 'absolute',
-          top: -140, left: '50%',
+          top: -110, left: '50%',
           transform: 'translateX(-50%)',
-          width: 620, height: 620,
+          width: 500, height: 500,
           borderRadius: '50%',
           background: 'radial-gradient(ellipse at 58% 38%, #0c3068 0%, #051730 35%, #020c24 65%, #010810 100%)',
           border: '1.5px solid rgba(90,150,255,.38)',
@@ -215,7 +215,7 @@ export default function LoginPage() {
         }}>
 
           {/* Top-left logo */}
-          <div style={{ padding:'18px 28px' }}>
+          <div style={{ padding:'14px 22px' }}>
             <div style={{ fontSize:15,fontWeight:700,letterSpacing:4,color:'#fff',marginBottom:5 }}>
               IELTSSHOKH
             </div>
@@ -251,25 +251,25 @@ export default function LoginPage() {
           }}>
 
             {/* Headline */}
-            <div style={{ textAlign:'center', marginBottom:18 }}>
+            <div style={{ textAlign:'center', marginBottom:12 }}>
               {/* Logo */}
               <img
                 src="/logo.png"
                 alt="IELTSSHOKH"
                 style={{
-                  width:70, height:70, objectFit:'contain', marginBottom:12, display:'block', margin:'0 auto 12px',
+                  width:54, height:54, objectFit:'contain', marginBottom:10, display:'block', margin:'0 auto 10px',
                   filter:'drop-shadow(0 0 18px rgba(74,144,255,.55))',
                 }}
               />
               <div style={{
                 fontSize:10, letterSpacing:5.5,
-                color:'rgba(74,144,255,.75)', fontWeight:600, marginBottom:10,
+                color:'rgba(74,144,255,.75)', fontWeight:600, marginBottom:7,
               }}>
                 WELCOME BACK
               </div>
               <h1 style={{
-                margin:'0 0 8px',
-                fontSize:'clamp(22px,3.2vw,40px)',
+                margin:'0 0 6px',
+                fontSize:'clamp(18px,2.6vw,32px)',
                 fontWeight:800, lineHeight:1.18,
                 color:'#fff', letterSpacing:-0.8,
               }}>
@@ -287,22 +287,22 @@ export default function LoginPage() {
 
             {/* Login card */}
             <div style={{
-              width:'100%', maxWidth:440,
+              width:'100%', maxWidth:420,
               background:'rgba(7,13,38,.88)',
               backdropFilter:'blur(22px)',
               WebkitBackdropFilter:'blur(22px)',
               border:'1px solid rgba(74,108,247,.22)',
-              borderRadius:16,
-              padding:'24px 28px',
+              borderRadius:14,
+              padding:'20px 24px',
               boxShadow:'0 8px 64px rgba(0,0,0,.65), 0 0 48px rgba(74,108,247,.07)',
             }}>
               <form onSubmit={submit}>
 
                 {/* USERNAME */}
-                <div style={{ marginBottom:14 }}>
+                <div style={{ marginBottom:10 }}>
                   <label style={{
-                    display:'block', fontSize:10.5, letterSpacing:2.2,
-                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:7,
+                    display:'block', fontSize:10, letterSpacing:2,
+                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:6,
                   }}>USERNAME</label>
                   <div style={{ position:'relative' }}>
                     <span style={{
@@ -318,7 +318,7 @@ export default function LoginPage() {
                       autoComplete="username"
                       className="li"
                       style={{
-                        width:'100%', padding:'10px 14px 10px 42px',
+                        width:'100%', padding:'8px 14px 8px 42px',
                         borderRadius:10,
                         background:'rgba(4,10,30,.82)',
                         border:'1px solid rgba(74,108,247,.18)',
@@ -331,10 +331,10 @@ export default function LoginPage() {
                 </div>
 
                 {/* PASSWORD */}
-                <div style={{ marginBottom:18 }}>
+                <div style={{ marginBottom:14 }}>
                   <label style={{
-                    display:'block', fontSize:10.5, letterSpacing:2.2,
-                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:9,
+                    display:'block', fontSize:10, letterSpacing:2,
+                    color:'rgba(255,255,255,.42)', fontWeight:700, marginBottom:6,
                   }}>PASSWORD</label>
                   <div style={{ position:'relative' }}>
                     <span style={{
@@ -350,7 +350,7 @@ export default function LoginPage() {
                       autoComplete="current-password"
                       className="li"
                       style={{
-                        width:'100%', padding:'10px 44px 10px 42px',
+                        width:'100%', padding:'8px 44px 8px 42px',
                         borderRadius:10,
                         background:'rgba(4,10,30,.82)',
                         border:'1px solid rgba(74,108,247,.18)',
@@ -405,7 +405,7 @@ export default function LoginPage() {
               </form>
 
               {/* OR divider */}
-              <div style={{ display:'flex',alignItems:'center',gap:12,margin:'16px 0' }}>
+              <div style={{ display:'flex',alignItems:'center',gap:12,margin:'12px 0' }}>
                 <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
                 <span style={{ fontSize:12,color:'rgba(255,255,255,.28)',fontWeight:500 }}>or</span>
                 <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
@@ -425,7 +425,7 @@ export default function LoginPage() {
 
           {/* Bottom row: feature cards + footer */}
           <div style={{
-            padding:'0 24px 20px',
+            padding:'0 20px 14px',
             display:'flex', alignItems:'flex-end', justifyContent:'space-between',
             gap:12,
           }}>
