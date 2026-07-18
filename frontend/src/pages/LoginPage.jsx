@@ -414,8 +414,11 @@ export default function LoginPage() {
                       type="text"
                       placeholder="Enter your username"
                       value={form.username}
-                      onChange={e => setForm(p => ({ ...p, username: e.target.value }))}
+                      onChange={e => setForm(p => ({ ...p, username: e.target.value.trim() }))}
                       autoComplete="username"
+                      autoCorrect="off"
+                      autoCapitalize="none"
+                      spellCheck={false}
                       className="li"
                       style={{
                         width:'100%', padding:'8px 14px 8px 42px',
@@ -448,6 +451,9 @@ export default function LoginPage() {
                       value={form.password}
                       onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
                       autoComplete="current-password"
+                      autoCorrect="off"
+                      autoCapitalize="none"
+                      spellCheck={false}
                       className="li"
                       style={{
                         width:'100%', padding:'8px 44px 8px 42px',
