@@ -9,9 +9,28 @@ const APK_VERSION = '1.2'
 export default function DownloadApp() {
   const [downloading, setDownloading] = useState(false)
 
-  const handleDownload = () => {
+  const handleDownload = async (e) => {
+    e.preventDefault()
+    if (downloading) return
     setDownloading(true)
-    setTimeout(() => setDownloading(false), 2000)
+    try {
+      const res = await fetch(APK_URL)
+      if (!res.ok) throw new Error('fetch failed')
+      const raw = await res.blob()
+      // Force correct MIME type — Samsung Internet blocks downloads without it
+      const blob = new Blob([raw], { type: 'application/vnd.android.package-archive' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'ieltsshokh.apk'
+      document.body.appendChild(a)
+      a.click()
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url) }, 300)
+    } catch {
+      window.location.href = APK_URL
+    } finally {
+      setTimeout(() => setDownloading(false), 3000)
+    }
   }
 
   return (
