@@ -32,7 +32,8 @@ function PlanGate({ plan }) {
 
 export default function Home() {
   const { token, user } = useAuthStore()
-  const [topicUrl, setTopicUrl] = useState(null)
+  const [topicHtml, setTopicHtml] = useState(null)
+  const [topicLoading, setTopicLoading] = useState(false)
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ['topics'],
@@ -48,44 +49,63 @@ export default function Home() {
 
   const isAndroid = /android/i.test(navigator.userAgent)
 
-  const openTopic = (id) => {
+  const openTopic = async (id) => {
     const url = `${API_ORIGIN}/api/topics/${id}/content?t=${token}`
     if (isAndroid) {
       history.pushState({ topicOverlay: true }, '', location.href)
-      setTopicUrl(url)
+      setTopicLoading(true)
+      try {
+        const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+        if (!res.ok) throw new Error(res.status)
+        let html = await res.text()
+        // Strip client-side auth gate (server already validated token)
+        html = html.replace(/<!-- AUTH GATE -->\s*<script>[\s\S]*?<\/script>/, '')
+        // Inject subtle watermark
+        html = html.replace('</head>',
+          '<style>#_ielts_wm{color:#0d1b4b;opacity:.15;}[data-theme="dark"] #_ielts_wm{color:#fff;opacity:.10;}</style></head>')
+        html = html.replace('</body>',
+          '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div></body>')
+        setTopicHtml(html)
+      } catch {
+        history.back()
+      } finally {
+        setTopicLoading(false)
+      }
     } else {
       window.open(url, '_blank')
     }
   }
 
-  const closeTopic = () => {
-    setTopicUrl(null)
-  }
-
   useEffect(() => {
-    if (!topicUrl) return
-    const onPop = () => setTopicUrl(null)
+    if (!topicHtml && !topicLoading) return
+    const onPop = () => { setTopicHtml(null); setTopicLoading(false) }
     window.addEventListener('popstate', onPop)
     return () => window.removeEventListener('popstate', onPop)
-  }, [topicUrl])
+  }, [topicHtml, topicLoading])
 
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
 
   return (
     <>
-    {topicUrl && (
-      <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#000' }}>
-        <iframe
-          src={topicUrl}
-          style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-          title="Speaking Topic"
-        />
+    {(topicHtml || topicLoading) && (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#f2f3fa' }}>
+        {topicLoading ? (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#555', fontSize: 15 }}>
+            Yuklanmoqda...
+          </div>
+        ) : (
+          <iframe
+            srcDoc={topicHtml}
+            style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            title="Speaking Topic"
+          />
+        )}
         <button
-          onClick={() => { history.back() }}
+          onClick={() => history.back()}
           style={{
             position: 'fixed', top: 14, right: 14, zIndex: 10000,
             background: 'rgba(0,0,0,0.65)', color: '#fff', border: 'none',
-            borderRadius: '50%', width: 38, height: 38, fontSize: 18,
+            borderRadius: '50%', width: 38, height: 38,
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}
         >
