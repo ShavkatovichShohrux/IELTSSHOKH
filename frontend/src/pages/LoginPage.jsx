@@ -4,89 +4,95 @@ import toast from 'react-hot-toast'
 import { api } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
-/* ── City-lights dots for Earth at night ──────────────────────────────── */
-function genEarthDots() {
+/* ─── City-lights: Earth at night, viewed from ~35°E / 15°N ─────────── */
+function makeCityLights() {
+  const cx = 375, cy = 345, R = 338
   const dots = []
-  const cx = 300, cy = 290, R = 272
-  const seed = (n) => { let x = Math.sin(n * 9301 + 49297) * 233280; return x - Math.floor(x) }
-  const clusters = [
-    // Europe
-    { nx: -0.05, ny: -0.18, spread: 0.28, count: 60, bright: 0.85 },
-    // East Asia / China
-    { nx:  0.38, ny: -0.10, spread: 0.26, count: 55, bright: 0.80 },
-    // Japan
-    { nx:  0.58, ny: -0.22, spread: 0.10, count: 28, bright: 0.95 },
-    // India
-    { nx:  0.18, ny:  0.18, spread: 0.13, count: 30, bright: 0.78 },
-    // SE Asia
-    { nx:  0.38, ny:  0.28, spread: 0.12, count: 22, bright: 0.72 },
-    // Middle East
-    { nx:  0.08, ny:  0.02, spread: 0.13, count: 20, bright: 0.70 },
-    // North America East
-    { nx: -0.52, ny: -0.20, spread: 0.20, count: 45, bright: 0.88 },
-    // North America West
-    { nx: -0.62, ny: -0.10, spread: 0.14, count: 22, bright: 0.75 },
-    // South America
-    { nx: -0.38, ny:  0.32, spread: 0.18, count: 20, bright: 0.65 },
-    // Australia
-    { nx:  0.52, ny:  0.35, spread: 0.15, count: 18, bright: 0.70 },
-    // North Africa
-    { nx: -0.08, ny:  0.10, spread: 0.20, count: 15, bright: 0.55 },
-    // Russia
-    { nx:  0.15, ny: -0.35, spread: 0.30, count: 18, bright: 0.50 },
-    // Scattered random
-    { nx:  0.00, ny:  0.00, spread: 0.90, count: 80, bright: 0.30 },
+  // tiny seedable PRNG so dots are deterministic (no hydration mismatch)
+  const rnd = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x) }
+  let s = 0
+
+  // [centerNx, centerNy, spreadX, spreadY, count, maxOpacity]
+  // ny negative = upper half of globe
+  const C = [
+    /* W/C Europe       */ [-0.17,-0.50, .16,.11, 85, .95],
+    /* UK/Ireland       */ [-0.28,-0.57, .07,.05, 32, .90],
+    /* Iberian Peninsula*/ [-0.25,-0.38, .06,.06, 18, .70],
+    /* E Europe / Poland*/ [ 0.04,-0.47, .10,.08, 38, .75],
+    /* Scandinavia      */ [-0.05,-0.68, .09,.05, 18, .55],
+    /* Russia west      */ [ 0.15,-0.62, .14,.07, 22, .50],
+    /* Turkey           */ [ 0.07,-0.36, .07,.05, 22, .70],
+    /* Middle East      */ [ 0.18,-0.26, .12,.09, 40, .75],
+    /* Nile corridor    */ [ 0.07,-0.18, .03,.09, 14, .65],
+    /* N Africa coast   */ [-0.10,-0.22, .10,.03, 12, .50],
+    /* Sub-Saharan W    */ [-0.13, 0.05, .07,.08,  9, .42],
+    /* E Africa         */ [ 0.17, 0.14, .07,.10,  8, .42],
+    /* Iran/Pakistan    */ [ 0.26,-0.28, .10,.07, 18, .58],
+    /* India            */ [ 0.34,-0.08, .13,.17, 70, .88],
+    /* Sri Lanka        */ [ 0.38, 0.22, .02,.02,  6, .72],
+    /* Central Asia     */ [ 0.24,-0.50, .10,.06, 12, .42],
+    /* China coast/East */ [ 0.54,-0.38, .10,.12, 55, .90],
+    /* Beijing/N China  */ [ 0.48,-0.52, .08,.07, 32, .85],
+    /* Japan            */ [ 0.63,-0.46, .06,.08, 42, .95],
+    /* Korea            */ [ 0.57,-0.44, .04,.04, 22, .88],
+    /* SE Asia/Vietnam  */ [ 0.52,-0.06, .10,.12, 32, .72],
+    /* Indonesia/Java   */ [ 0.56, 0.10, .13,.05, 18, .62],
+    /* Philippines      */ [ 0.62, 0.02, .05,.07, 12, .60],
+    /* Australia east   */ [ 0.62, 0.32, .05,.09, 14, .65],
+    /* US East Coast    */ [-0.66,-0.25, .07,.11, 20, .62],
+    /* Random scatter   */ [ 0.00, 0.00, .82,.72, 70, .22],
   ]
-  let idx = 0
-  clusters.forEach(({ nx, ny, spread, count, bright }) => {
-    for (let i = 0; i < count; i++) {
-      const angle = seed(idx++) * Math.PI * 2
-      const rad   = seed(idx++) * spread * R
-      const x = cx + (nx * R) + Math.cos(angle) * rad
-      const y = cy + (ny * R * 0.88) + Math.sin(angle) * rad * 0.78
-      const dx = (x - cx) / R, dy = (y - cy) / R
-      if (dx*dx + dy*dy > 0.88) continue
-      const r = 0.6 + seed(idx++) * 2.2
-      const o = (0.35 + seed(idx++) * 0.65) * bright
-      dots.push({ x: +x.toFixed(1), y: +y.toFixed(1), r: +r.toFixed(1), o: +o.toFixed(2) })
+
+  C.forEach(([nx, ny, sx, sy, cnt, maxO]) => {
+    for (let i = 0; i < cnt; i++) {
+      // Box-Muller Gaussian
+      const u1 = Math.max(rnd(s++), 1e-6), u2 = rnd(s++)
+      const gx = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2)
+      const gy = Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2)
+      const px = cx + (nx + gx * sx) * R
+      const py = cy + (ny + gy * sy) * R * 0.88
+      // must be inside globe circle
+      const dx = (px - cx) / R, dy = (py - cy) / R
+      if (dx*dx + dy*dy > 0.83) continue
+      const r = 0.4 + rnd(s++) * 1.9
+      const o = (0.28 + rnd(s++) * 0.72) * maxO
+      dots.push({ x: +px.toFixed(1), y: +py.toFixed(1), r: +r.toFixed(2), o: +o.toFixed(3) })
     }
   })
   return dots
 }
-const EARTH_DOTS = genEarthDots()
+const DOTS = makeCityLights()
 
-/* ── Icons ────────────────────────────────────────────────────────────── */
+/* ─── SVG Icons ──────────────────────────────────────────────────────── */
 const IconUser = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(120,160,255,0.75)" strokeWidth="2">
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-    <circle cx="12" cy="7" r="4"/>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(100,160,255,.72)" strokeWidth="2" strokeLinecap="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
   </svg>
 )
 const IconLock = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(120,160,255,0.75)" strokeWidth="2">
-    <rect x="3" y="11" width="18" height="11" rx="2"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(100,160,255,.72)" strokeWidth="2" strokeLinecap="round">
+    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
   </svg>
 )
 const IconEye = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(120,160,255,0.6)" strokeWidth="2">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(100,160,255,.55)" strokeWidth="2" strokeLinecap="round">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
   </svg>
 )
 const IconEyeOff = () => (
-  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(120,160,255,0.6)" strokeWidth="2">
-    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(100,160,255,.55)" strokeWidth="2" strokeLinecap="round">
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
     <line x1="1" y1="1" x2="23" y2="23"/>
   </svg>
 )
 const IconArrow = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-    <line x1="5" y1="12" x2="19" y2="12"/>
-    <polyline points="12 5 19 12 12 19"/>
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
   </svg>
 )
-const IconFingerprint = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(74,144,255,0.9)" strokeWidth="1.5">
+const IconFP = () => (
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(74,144,255,.9)" strokeWidth="1.5" strokeLinecap="round">
     <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/>
     <path d="M14 13.12c0 2.38 0 6.38-1 8.88"/>
     <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/>
@@ -99,7 +105,7 @@ const IconFingerprint = () => (
   </svg>
 )
 const IconDiamond = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(74,144,255,0.9)" strokeWidth="1.5">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(74,144,255,.9)" strokeWidth="1.5" strokeLinecap="round">
     <polygon points="6 3 18 3 22 9 12 22 2 9"/>
     <line x1="2" y1="9" x2="22" y2="9"/>
     <line x1="12" y1="3" x2="6" y2="9"/>
@@ -107,25 +113,26 @@ const IconDiamond = () => (
   </svg>
 )
 
-/* ── Mountain SVG ─────────────────────────────────────────────────────── */
+/* ─── Mountain SVG (3-layer depth) ──────────────────────────────────── */
 const Mountains = () => (
-  <svg viewBox="0 0 1440 320" preserveAspectRatio="none"
+  <svg viewBox="0 0 1440 280" preserveAspectRatio="none"
     style={{ width:'100%', height:'100%', display:'block' }}>
-    <defs>
-      <linearGradient id="mtnGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#050d24"/>
-        <stop offset="100%" stopColor="#020810"/>
-      </linearGradient>
-    </defs>
-    {/* Far mountains — lighter */}
-    <path d="M0,280 L80,210 L160,240 L260,170 L360,220 L450,155 L540,200 L640,140 L720,185 L820,130 L900,170 L1000,120 L1100,165 L1200,110 L1300,155 L1380,130 L1440,160 L1440,320 L0,320 Z"
-      fill="rgba(5,15,45,0.6)"/>
-    {/* Mid mountains */}
-    <path d="M0,300 L60,255 L130,275 L210,230 L310,260 L400,210 L480,245 L570,195 L660,235 L760,185 L850,220 L950,175 L1040,215 L1150,168 L1240,205 L1340,175 L1440,195 L1440,320 L0,320 Z"
-      fill="rgba(4,12,35,0.75)"/>
-    {/* Front mountains — darkest */}
-    <path d="M0,320 L50,285 L110,300 L185,268 L260,292 L340,258 L420,280 L500,252 L580,275 L660,248 L740,270 L820,242 L900,265 L980,240 L1060,262 L1150,238 L1230,258 L1320,238 L1440,255 L1440,320 Z"
-      fill="url(#mtnGrad)"/>
+    {/* Far layer */}
+    <path fill="rgba(4,10,28,.55)"
+      d="M0,240 L70,190 L140,215 L220,165 L300,200 L390,148 L470,185 L560,132
+         L640,168 L720,118 L810,155 L900,108 L990,148 L1080,100 L1170,140
+         L1270,95 L1360,130 L1440,108 L1440,280 L0,280Z"/>
+    {/* Mid layer */}
+    <path fill="rgba(3,8,22,.80)"
+      d="M0,260 L55,228 L115,245 L185,210 L270,238 L355,196 L440,224
+         L530,188 L615,218 L700,178 L795,210 L880,172 L968,205 L1060,165
+         L1150,198 L1240,162 L1340,192 L1440,170 L1440,280 L0,280Z"/>
+    {/* Front layer */}
+    <path fill="#020810"
+      d="M0,280 L45,260 L90,270 L150,252 L215,265 L285,245 L355,260
+         L425,240 L500,256 L575,236 L645,252 L715,232 L790,250 L865,230
+         L940,248 L1020,228 L1100,245 L1185,226 L1265,244 L1360,226
+         L1440,242 L1440,280Z"/>
   </svg>
 )
 
@@ -161,336 +168,424 @@ export default function LoginPage() {
   return (
     <>
       <style>{`
-        @keyframes globeGlow {
-          0%,100% { box-shadow: 0 0 80px 20px rgba(30,90,255,.50), 0 0 180px 40px rgba(20,60,200,.22), inset 0 0 80px 10px rgba(10,40,160,.18); }
-          50%      { box-shadow: 0 0 120px 30px rgba(40,110,255,.70), 0 0 260px 60px rgba(20,60,200,.32), inset 0 0 110px 15px rgba(10,40,160,.28); }
+        @keyframes globeBreath {
+          0%,100% {
+            box-shadow:
+              0 0 70px 18px rgba(0,80,255,.60),
+              0 0 140px 35px rgba(0,60,200,.38),
+              0 0 260px 60px rgba(0,40,160,.20),
+              inset 0 0 90px 20px rgba(0,30,120,.35);
+          }
+          50% {
+            box-shadow:
+              0 0 100px 24px rgba(0,100,255,.80),
+              0 0 200px 50px rgba(0,80,220,.50),
+              0 0 360px 80px rgba(0,50,180,.28),
+              inset 0 0 120px 25px rgba(0,40,140,.45);
+          }
         }
-        @keyframes ringPulse {
-          0%,100% { opacity:.5; transform:scaleX(1) scaleY(1); }
-          50%      { opacity:.8; transform:scaleX(1.03) scaleY(1.03); }
+        @keyframes ringGlow {
+          0%,100%{ opacity:.48; transform:scale(1); }
+          50%    { opacity:.78; transform:scale(1.025); }
         }
-        @keyframes flt1 { 0%,100%{transform:translateY(0) rotate(0deg)}   50%{transform:translateY(-14px) rotate(18deg)} }
-        @keyframes flt2 { 0%,100%{transform:translateY(0) rotate(45deg)}  50%{transform:translateY(-10px) rotate(63deg)} }
-        @keyframes flt3 { 0%,100%{transform:translateY(0) rotate(12deg)}  50%{transform:translateY(-16px) rotate(-5deg)} }
-        @keyframes flt4 { 0%,100%{transform:translateY(0) rotate(30deg)}  50%{transform:translateY(-8px)  rotate(50deg)} }
-        @keyframes starTwinkle { 0%,100%{opacity:.18} 50%{opacity:.55} }
-        .li  { user-select:text!important;-webkit-user-select:text!important; }
-        .li:focus { outline:none!important; border-color:rgba(74,108,247,.8)!important; box-shadow:0 0 0 3px rgba(74,108,247,.14)!important; }
-        .abtn { transition:all .2s; }
-        .abtn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 36px rgba(50,100,255,.6)!important; }
-        .fcard { transition:border-color .22s,box-shadow .22s; }
-        .fcard:hover { border-color:rgba(74,108,247,.45)!important; box-shadow:0 4px 24px rgba(74,108,247,.12)!important; }
+        @keyframes fl1{ 0%,100%{transform:translateY(0) rotate(0deg)}   50%{transform:translateY(-13px) rotate(18deg)} }
+        @keyframes fl2{ 0%,100%{transform:translateY(0) rotate(45deg)}  50%{transform:translateY(-9px)  rotate(62deg)} }
+        @keyframes fl3{ 0%,100%{transform:translateY(0) rotate(12deg)}  50%{transform:translateY(-16px) rotate(-6deg)} }
+        @keyframes fl4{ 0%,100%{transform:translateY(0) rotate(-8deg)}  50%{transform:translateY(-11px) rotate(10deg)} }
+        .lp-input {
+          user-select:text!important; -webkit-user-select:text!important;
+          width:100%; border-radius:10px;
+          background:rgba(6,14,40,.82);
+          border:1px solid rgba(50,90,200,.24);
+          color:#d8e4ff; font-size:14px;
+          box-sizing:border-box;
+          transition:border-color .16s, box-shadow .16s;
+        }
+        .lp-input::placeholder{ color:rgba(120,155,220,.38); }
+        .lp-input:focus{
+          outline:none!important;
+          border-color:rgba(60,120,255,.75)!important;
+          box-shadow:0 0 0 3px rgba(50,100,255,.13)!important;
+        }
+        .lp-btn{
+          transition:transform .18s, box-shadow .18s;
+        }
+        .lp-btn:hover:not(:disabled){
+          transform:translateY(-2px);
+          box-shadow:0 10px 40px rgba(30,90,255,.65)!important;
+        }
+        .lp-card{ transition:border-color .22s; }
+        .lp-card:hover{ border-color:rgba(60,110,255,.40)!important; }
       `}</style>
 
       <div style={{
-        minHeight:'100vh', background:'#030b1a',
-        position:'relative', overflow:'hidden',
+        minHeight:'100vh', position:'relative', overflow:'hidden',
+        background:'#030a17',
         fontFamily:"'Inter','Segoe UI',system-ui,sans-serif",
       }}>
 
-        {/* ── GLOBE ─────────────────────────────────────────────────── */}
+        {/* ══ GLOBE ══════════════════════════════════════════════════ */}
         <div style={{
-          position:'absolute', top:-60, left:'50%',
-          transform:'translateX(-50%)',
-          width:640, height:640,
+          position:'absolute',
+          top:-90, left:'50%', transform:'translateX(-50%)',
+          width:750, height:750,
           borderRadius:'50%',
-          background:'radial-gradient(ellipse at 55% 35%, #0d2a5e 0%, #061535 30%, #030d28 58%, #010810 100%)',
-          border:'1.5px solid rgba(60,120,255,.35)',
-          animation:'globeGlow 5s ease-in-out infinite',
-          zIndex:1,
-          flexShrink:0,
+          background:'radial-gradient(ellipse at 52% 36%, #0e2558 0%, #071232 28%, #030c22 55%, #010810 100%)',
+          border:'1.5px solid rgba(40,100,255,.30)',
+          animation:'globeBreath 5.5s ease-in-out infinite',
+          zIndex:1, flexShrink:0,
         }}>
-          {/* atmosphere rim */}
-          <div style={{
-            position:'absolute', inset:-2, borderRadius:'50%',
-            background:'radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(40,100,255,.28) 80%, rgba(20,60,200,.55) 95%, transparent 100%)',
-            pointerEvents:'none',
-          }}/>
-          {/* latitude lines */}
-          {[0.25,0.45,0.65,0.80].map((f,i) => (
+
+          {/* ── Latitude grid lines ── */}
+          {[.30,.50,.68,.83].map((f,i) => (
             <div key={i} style={{
               position:'absolute',
               left:`${(1-f)*50}%`, top:`${(1-f)*50}%`,
               width:`${f*100}%`, height:`${f*100}%`,
               borderRadius:'50%',
-              border:'1px solid rgba(80,140,255,.06)',
+              border:'1px solid rgba(60,120,255,.055)',
               pointerEvents:'none',
             }}/>
           ))}
-          {/* city lights SVG */}
-          <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', borderRadius:'50%' }}
-            viewBox="0 0 600 580">
-            <defs>
-              <radialGradient id="dotGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#aac4ff" stopOpacity="1"/>
-                <stop offset="100%" stopColor="#6699ff" stopOpacity="0"/>
-              </radialGradient>
-            </defs>
-            {EARTH_DOTS.map((d,i) => (
-              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="#aac4ff" opacity={d.o}/>
+          {/* ── Longitude lines (vertical stripes) ── */}
+          {[0,1,2,3,4].map(i => (
+            <div key={i} style={{
+              position:'absolute', top:'5%', left:`${20+i*15}%`,
+              width:1, height:'90%',
+              background:'rgba(60,120,255,.04)',
+              pointerEvents:'none',
+            }}/>
+          ))}
+
+          {/* ── City lights SVG ── */}
+          <svg
+            style={{ position:'absolute', inset:0, width:'100%', height:'100%', borderRadius:'50%', overflow:'hidden' }}
+            viewBox="0 0 750 690">
+            {DOTS.map((d,i) => (
+              <circle key={i} cx={d.x} cy={d.y} r={d.r} fill="#b8d0ff" opacity={d.o}/>
             ))}
-            {/* bright city clusters */}
+            {/* super-bright city cores */}
             {[
-              [285,195,5],[310,188,4],[268,200,4.5],[255,185,3.5],
-              [340,175,4],[360,182,3.5],[380,168,5],[395,178,3],
-              [420,165,4.5],[408,155,3.5],
-              [220,210,4],[238,205,3.5],
-              [185,200,3.5],[175,210,3],
-              [320,225,4],[335,232,3.5],
-              [460,210,3.5],[475,200,3],
-            ].map(([x,y,r],i) => (
-              <circle key={`bc${i}`} cx={x} cy={y} r={r} fill="white" opacity={0.6+i%3*0.1}/>
+              // London
+              [264,152,2.5,.92],[258,148,1.5,.70],
+              // Paris
+              [278,158,2.2,.88],
+              // NW Europe dense
+              [295,145,2.8,.95],[308,140,2.2,.85],[288,163,1.8,.80],
+              // Moscow
+              [355,122,2.5,.82],[348,118,1.5,.70],
+              // Cairo
+              [342,208,2.0,.80],[338,216,1.5,.70],
+              // Mumbai
+              [408,272,2.8,.88],[418,265,1.8,.78],
+              // Delhi
+              [400,238,2.5,.85],[395,232,1.5,.70],
+              // Tokyo
+              [580,164,3.0,.95],[590,158,2.0,.85],[572,170,1.8,.78],
+              // Seoul
+              [558,168,2.2,.88],[550,174,1.5,.75],
+              // Shanghai
+              [548,196,2.8,.90],[558,202,1.8,.80],
+              // Beijing
+              [532,158,2.5,.88],[522,152,1.8,.78],
+              // Singapore/KL
+              [528,286,2.0,.80],[518,292,1.5,.70],
+              // Bangkok
+              [510,272,1.8,.75],
+              // Sydney
+              [588,338,2.0,.78],[596,345,1.5,.68],
+              // Istanbul
+              [320,198,1.8,.75],
+              // Tehran
+              [368,210,1.8,.72],
+            ].map(([x,y,r,o],i) => (
+              <circle key={`h${i}`} cx={x} cy={y} r={r} fill="white" opacity={o}/>
             ))}
           </svg>
-          {/* top atmospheric glow */}
+
+          {/* ── Continent ambient glow (very subtle) ── */}
+          {[
+            { cx:'36%', cy:'22%', rw:'16%', rh:'10%', c:'rgba(80,140,255,.04)' }, // Europe
+            { cx:'58%', cy:'40%', rw:'14%', rh:'16%', c:'rgba(80,140,255,.035)' }, // India
+            { cx:'76%', cy:'28%', rw:'12%', rh:'12%', c:'rgba(80,140,255,.04)' }, // E Asia
+          ].map((g,i) => (
+            <div key={i} style={{
+              position:'absolute',
+              left:g.cx, top:g.cy,
+              transform:'translate(-50%,-50%)',
+              width:g.rw, height:g.rh,
+              borderRadius:'50%',
+              background:g.c,
+              filter:'blur(20px)',
+              pointerEvents:'none',
+            }}/>
+          ))}
+
+          {/* ── Atmospheric rim (CRITICAL — bright blue edge) ── */}
           <div style={{
             position:'absolute', inset:0, borderRadius:'50%',
-            background:'radial-gradient(ellipse 70% 35% at 50% 10%, rgba(70,130,255,.18) 0%, transparent 70%)',
+            background:`radial-gradient(circle at 50% 50%,
+              transparent 58%,
+              rgba(0,50,180,.00) 64%,
+              rgba(0,70,210,.08) 70%,
+              rgba(10,90,240,.28) 77%,
+              rgba(30,120,255,.58) 84%,
+              rgba(70,160,255,.82) 89%,
+              rgba(140,200,255,.72) 93%,
+              rgba(200,230,255,.35) 96%,
+              transparent 100%
+            )`,
+            pointerEvents:'none',
+          }}/>
+          {/* Top atmospheric shimmer */}
+          <div style={{
+            position:'absolute', inset:0, borderRadius:'50%',
+            background:'radial-gradient(ellipse 65% 28% at 50% 8%, rgba(80,160,255,.14) 0%, transparent 70%)',
             pointerEvents:'none',
           }}/>
         </div>
 
-        {/* ── MOUNTAINS ─────────────────────────────────────────────── */}
+        {/* ══ MOUNTAINS ══════════════════════════════════════════════ */}
         <div style={{
           position:'absolute', bottom:0, left:0, right:0,
-          height:260, zIndex:2, pointerEvents:'none',
+          height:252, zIndex:2, pointerEvents:'none',
         }}>
           <Mountains/>
         </div>
 
-        {/* ── HOLOGRAPHIC RINGS (bottom center) ─────────────────────── */}
+        {/* ══ HOLOGRAPHIC RINGS (screen bottom-center) ═══════════════ */}
         <div style={{
-          position:'absolute', bottom:-30, left:'50%',
+          position:'absolute', bottom:-55, left:'50%',
           transform:'translateX(-50%)',
           zIndex:3, pointerEvents:'none',
-          width:600, height:160,
+          width:700, height:180,
         }}>
-          {[600,480,360,250,150,80].map((w,i) => (
+          {/* central vertical beam */}
+          <div style={{
+            position:'absolute', left:'50%', top:20,
+            transform:'translateX(-50%)',
+            width:3, height:100,
+            background:'linear-gradient(to top, rgba(50,140,255,.65), transparent)',
+            filter:'blur(1px)',
+          }}/>
+          {/* center glow dot */}
+          <div style={{
+            position:'absolute', left:'50%', top:'60%',
+            transform:'translate(-50%,-50%)',
+            width:10, height:10, borderRadius:'50%',
+            background:'rgba(80,160,255,.85)',
+            boxShadow:'0 0 20px 8px rgba(40,120,255,.55)',
+          }}/>
+          {/* rings — outermost to innermost */}
+          {[
+            { w:680, h:180, op:.28, blur:0, delay:'0s',   dur:'3.8s' },
+            { w:540, h:142, op:.38, blur:0, delay:'.25s', dur:'3.5s' },
+            { w:410, h:108, op:.48, blur:0, delay:'.5s',  dur:'3.2s' },
+            { w:295, h: 78, op:.60, blur:0, delay:'.75s', dur:'2.9s' },
+            { w:195, h: 52, op:.72, blur:0, delay:'1s',   dur:'2.6s' },
+            { w:105, h: 28, op:.85, blur:0, delay:'1.2s', dur:'2.4s' },
+          ].map(({ w, h, op, delay, dur }, i) => (
             <div key={i} style={{
-              position:'absolute',
-              left:'50%', top:'50%',
+              position:'absolute', left:'50%', top:'55%',
               transform:'translate(-50%,-50%)',
-              width:w, height:w*0.28,
+              width:w, height:h,
               borderRadius:'50%',
-              border:`1px solid rgba(40,120,255,${0.55-i*0.08})`,
-              boxShadow:`0 0 ${8+i*2}px rgba(40,120,255,${0.22-i*0.03})`,
-              animation:`ringPulse ${3+i*0.4}s ease-in-out ${i*0.3}s infinite`,
+              border:`1px solid rgba(40,130,255,${op})`,
+              boxShadow:`0 0 ${6+i*2}px rgba(30,120,255,${op*0.4}), inset 0 0 ${4+i}px rgba(30,120,255,${op*0.15})`,
+              animation:`ringGlow ${dur} ease-in-out ${delay} infinite`,
             }}/>
           ))}
-          {/* center beam */}
-          <div style={{
-            position:'absolute', left:'50%', top:'50%',
-            transform:'translate(-50%,-50%)',
-            width:4, height:80,
-            background:'linear-gradient(to top, rgba(60,140,255,.7), transparent)',
-          }}/>
         </div>
 
-        {/* ── FLOATING SHAPES ───────────────────────────────────────── */}
+        {/* ══ FLOATING SHAPES ════════════════════════════════════════ */}
         {[
-          { s:14, t:13, l:8,  anim:'flt1', d:0,    op:.22 },
-          { s:10, t:28, l:88, anim:'flt2', d:1.2,  op:.18 },
-          { s:12, t:70, l:5,  anim:'flt3', d:0.6,  op:.15 },
-          { s:9,  t:55, l:92, anim:'flt4', d:1.8,  op:.20 },
-          { s:7,  t:8,  l:72, anim:'flt1', d:2.4,  op:.15 },
-          { s:11, t:82, l:80, anim:'flt2', d:0.9,  op:.17 },
-          { s:8,  t:42, l:3,  anim:'flt3', d:1.5,  op:.13 },
-          { s:6,  t:20, l:95, anim:'flt4', d:3.0,  op:.14 },
-        ].map(({ s, t, l, anim, d, op }, i) => (
+          { sz:13, top: '8%', left: '7%',  rot:  0, anim:'fl1', delay:'0s',    op:.22 },
+          { sz:10, top:'14%', left:'87%',  rot: 45, anim:'fl2', delay:'.8s',   op:.18 },
+          { sz:11, top:'48%', left: '4%',  rot: 12, anim:'fl3', delay:'1.4s',  op:.16 },
+          { sz: 9, top:'52%', left:'93%',  rot: 45, anim:'fl4', delay:'.4s',   op:.20 },
+          { sz: 7, top:'22%', left:'91%',  rot:  0, anim:'fl1', delay:'2.2s',  op:.15 },
+          { sz:10, top:'75%', left:'88%',  rot: 45, anim:'fl2', delay:'1.0s',  op:.18 },
+          { sz: 8, top:'68%', left: '6%',  rot:  8, anim:'fl3', delay:'.6s',   op:.14 },
+          { sz: 6, top:'30%', left:'96%',  rot: 45, anim:'fl4', delay:'2.8s',  op:.14 },
+        ].map(({ sz, top, left, rot, anim, delay, op }, i) => (
           <div key={i} style={{
-            position:'absolute', top:`${t}%`, left:`${l}%`,
-            width:s, height:s,
-            border:`1.5px solid rgba(74,120,255,${op+.08})`,
-            background:`rgba(74,120,255,${op*0.3})`,
-            transform: i%2===0 ? 'rotate(0deg)' : 'rotate(45deg)',
-            animation:`${anim} ${5+i*0.7}s ease-in-out ${d}s infinite`,
+            position:'absolute', top, left,
+            width:sz, height:sz,
+            border:`1.5px solid rgba(60,130,255,${op+.1})`,
+            background:`rgba(50,110,255,${op*.25})`,
+            transform:`rotate(${rot}deg)`,
+            animation:`${anim} ${5.5+i*.6}s ease-in-out ${delay} infinite`,
             zIndex:2, pointerEvents:'none',
           }}/>
         ))}
 
-        {/* ── CORNER DOT GRID (top right) ───────────────────────────── */}
-        <div style={{ position:'absolute', top:22, right:22, zIndex:2, pointerEvents:'none' }}>
-          {Array.from({length:4},(_,r)=>Array.from({length:4},(_,c)=>(
+        {/* ══ CORNER DOT GRIDS ═══════════════════════════════════════ */}
+        {/* top-right */}
+        <div style={{ position:'absolute', top:26, right:26, zIndex:2, pointerEvents:'none', width:36, height:36 }}>
+          {[0,1,2,3].flatMap(r => [0,1,2,3].map(c => (
             <div key={`${r}-${c}`} style={{
-              position:'absolute',
-              top:r*10, left:c*10,
-              width:2.5, height:2.5, borderRadius:'50%',
-              background:`rgba(74,120,255,${0.25+((r+c)%2)*0.1})`,
+              position:'absolute', top:r*9, left:c*9,
+              width:2.2, height:2.2, borderRadius:'50%',
+              background:`rgba(60,130,255,${.22+(r+c)%2*.08})`,
             }}/>
           )))}
         </div>
-        {/* bottom-left corner dots */}
-        <div style={{ position:'absolute', bottom:24, left:22, zIndex:4, pointerEvents:'none' }}>
-          {Array.from({length:3},(_,r)=>Array.from({length:3},(_,c)=>(
+        {/* bottom-left */}
+        <div style={{ position:'absolute', bottom:28, left:26, zIndex:4, pointerEvents:'none', width:26, height:26 }}>
+          {[0,1,2].flatMap(r => [0,1,2].map(c => (
             <div key={`${r}-${c}`} style={{
-              position:'absolute',
-              top:r*9, left:c*9,
+              position:'absolute', top:r*9, left:c*9,
               width:2, height:2, borderRadius:'50%',
-              background:`rgba(74,120,255,${0.2+((r+c)%2)*0.08})`,
+              background:`rgba(60,130,255,${.18+(r+c)%2*.06})`,
             }}/>
           )))}
         </div>
 
-        {/* ── EDGE LINE MARKERS ─────────────────────────────────────── */}
-        <div style={{
-          position:'absolute', top:48, right:20,
-          width:18, height:1, background:'rgba(74,120,255,.35)',
-          zIndex:2, pointerEvents:'none',
-        }}/>
-        <div style={{
-          position:'absolute', top:52, right:20,
-          width:10, height:1, background:'rgba(74,120,255,.2)',
-          zIndex:2, pointerEvents:'none',
-        }}/>
+        {/* top-right tick marks */}
+        <div style={{ position:'absolute', top:54, right:24, zIndex:2, pointerEvents:'none' }}>
+          <div style={{ width:20, height:1, background:'rgba(60,130,255,.32)', marginBottom:4 }}/>
+          <div style={{ width:12, height:1, background:'rgba(60,130,255,.18)' }}/>
+        </div>
 
-        {/* ── MAIN CONTENT ──────────────────────────────────────────── */}
+        {/* ══ PAGE CONTENT ═══════════════════════════════════════════ */}
         <div style={{
           position:'relative', zIndex:10,
-          minHeight:'100vh',
-          display:'flex', flexDirection:'column',
+          minHeight:'100vh', display:'flex', flexDirection:'column',
         }}>
 
-          {/* Logo top-left */}
-          <div style={{ padding:'24px 32px', display:'flex', alignItems:'center', gap:12 }}>
-            <div style={{ width:32, height:1, background:'rgba(180,200,255,.35)' }}/>
+          {/* ── Logo (top-left) ── */}
+          <div style={{ padding:'22px 30px', display:'flex', alignItems:'center', gap:14 }}>
+            <div style={{ width:30, height:1.5, background:'rgba(160,195,255,.30)' }}/>
             <div>
-              <div style={{ fontSize:14, fontWeight:800, letterSpacing:4, color:'#e8eeff', lineHeight:1 }}>
-                IELTSSHOKH
-              </div>
-              <div style={{ fontSize:8.5, letterSpacing:3.5, color:'rgba(120,160,255,.6)', fontWeight:600, marginTop:3 }}>
+              <div style={{
+                fontSize:13.5, fontWeight:800, letterSpacing:4.5,
+                color:'#dce8ff', lineHeight:1, marginBottom:4,
+              }}>IELTSSHOKH</div>
+              <div style={{ fontSize:8, letterSpacing:4, color:'rgba(100,155,255,.55)', fontWeight:600 }}>
                 MASTER YOUR SPEAKING
               </div>
             </div>
           </div>
 
-          {/* Left vertical text */}
+          {/* ── Vertical text (left) ── */}
           <div style={{
-            position:'absolute', left:20, top:'50%',
+            position:'absolute', left:18, top:'50%',
             transform:'translateY(-50%)',
             display:'flex', flexDirection:'column', alignItems:'center', gap:0,
             zIndex:10,
           }}>
             {['FOCUS','PRACTICE','ACHIEVE'].map((w,i) => (
               <div key={w} style={{ display:'flex', flexDirection:'column', alignItems:'center' }}>
-                {i > 0 && <div style={{ width:1, height:18, background:'rgba(74,120,255,.25)', margin:'4px 0' }}/>}
+                {i > 0 && (
+                  <div style={{ width:1, height:20, background:'rgba(60,130,255,.22)', margin:'3px 0' }}/>
+                )}
                 <span style={{
-                  fontSize:8.5, fontWeight:700, letterSpacing:3.5,
-                  color:'rgba(150,180,255,.35)',
                   writingMode:'vertical-rl', textOrientation:'mixed',
-                }}>{w}</span>
+                  fontSize:8, fontWeight:700, letterSpacing:4,
+                  color:'rgba(120,165,255,.28)',
+                }}>
+                  {w}
+                </span>
               </div>
             ))}
           </div>
 
-          {/* Center content */}
+          {/* ── Center block: headline + card ── */}
           <div style={{
             flex:1, display:'flex', flexDirection:'column',
             alignItems:'center', justifyContent:'center',
-            padding:'0 20px 20px',
+            padding:'0 20px 16px',
           }}>
 
             {/* Headline */}
-            <div style={{ textAlign:'center', marginBottom:24 }}>
+            <div style={{ textAlign:'center', marginBottom:22 }}>
               <div style={{
-                fontSize:10, letterSpacing:5.5, fontWeight:600, marginBottom:16,
-                color:'rgba(120,160,255,.7)',
+                fontSize:9.5, letterSpacing:6, fontWeight:700,
+                color:'rgba(100,160,255,.68)', marginBottom:15,
               }}>
                 WELCOME BACK
               </div>
               <h1 style={{
-                margin:'0 0 12px', fontWeight:800, lineHeight:1.16,
-                fontSize:'clamp(24px,3.5vw,44px)',
-                color:'#e8eeff', letterSpacing:-0.5,
+                margin:'0 0 13px', fontWeight:800, lineHeight:1.14,
+                color:'#dce8ff', letterSpacing:-0.6,
+                fontSize:'clamp(24px,3.4vw,43px)',
               }}>
                 Every step you take<br/>
                 builds your{' '}
                 <span style={{ color:'#4a90ff' }}>future.</span>
               </h1>
               <p style={{
-                margin:0, fontSize:11.5, letterSpacing:2.5,
-                color:'rgba(160,190,255,.32)', fontWeight:500,
+                margin:0, fontSize:11.5, letterSpacing:2.8,
+                color:'rgba(130,170,255,.30)', fontWeight:500,
               }}>
                 Discipline today, success tomorrow.
               </p>
             </div>
 
-            {/* Login card */}
+            {/* Card */}
             <div style={{
-              width:'100%', maxWidth:452,
-              background:'rgba(5,10,30,.90)',
-              backdropFilter:'blur(24px)',
-              WebkitBackdropFilter:'blur(24px)',
-              border:'1px solid rgba(60,100,220,.20)',
+              width:'100%', maxWidth:450,
+              background:'rgba(4,9,26,.90)',
+              backdropFilter:'blur(26px)', WebkitBackdropFilter:'blur(26px)',
+              border:'1px solid rgba(50,90,200,.20)',
               borderRadius:18,
-              padding:'34px 36px 28px',
-              boxShadow:'0 8px 60px rgba(0,0,8,.70), 0 0 60px rgba(40,80,200,.06)',
+              padding:'32px 34px 26px',
+              boxShadow:'0 10px 70px rgba(0,0,12,.72), 0 0 50px rgba(30,70,200,.06)',
             }}>
               <form onSubmit={submit}>
 
                 {/* USERNAME */}
-                <div style={{ marginBottom:18 }}>
+                <div style={{ marginBottom:17 }}>
                   <label style={{
-                    display:'block', fontSize:10.5, letterSpacing:2.5,
-                    color:'rgba(180,200,255,.38)', fontWeight:700, marginBottom:10,
+                    display:'block', fontSize:10, letterSpacing:2.8,
+                    color:'rgba(160,195,255,.36)', fontWeight:700, marginBottom:9,
                   }}>USERNAME</label>
                   <div style={{ position:'relative' }}>
                     <span style={{
                       position:'absolute', left:14, top:'50%',
                       transform:'translateY(-50%)',
                       display:'flex', alignItems:'center', pointerEvents:'none',
-                    }}><IconUser/></span>
+                    }}>
+                      <IconUser/>
+                    </span>
                     <input
                       type="text"
                       placeholder="Enter your username"
                       value={form.username}
                       onChange={e => setForm(p=>({...p,username:e.target.value}))}
                       autoComplete="username"
-                      className="li"
-                      style={{
-                        width:'100%', padding:'13px 14px 13px 44px',
-                        borderRadius:10,
-                        background:'rgba(8,18,50,.75)',
-                        border:'1px solid rgba(60,100,220,.22)',
-                        color:'#e0e8ff', fontSize:14,
-                        boxSizing:'border-box',
-                        transition:'border-color .15s,box-shadow .15s',
-                      }}
+                      className="lp-input"
+                      style={{ padding:'13px 14px 13px 42px' }}
                     />
                   </div>
                 </div>
 
                 {/* PASSWORD */}
-                <div style={{ marginBottom:28 }}>
+                <div style={{ marginBottom:26 }}>
                   <label style={{
-                    display:'block', fontSize:10.5, letterSpacing:2.5,
-                    color:'rgba(180,200,255,.38)', fontWeight:700, marginBottom:10,
+                    display:'block', fontSize:10, letterSpacing:2.8,
+                    color:'rgba(160,195,255,.36)', fontWeight:700, marginBottom:9,
                   }}>PASSWORD</label>
                   <div style={{ position:'relative' }}>
                     <span style={{
                       position:'absolute', left:14, top:'50%',
                       transform:'translateY(-50%)',
                       display:'flex', alignItems:'center', pointerEvents:'none',
-                    }}><IconLock/></span>
+                    }}>
+                      <IconLock/>
+                    </span>
                     <input
                       type={showPw ? 'text' : 'password'}
                       placeholder="Enter your password"
                       value={form.password}
                       onChange={e => setForm(p=>({...p,password:e.target.value}))}
                       autoComplete="current-password"
-                      className="li"
-                      style={{
-                        width:'100%', padding:'13px 46px 13px 44px',
-                        borderRadius:10,
-                        background:'rgba(8,18,50,.75)',
-                        border:'1px solid rgba(60,100,220,.22)',
-                        color:'#e0e8ff', fontSize:14,
-                        boxSizing:'border-box',
-                        transition:'border-color .15s,box-shadow .15s',
-                      }}
+                      className="lp-input"
+                      style={{ padding:'13px 44px 13px 42px' }}
                     />
                     <button
                       type="button"
-                      onClick={()=>setShowPw(p=>!p)}
+                      onClick={()=>setShowPw(v=>!v)}
                       style={{
                         position:'absolute', right:12, top:'50%',
                         transform:'translateY(-50%)',
@@ -503,26 +598,23 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {/* ACCESS DASHBOARD button */}
+                {/* Button */}
                 <button
                   type="submit"
                   disabled={loading}
-                  className="abtn"
+                  className="lp-btn"
                   style={{
-                    width:'100%', padding:'14px 20px',
-                    borderRadius:11,
-                    background:'linear-gradient(135deg,#2a6fff 0%,#1a4fd6 60%,#1240b8 100%)',
-                    border:'none', cursor:'pointer',
-                    color:'#fff', fontSize:11.5, fontWeight:800,
-                    letterSpacing:3.5,
-                    display:'flex', alignItems:'center', justifyContent:'center', gap:12,
-                    boxShadow:'0 4px 24px rgba(30,80,255,.45)',
-                    position:'relative', overflow:'hidden',
+                    width:'100%', padding:'14px 20px', borderRadius:11,
+                    background:'linear-gradient(135deg, #1a5dff 0%, #1244d4 55%, #0f38b5 100%)',
+                    border:'none', cursor:loading?'wait':'pointer',
+                    color:'#fff', fontSize:11, fontWeight:800, letterSpacing:3.8,
+                    display:'flex', alignItems:'center', justifyContent:'center', gap:14,
+                    boxShadow:'0 4px 26px rgba(20,80,255,.45)',
                   }}
                 >
                   <div style={{
-                    width:32, height:32, borderRadius:'50%',
-                    border:'2px solid rgba(255,255,255,.35)',
+                    width:34, height:34, borderRadius:'50%',
+                    border:'2px solid rgba(255,255,255,.38)',
                     display:'flex', alignItems:'center', justifyContent:'center',
                     flexShrink:0,
                   }}>
@@ -531,13 +623,12 @@ export default function LoginPage() {
                   {loading ? 'KIRISH...' : 'ACCESS DASHBOARD'}
                 </button>
 
-                {/* or / register */}
-                <div style={{ textAlign:'center', marginTop:20 }}>
-                  <span style={{ fontSize:12, color:'rgba(140,170,255,.25)', fontWeight:500 }}>or</span>
+                <div style={{ textAlign:'center', marginTop:18 }}>
+                  <span style={{ fontSize:11.5, color:'rgba(120,160,255,.22)' }}>or</span>
                 </div>
-                <div style={{ textAlign:'center', marginTop:10, fontSize:12, color:'rgba(140,170,255,.35)' }}>
+                <div style={{ textAlign:'center', marginTop:10, fontSize:12, color:'rgba(120,160,255,.32)' }}>
                   Don't have an account?{' '}
-                  <a href="/register" style={{ color:'#5090ff', fontWeight:600, textDecoration:'none' }}>
+                  <a href="/register" style={{ color:'#4a90ff', fontWeight:600, textDecoration:'none' }}>
                     Create one
                   </a>
                 </div>
@@ -546,37 +637,33 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* ── BOTTOM ROW ──────────────────────────────────────────── */}
+          {/* ── Bottom row ── */}
           <div style={{
-            display:'flex', alignItems:'flex-end',
-            justifyContent:'space-between',
-            padding:'0 28px 24px',
-            position:'relative', zIndex:5,
+            display:'flex', alignItems:'flex-end', justifyContent:'space-between',
+            padding:'0 26px 22px', position:'relative', zIndex:5,
           }}>
 
-            {/* SECURE ACCESS card */}
-            <div className="fcard" style={{
-              background:'rgba(5,10,30,.72)',
-              backdropFilter:'blur(16px)',
-              WebkitBackdropFilter:'blur(16px)',
-              border:'1px solid rgba(60,100,220,.18)',
-              borderRadius:14, padding:'16px 20px',
-              display:'flex', alignItems:'center', gap:14,
-              maxWidth:215,
+            {/* SECURE ACCESS */}
+            <div className="lp-card" style={{
+              background:'rgba(4,9,26,.72)',
+              backdropFilter:'blur(16px)', WebkitBackdropFilter:'blur(16px)',
+              border:'1px solid rgba(50,90,200,.18)',
+              borderRadius:14, padding:'15px 18px',
+              display:'flex', alignItems:'center', gap:14, maxWidth:218,
             }}>
               <div style={{
                 width:46, height:46, borderRadius:11, flexShrink:0,
-                background:'rgba(40,90,200,.14)',
-                border:'1px solid rgba(60,110,220,.18)',
+                background:'rgba(30,80,200,.14)',
+                border:'1px solid rgba(50,100,200,.18)',
                 display:'flex', alignItems:'center', justifyContent:'center',
               }}>
-                <IconFingerprint/>
+                <IconFP/>
               </div>
               <div>
-                <div style={{ fontSize:11, fontWeight:800, color:'#c8d8ff', letterSpacing:1, marginBottom:5 }}>
+                <div style={{ fontSize:10.5, fontWeight:800, color:'#c0d4ff', letterSpacing:1, marginBottom:5 }}>
                   SECURE ACCESS
                 </div>
-                <div style={{ fontSize:11.5, color:'rgba(140,170,255,.38)', lineHeight:1.45 }}>
+                <div style={{ fontSize:11.5, color:'rgba(120,160,255,.36)', lineHeight:1.5 }}>
                   Your data is 100%<br/>protected
                 </div>
               </div>
@@ -584,36 +671,34 @@ export default function LoginPage() {
 
             {/* Footer */}
             <div style={{ textAlign:'center', paddingBottom:2 }}>
-              <p style={{ margin:0, fontSize:10.5, color:'rgba(140,170,255,.18)', letterSpacing:1 }}>
-                © 2026{' '}
+              <p style={{ margin:0, fontSize:10.5, color:'rgba(120,160,255,.18)', letterSpacing:1 }}>
+                {'© 2026 '}
                 <span style={{ color:'#4a90ff', fontWeight:700 }}>IELTSSHOKH</span>
                 {'. ALL RIGHTS RESERVED.'}
               </p>
             </div>
 
-            {/* PREMIUM CONTENT card */}
-            <div className="fcard" style={{
-              background:'rgba(5,10,30,.72)',
-              backdropFilter:'blur(16px)',
-              WebkitBackdropFilter:'blur(16px)',
-              border:'1px solid rgba(60,100,220,.18)',
-              borderRadius:14, padding:'16px 20px',
-              display:'flex', alignItems:'center', gap:14,
-              maxWidth:215,
+            {/* PREMIUM CONTENT */}
+            <div className="lp-card" style={{
+              background:'rgba(4,9,26,.72)',
+              backdropFilter:'blur(16px)', WebkitBackdropFilter:'blur(16px)',
+              border:'1px solid rgba(50,90,200,.18)',
+              borderRadius:14, padding:'15px 18px',
+              display:'flex', alignItems:'center', gap:14, maxWidth:218,
             }}>
               <div style={{
                 width:46, height:46, borderRadius:11, flexShrink:0,
-                background:'rgba(40,90,200,.14)',
-                border:'1px solid rgba(60,110,220,.18)',
+                background:'rgba(30,80,200,.14)',
+                border:'1px solid rgba(50,100,200,.18)',
                 display:'flex', alignItems:'center', justifyContent:'center',
               }}>
                 <IconDiamond/>
               </div>
               <div>
-                <div style={{ fontSize:11, fontWeight:800, color:'#c8d8ff', letterSpacing:1, marginBottom:5 }}>
+                <div style={{ fontSize:10.5, fontWeight:800, color:'#c0d4ff', letterSpacing:1, marginBottom:5 }}>
                   PREMIUM CONTENT
                 </div>
-                <div style={{ fontSize:11.5, color:'rgba(140,170,255,.38)', lineHeight:1.45 }}>
+                <div style={{ fontSize:11.5, color:'rgba(120,160,255,.36)', lineHeight:1.5 }}>
                   Top-quality IELTS<br/>materials
                 </div>
               </div>
