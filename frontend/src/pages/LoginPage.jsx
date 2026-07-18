@@ -85,74 +85,83 @@ export default function LoginPage() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)()
       const t = ctx.currentTime
 
-      // Hard compressor — crushes peaks, everything punches through
       const comp = ctx.createDynamicsCompressor()
-      comp.threshold.value = -8
-      comp.knee.value = 2
-      comp.ratio.value = 14
-      comp.attack.value = 0.0005
-      comp.release.value = 0.05
+      comp.threshold.value = -10; comp.knee.value = 3
+      comp.ratio.value = 12; comp.attack.value = 0.001; comp.release.value = 0.1
       comp.connect(ctx.destination)
-
-      // Master volume boost after compression
       const master = ctx.createGain()
-      master.gain.value = 1.8
+      master.gain.value = 1.5
       master.connect(comp)
 
-      // DEEP sub-bass THOOM — felt in chest, heavy machinery starting
+      // 1. Sub-bass core drone — 40Hz sawtooth, Delamain power reactor starting
       const o1 = ctx.createOscillator(), g1 = ctx.createGain()
-      o1.connect(g1); g1.connect(master)
-      o1.type = 'sine'
-      o1.frequency.setValueAtTime(55, t)
-      o1.frequency.exponentialRampToValueAtTime(18, t + 0.14)
-      g1.gain.setValueAtTime(1.2, t)
-      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.16)
-      o1.start(t); o1.stop(t + 0.18)
+      const f1 = ctx.createBiquadFilter()
+      o1.type = 'sawtooth'
+      o1.frequency.setValueAtTime(40, t); o1.frequency.linearRampToValueAtTime(44, t + 0.7)
+      f1.type = 'lowpass'; f1.frequency.value = 100; f1.Q.value = 1.5
+      o1.connect(f1); f1.connect(g1); g1.connect(master)
+      g1.gain.setValueAtTime(0, t); g1.gain.linearRampToValueAtTime(0.85, t + 0.05)
+      g1.gain.setValueAtTime(0.85, t + 0.5); g1.gain.exponentialRampToValueAtTime(0.001, t + 0.8)
+      o1.start(t); o1.stop(t + 0.85)
 
-      // Fat mid-bass layer — sawtooth gives thickness (yog'on sound)
+      // 2. Square wave + LFO tremolo — machine breathing, 9Hz pulse
       const o2 = ctx.createOscillator(), g2 = ctx.createGain()
-      const lp = ctx.createBiquadFilter()
-      lp.type = 'lowpass'; lp.frequency.value = 280; lp.Q.value = 1.8
-      o2.connect(lp); lp.connect(g2); g2.connect(master)
-      o2.type = 'sawtooth'
-      o2.frequency.setValueAtTime(110, t)
-      o2.frequency.exponentialRampToValueAtTime(55, t + 0.18)
-      g2.gain.setValueAtTime(0.6, t)
-      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.22)
-      o2.start(t); o2.stop(t + 0.24)
+      const lfo = ctx.createOscillator(), lfoG = ctx.createGain()
+      o2.type = 'square'
+      o2.frequency.setValueAtTime(165, t + 0.03); o2.frequency.linearRampToValueAtTime(205, t + 0.45)
+      lfo.type = 'sine'; lfo.frequency.value = 9; lfoG.gain.value = 0.15
+      lfo.connect(lfoG); lfoG.connect(g2.gain)
+      const f2 = ctx.createBiquadFilter()
+      f2.type = 'bandpass'; f2.frequency.value = 185; f2.Q.value = 2.5
+      o2.connect(f2); f2.connect(g2); g2.connect(master)
+      g2.gain.setValueAtTime(0, t + 0.03); g2.gain.linearRampToValueAtTime(0.28, t + 0.1)
+      g2.gain.setValueAtTime(0.28, t + 0.38); g2.gain.exponentialRampToValueAtTime(0.001, t + 0.6)
+      o2.start(t + 0.03); o2.stop(t + 0.65)
+      lfo.start(t + 0.03); lfo.stop(t + 0.65)
 
-      // Metallic crunch — quick noise burst for tech texture
-      const bufSize = Math.floor(ctx.sampleRate * 0.035)
-      const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate)
-      const d = buf.getChannelData(0)
-      for (let i = 0; i < bufSize; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / bufSize)
-      const ns = ctx.createBufferSource(); ns.buffer = buf
-      const bp = ctx.createBiquadFilter()
-      bp.type = 'bandpass'; bp.frequency.value = 1200; bp.Q.value = 3
-      const gn = ctx.createGain(); gn.gain.value = 0.7
-      ns.connect(bp); bp.connect(gn); gn.connect(master)
-      ns.start(t); ns.stop(t + 0.04)
+      // 3. Digital glitch bursts — rapid data packet firing
+      ;[0.07, 0.12, 0.18, 0.25].forEach((dt, i) => {
+        const dur = 0.014 + (i % 2) * 0.011
+        const bufSize = Math.floor(ctx.sampleRate * dur)
+        const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate)
+        const d = buf.getChannelData(0)
+        for (let j = 0; j < bufSize; j++) d[j] = (Math.random() * 2 - 1) * (1 - j / bufSize)
+        const src = ctx.createBufferSource(); src.buffer = buf
+        const filt = ctx.createBiquadFilter()
+        filt.type = 'bandpass'; filt.frequency.value = 700 + i * 450; filt.Q.value = 5
+        const gn = ctx.createGain(); gn.gain.value = 0.22 - i * 0.025
+        src.connect(filt); filt.connect(gn); gn.connect(master)
+        src.start(t + dt)
+      })
 
-      // Authoritative LOW verification — D4 then G4, deep not high-pitched
+      // 4. Rising neural sweep — AI system handshake
       const o3 = ctx.createOscillator(), g3 = ctx.createGain()
-      o3.connect(g3); g3.connect(master)
       o3.type = 'sine'
-      o3.frequency.value = 294
-      g3.gain.setValueAtTime(0, t + 0.1)
-      g3.gain.linearRampToValueAtTime(0.55, t + 0.14)
-      g3.gain.exponentialRampToValueAtTime(0.001, t + 0.32)
-      o3.start(t + 0.1); o3.stop(t + 0.34)
+      o3.frequency.setValueAtTime(280, t + 0.18)
+      o3.frequency.exponentialRampToValueAtTime(720, t + 0.5)
+      o3.frequency.exponentialRampToValueAtTime(880, t + 0.65)
+      g3.gain.setValueAtTime(0, t + 0.18); g3.gain.linearRampToValueAtTime(0.35, t + 0.26)
+      g3.gain.setValueAtTime(0.35, t + 0.52); g3.gain.exponentialRampToValueAtTime(0.001, t + 0.72)
+      o3.connect(g3); g3.connect(master)
+      o3.start(t + 0.18); o3.stop(t + 0.75)
 
+      // 5. Cold digital ping — access granted, triangle wave 1440Hz
       const o4 = ctx.createOscillator(), g4 = ctx.createGain()
+      o4.type = 'triangle'; o4.frequency.value = 1440
+      g4.gain.setValueAtTime(0, t + 0.46); g4.gain.linearRampToValueAtTime(0.4, t + 0.475)
+      g4.gain.exponentialRampToValueAtTime(0.001, t + 0.9)
       o4.connect(g4); g4.connect(master)
-      o4.type = 'sine'
-      o4.frequency.value = 392
-      g4.gain.setValueAtTime(0, t + 0.22)
-      g4.gain.linearRampToValueAtTime(0.45, t + 0.26)
-      g4.gain.exponentialRampToValueAtTime(0.001, t + 0.5)
-      o4.start(t + 0.22); o4.stop(t + 0.52)
+      o4.start(t + 0.46); o4.stop(t + 0.92)
 
-      setTimeout(() => ctx.close(), 800)
+      // 6. Deep resonance tail — system fully online, 70Hz sine
+      const o5 = ctx.createOscillator(), g5 = ctx.createGain()
+      o5.type = 'sine'; o5.frequency.value = 70
+      g5.gain.setValueAtTime(0, t + 0.42); g5.gain.linearRampToValueAtTime(0.4, t + 0.48)
+      g5.gain.exponentialRampToValueAtTime(0.001, t + 0.92)
+      o5.connect(g5); g5.connect(master)
+      o5.start(t + 0.42); o5.stop(t + 0.95)
+
+      setTimeout(() => ctx.close(), 1300)
     } catch (_) {}
   }
 
