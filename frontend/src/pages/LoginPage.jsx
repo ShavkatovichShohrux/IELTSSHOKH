@@ -85,49 +85,74 @@ export default function LoginPage() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)()
       const t = ctx.currentTime
 
-      // Thump — low punch
+      // Hard compressor — crushes peaks, everything punches through
+      const comp = ctx.createDynamicsCompressor()
+      comp.threshold.value = -8
+      comp.knee.value = 2
+      comp.ratio.value = 14
+      comp.attack.value = 0.0005
+      comp.release.value = 0.05
+      comp.connect(ctx.destination)
+
+      // Master volume boost after compression
+      const master = ctx.createGain()
+      master.gain.value = 1.8
+      master.connect(comp)
+
+      // DEEP sub-bass THOOM — felt in chest, heavy machinery starting
       const o1 = ctx.createOscillator(), g1 = ctx.createGain()
-      o1.connect(g1); g1.connect(ctx.destination)
+      o1.connect(g1); g1.connect(master)
       o1.type = 'sine'
-      o1.frequency.setValueAtTime(90, t)
-      o1.frequency.exponentialRampToValueAtTime(35, t + 0.12)
-      g1.gain.setValueAtTime(0.55, t)
-      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.14)
-      o1.start(t); o1.stop(t + 0.14)
+      o1.frequency.setValueAtTime(55, t)
+      o1.frequency.exponentialRampToValueAtTime(18, t + 0.14)
+      g1.gain.setValueAtTime(1.2, t)
+      g1.gain.exponentialRampToValueAtTime(0.001, t + 0.16)
+      o1.start(t); o1.stop(t + 0.18)
 
-      // Rising sweep — sci-fi whoosh
+      // Fat mid-bass layer — sawtooth gives thickness (yog'on sound)
       const o2 = ctx.createOscillator(), g2 = ctx.createGain()
-      o2.connect(g2); g2.connect(ctx.destination)
-      o2.type = 'sine'
-      o2.frequency.setValueAtTime(280, t + 0.02)
-      o2.frequency.exponentialRampToValueAtTime(1400, t + 0.22)
-      g2.gain.setValueAtTime(0.22, t + 0.02)
-      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.26)
-      o2.start(t + 0.02); o2.stop(t + 0.26)
+      const lp = ctx.createBiquadFilter()
+      lp.type = 'lowpass'; lp.frequency.value = 280; lp.Q.value = 1.8
+      o2.connect(lp); lp.connect(g2); g2.connect(master)
+      o2.type = 'sawtooth'
+      o2.frequency.setValueAtTime(110, t)
+      o2.frequency.exponentialRampToValueAtTime(55, t + 0.18)
+      g2.gain.setValueAtTime(0.6, t)
+      g2.gain.exponentialRampToValueAtTime(0.001, t + 0.22)
+      o2.start(t); o2.stop(t + 0.24)
 
-      // High digital tick
+      // Metallic crunch — quick noise burst for tech texture
+      const bufSize = Math.floor(ctx.sampleRate * 0.035)
+      const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate)
+      const d = buf.getChannelData(0)
+      for (let i = 0; i < bufSize; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / bufSize)
+      const ns = ctx.createBufferSource(); ns.buffer = buf
+      const bp = ctx.createBiquadFilter()
+      bp.type = 'bandpass'; bp.frequency.value = 1200; bp.Q.value = 3
+      const gn = ctx.createGain(); gn.gain.value = 0.7
+      ns.connect(bp); bp.connect(gn); gn.connect(master)
+      ns.start(t); ns.stop(t + 0.04)
+
+      // Authoritative LOW verification — D4 then G4, deep not high-pitched
       const o3 = ctx.createOscillator(), g3 = ctx.createGain()
-      const filt = ctx.createBiquadFilter()
-      filt.type = 'bandpass'; filt.frequency.value = 3200; filt.Q.value = 2
-      o3.connect(filt); filt.connect(g3); g3.connect(ctx.destination)
-      o3.type = 'square'
-      o3.frequency.setValueAtTime(2200, t + 0.12)
-      o3.frequency.exponentialRampToValueAtTime(4400, t + 0.22)
-      g3.gain.setValueAtTime(0.07, t + 0.12)
-      g3.gain.exponentialRampToValueAtTime(0.001, t + 0.24)
-      o3.start(t + 0.12); o3.stop(t + 0.24)
+      o3.connect(g3); g3.connect(master)
+      o3.type = 'sine'
+      o3.frequency.value = 294
+      g3.gain.setValueAtTime(0, t + 0.1)
+      g3.gain.linearRampToValueAtTime(0.55, t + 0.14)
+      g3.gain.exponentialRampToValueAtTime(0.001, t + 0.32)
+      o3.start(t + 0.1); o3.stop(t + 0.34)
 
-      // Confirmation ping
       const o4 = ctx.createOscillator(), g4 = ctx.createGain()
-      o4.connect(g4); g4.connect(ctx.destination)
+      o4.connect(g4); g4.connect(master)
       o4.type = 'sine'
-      o4.frequency.setValueAtTime(1800, t + 0.2)
-      o4.frequency.exponentialRampToValueAtTime(1200, t + 0.36)
-      g4.gain.setValueAtTime(0.15, t + 0.2)
-      g4.gain.exponentialRampToValueAtTime(0.001, t + 0.38)
-      o4.start(t + 0.2); o4.stop(t + 0.38)
+      o4.frequency.value = 392
+      g4.gain.setValueAtTime(0, t + 0.22)
+      g4.gain.linearRampToValueAtTime(0.45, t + 0.26)
+      g4.gain.exponentialRampToValueAtTime(0.001, t + 0.5)
+      o4.start(t + 0.22); o4.stop(t + 0.52)
 
-      setTimeout(() => ctx.close(), 600)
+      setTimeout(() => ctx.close(), 800)
     } catch (_) {}
   }
 
