@@ -54,12 +54,36 @@ export default function DownloadApp() {
           Speaking testlarini, savol turlarini va vokabulyarni endi mobil ilova orqali ham mashq qiling.
         </p>
 
+        {/* Play Protect warning — shown before download */}
+        <div style={{
+          marginTop: 28, background: 'rgba(251,191,36,0.08)',
+          border: '1.5px solid rgba(251,191,36,0.45)',
+          borderRadius: 14, padding: '16px 20px', textAlign: 'left',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+            <span style={{ fontSize: 20 }}>⚠️</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: '#fbbf24', letterSpacing: 0.3 }}>
+              Google Play Protect ogohlantirishini ko'rsangiz:
+            </span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 18 }}>🚫</span>
+              <span style={{ fontSize: 13, color: '#ef4444', fontWeight: 700 }}>"OK" tugmasini BOSMANG — ilova o'rnatilmaydi!</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 18 }}>✅</span>
+              <span style={{ fontSize: 13, color: '#86efac', fontWeight: 700 }}>"Batafsil" → "Baribir o'rnatish" tugmasini bosing</span>
+            </div>
+          </div>
+        </div>
+
         <a
           href={APK_URL}
           download="ieltsshokh.apk"
           onClick={handleDownload}
           style={{
-            marginTop: 32, display: 'inline-flex', alignItems: 'center', gap: 10,
+            marginTop: 20, display: 'inline-flex', alignItems: 'center', gap: 10,
             background: 'linear-gradient(135deg,#8a6bff,#4a6cf7)', color: '#fff',
             fontSize: 16, fontWeight: 700, padding: '16px 36px', borderRadius: 16,
             textDecoration: 'none', boxShadow: '0 10px 36px rgba(124,92,255,0.35)', transition: 'opacity .15s',
