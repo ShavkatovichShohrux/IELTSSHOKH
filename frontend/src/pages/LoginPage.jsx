@@ -257,8 +257,8 @@ export default function LoginPage() {
                 src="/logo.png"
                 alt="IELTSSHOKH"
                 style={{
-                  width:54, height:54, objectFit:'contain', marginBottom:10, display:'block', margin:'0 auto 10px',
-                  filter:'drop-shadow(0 0 18px rgba(74,144,255,.55))',
+                  width:82, height:82, objectFit:'contain', display:'block', margin:'0 auto 10px',
+                  filter:'brightness(0) invert(1) sepia(1) saturate(4) hue-rotate(195deg) brightness(1.15) drop-shadow(0 0 24px rgba(74,144,255,.85))',
                 }}
               />
               <div style={{
