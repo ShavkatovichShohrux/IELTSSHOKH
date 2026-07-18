@@ -564,6 +564,9 @@ export default function LoginPage() {
                 <span style={{ fontWeight:700 }}>IELTSSHOKH</span>
                 {'. ALL RIGHTS RESERVED.'}
               </p>
+              <Link to="/privacy" style={{ fontSize:10,color:'rgba(74,144,255,.45)',textDecoration:'none',letterSpacing:1,marginTop:4,display:'block' }}>
+                Maxfiylik siyosati
+              </Link>
             </div>
 
             {/* PREMIUM CONTENT */}
