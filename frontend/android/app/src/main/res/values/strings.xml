@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">IELTSSHOKH</string>
+    <string name="app_name">IELTSSHOKH\n(speaking)</string>
     <string name="title_activity_main">IELTSSHOKH</string>
     <string name="package_name">uz.ieltsshokh.app</string>
     <string name="custom_url_scheme">uz.ieltsshokh.app</string>
