@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
-import { ChevronRight, Mic, Lock, ArrowLeft, Crown, Zap } from 'lucide-react'
+import { ChevronRight, Mic, Lock, ArrowLeft, Crown, Zap, X } from 'lucide-react'
 import { api, API_ORIGIN } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
@@ -31,6 +32,7 @@ function PlanGate({ plan }) {
 
 export default function Home() {
   const { token, user } = useAuthStore()
+  const [topicUrl, setTopicUrl] = useState(null)
 
   const { data: topics = [], isLoading } = useQuery({
     queryKey: ['topics'],
@@ -44,19 +46,53 @@ export default function Home() {
     }),
   })
 
+  const isAndroid = /android/i.test(navigator.userAgent)
+
   const openTopic = (id) => {
     const url = `${API_ORIGIN}/api/topics/${id}/content?t=${token}`
-    const isAndroid = /android/i.test(navigator.userAgent)
     if (isAndroid) {
-      window.location.href = url
+      history.pushState({ topicOverlay: true }, '', location.href)
+      setTopicUrl(url)
     } else {
       window.open(url, '_blank')
     }
   }
 
+  const closeTopic = () => {
+    setTopicUrl(null)
+  }
+
+  useEffect(() => {
+    if (!topicUrl) return
+    const onPop = () => setTopicUrl(null)
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [topicUrl])
+
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
 
   return (
+    <>
+    {topicUrl && (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: '#000' }}>
+        <iframe
+          src={topicUrl}
+          style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+          title="Speaking Topic"
+        />
+        <button
+          onClick={() => { history.back() }}
+          style={{
+            position: 'fixed', top: 14, right: 14, zIndex: 10000,
+            background: 'rgba(0,0,0,0.65)', color: '#fff', border: 'none',
+            borderRadius: '50%', width: 38, height: 38, fontSize: 18,
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'
+          }}
+        >
+          <X size={18} color="#fff" />
+        </button>
+      </div>
+    )}
     <div className="max-w-5xl mx-auto px-4 py-8">
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
@@ -122,5 +158,6 @@ export default function Home() {
         </div>
       )}
     </div>
+    </>
   )
 }
