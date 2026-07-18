@@ -15,6 +15,7 @@ import StudentHub from './pages/StudentHub'
 import Vocabulary from './pages/Vocabulary'
 import PdfReader from './pages/PdfReader'
 import AuthGate from './pages/AuthGate'
+import LoginPage from './pages/LoginPage'
 import Register from './pages/Register'
 import ListeningTest from './pages/ListeningTest'
 import ReadingTest from './pages/ReadingTest'
@@ -83,7 +84,7 @@ export default function App() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<AuthGate />} />
-        <Route path="/login" element={<AuthGate />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/speaking" element={<Landing />} />
         <Route path="/download" element={<DownloadApp />} />
         <Route path="/register" element={<Register />} />
