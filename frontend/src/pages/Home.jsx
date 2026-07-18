@@ -45,7 +45,13 @@ export default function Home() {
   })
 
   const openTopic = (id) => {
-    window.open(`${API_ORIGIN}/api/topics/${id}/content?t=${token}`, '_blank')
+    const url = `${API_ORIGIN}/api/topics/${id}/content?t=${token}`
+    const isAndroid = /android/i.test(navigator.userAgent)
+    if (isAndroid) {
+      window.location.href = url
+    } else {
+      window.open(url, '_blank')
+    }
   }
 
   const hasAccess = user?.plan === 'basic' || user?.plan === 'elite' || user?.role === 'admin'
