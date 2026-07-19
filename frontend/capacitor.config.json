@@ -2,6 +2,11 @@
   "appId": "uz.ieltsshokh.app",
   "appName": "IELTSSHOKH",
   "webDir": "dist",
+  "server": {
+    "url": "https://ieltsshokhspeaking.uz",
+    "androidScheme": "https",
+    "cleartext": false
+  },
   "android": {
     "allowMixedContent": false,
     "backgroundColor": "#000000"

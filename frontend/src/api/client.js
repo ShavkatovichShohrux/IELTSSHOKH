@@ -2,9 +2,8 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useAuthStore } from '../store/authStore'
 
-// Native app (Capacitor) fayllari o'z lokal originidan yuklanadi, shuning uchun
-// backend so'rovlari mutlaq manzilga yo'naltiriladi. Veb-saytda bo'sh qoladi
-// (nisbiy /api — nginx bir xil origin'dan proxy qiladi).
+// APK server.url orqali live saytdan yuklanadi — nisbiy /api URL lar ishlaydi.
+// Veb-saytda ham nginx bir xil origin'dan proxy qiladi.
 export const API_ORIGIN = import.meta.env.VITE_API_ORIGIN || ''
 
 // audio_url, /uploads/..., /api/... kabi nisbiy yo'llarni to'liq manzilga aylantiradi.
