@@ -67,7 +67,7 @@ export default function Home() {
         // Inject watermark div + auto-reveal script before </body>
         html = html.replace('</body>',
           '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div>' +
-          '<scr' + 'ipt>try{if(typeof startExperience==="function")startExperience();else{var m=document.getElementById("mainContent");if(m)m.classList.add("revealed");}}catch(e){}</scr' + 'ipt>' +
+          '<scr' + 'ipt>!function(){var m=document.getElementById("mainContent");if(m){m.classList.add("revealed");m.style.maxHeight="none";m.style.opacity="1";m.style.overflow="visible";}}();</' + 'script>' +
           '</body>')
         // Blob URL: scripts execute + X-Frame-Options bypassed + audio works
         if (blobRef[0]) URL.revokeObjectURL(blobRef[0])
