@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import * as pdfjsLib from 'pdfjs-dist'
 import workerSrc from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
@@ -16,15 +16,17 @@ export default function PdfReader({
 }) {
   const { id } = useParams()
   const { token } = useAuthStore()
-  const [pages, setPages] = useState([])
-  const [total, setTotal] = useState(0)
+  const [numPages, setNumPages] = useState(0)
   const [current, setCurrent] = useState(1)
   const [loading, setLoading] = useState(true)
-  const [loadingPage, setLoadingPage] = useState(0)
   const [downloadPct, setDownloadPct] = useState(0)
   const [error, setError] = useState(null)
-  const pageRefs = useRef([])
+  const [aspect, setAspect] = useState(1 / 1.414) // width/height (A4 portrait default)
+
   const pdfRef = useRef(null)
+  const containerRef = useRef(null)
+  const holderRefs = useRef([])
+  const rendered = useRef(new Map()) // pageNum -> { task }
 
   // Block right-click, print, all devtools shortcuts
   useEffect(() => {
@@ -47,23 +49,72 @@ export default function PdfReader({
   // Track current visible page on scroll
   useEffect(() => {
     const onScroll = () => {
-      const scrollY = window.scrollY + window.innerHeight / 3
-      pageRefs.current.forEach((el, idx) => {
-        if (el && el.offsetTop <= scrollY) setCurrent(idx + 1)
+      const line = window.scrollY + window.innerHeight / 3
+      let cur = 1
+      holderRefs.current.forEach((el, idx) => {
+        if (el && el.offsetTop <= line) cur = idx + 1
       })
+      setCurrent(cur)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [pages.length])
+  }, [numPages])
 
+  // Render one page into its placeholder. Scale is based on the on-screen width
+  // (× devicePixelRatio, capped) so mobile renders a right-sized, memory-light
+  // canvas instead of a fixed oversized one.
+  const renderPage = useCallback(async (n) => {
+    const pdf = pdfRef.current
+    const holder = holderRefs.current[n - 1]
+    if (!pdf || !holder || rendered.current.has(n)) return
+    rendered.current.set(n, {}) // lock to avoid double render
+    try {
+      const page = await pdf.getPage(n)
+      const cssW = (containerRef.current?.clientWidth) || holder.clientWidth || 700
+      const base = page.getViewport({ scale: 1 })
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const viewport = page.getViewport({ scale: (cssW * dpr) / base.width })
+
+      const canvas = document.createElement('canvas')
+      canvas.width = Math.floor(viewport.width)
+      canvas.height = Math.floor(viewport.height)
+      canvas.style.width = '100%'
+      canvas.style.display = 'block'
+      canvas.setAttribute('draggable', 'false')
+
+      const task = page.render({ canvasContext: canvas.getContext('2d', { alpha: false }), viewport })
+      rendered.current.set(n, { task })
+      await task.promise
+
+      holder.replaceChildren(canvas)
+      // Transparent overlay blocks right-click / drag / long-press save
+      const ov = document.createElement('div')
+      ov.style.cssText = 'position:absolute;inset:0'
+      ov.addEventListener('contextmenu', e => e.preventDefault())
+      ov.addEventListener('dragstart', e => e.preventDefault())
+      holder.appendChild(ov)
+      page.cleanup()
+    } catch {
+      rendered.current.delete(n) // allow retry on next scroll
+    }
+  }, [])
+
+  // Free a far-off page's canvas to keep memory bounded on large PDFs
+  const freePage = useCallback((n) => {
+    const rec = rendered.current.get(n)
+    if (!rec) return
+    try { rec.task?.cancel() } catch {}
+    rendered.current.delete(n)
+    const holder = holderRefs.current[n - 1]
+    if (holder) holder.replaceChildren()
+  }, [])
+
+  // Load the PDF document
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
-    setError(null)
-    setPages([])
-    setTotal(0)
-    setCurrent(1)
-    setDownloadPct(0)
+    setLoading(true); setError(null); setNumPages(0); setCurrent(1); setDownloadPct(0)
+    rendered.current = new Map()
+    holderRefs.current = []
     pdfRef.current = null
 
     const load = async () => {
@@ -76,42 +127,50 @@ export default function PdfReader({
           },
         })
         if (cancelled) return
-
         const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(res.data) }).promise
-        if (cancelled) return
-
+        if (cancelled) { try { pdf.destroy() } catch {} ; return }
         pdfRef.current = pdf
-        setTotal(pdf.numPages)
+        try {
+          const p1 = await pdf.getPage(1)
+          const vp = p1.getViewport({ scale: 1 })
+          if (!cancelled) setAspect(vp.width / vp.height)
+          p1.cleanup()
+        } catch {}
+        if (cancelled) return
+        setNumPages(pdf.numPages)
         setLoading(false)
-
-        // Render pages one by one, show as they come
-        for (let i = 1; i <= pdf.numPages; i++) {
-          if (cancelled) return
-          setLoadingPage(i)
-          const page = await pdf.getPage(i)
-          const viewport = page.getViewport({ scale: 1.7 })
-          const canvas = document.createElement('canvas')
-          canvas.width = viewport.width
-          canvas.height = viewport.height
-          await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise
-          if (cancelled) return
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.92)
-          setPages(prev => [...prev, dataUrl])
-        }
-        setLoadingPage(0)
       } catch {
-        if (!cancelled) {
-          setError('PDF yuklab bo\'lmadi. Qaytadan urinib ko\'ring.')
-          setLoading(false)
-        }
+        if (!cancelled) { setError('PDF yuklab bo\'lmadi. Qaytadan urinib ko\'ring.'); setLoading(false) }
       }
     }
     load()
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+      rendered.current.forEach(rec => { try { rec.task?.cancel() } catch {} })
+      rendered.current.clear()
+      try { pdfRef.current?.destroy() } catch {}
+    }
   }, [id, apiPath, pathSuffix, token])
 
+  // Lazily render pages near the viewport; free the ones that scroll far away.
+  useEffect(() => {
+    if (!numPages) return
+    const io = new IntersectionObserver(
+      entries => {
+        entries.forEach(en => {
+          const n = Number(en.target.dataset.page)
+          if (en.isIntersecting) renderPage(n)
+          else freePage(n)
+        })
+      },
+      { root: null, rootMargin: '1500px 0px', threshold: 0.01 }
+    )
+    holderRefs.current.forEach(el => el && io.observe(el))
+    return () => io.disconnect()
+  }, [numPages, renderPage, freePage])
+
   const scrollToPage = (n) => {
-    const el = pageRefs.current[n - 1]
+    const el = holderRefs.current[n - 1]
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
@@ -135,7 +194,7 @@ export default function PdfReader({
         </div>
 
         {/* Page counter + nav */}
-        {total > 0 && (
+        {numPages > 0 && (
           <div className="flex items-center gap-1 flex-shrink-0">
             <button onClick={() => scrollToPage(Math.max(1, current - 1))}
               disabled={current <= 1}
@@ -143,10 +202,10 @@ export default function PdfReader({
               <ChevronUp size={16} />
             </button>
             <span className="text-xs text-gray-400 w-14 text-center">
-              {current} / {total}
+              {current} / {numPages}
             </span>
-            <button onClick={() => scrollToPage(Math.min(total, current + 1))}
-              disabled={current >= pages.length}
+            <button onClick={() => scrollToPage(Math.min(numPages, current + 1))}
+              disabled={current >= numPages}
               className="p-1 rounded text-gray-500 hover:text-white disabled:opacity-30 transition-colors">
               <ChevronDown size={16} />
             </button>
@@ -155,7 +214,7 @@ export default function PdfReader({
       </div>
 
       {/* Content */}
-      <div className="max-w-3xl mx-auto px-3 py-5">
+      <div ref={containerRef} className="max-w-3xl mx-auto px-3 py-5">
 
         {/* Initial loading */}
         {loading && (
@@ -176,44 +235,24 @@ export default function PdfReader({
           </div>
         )}
 
-        {/* Rendered pages */}
+        {/* Page placeholders — each keeps its aspect-ratio height so scrolling is
+            stable before/after its canvas is lazily rendered or freed. */}
         <div className="space-y-3">
-          {pages.map((src, idx) => (
+          {Array.from({ length: numPages }).map((_, idx) => (
             <div
               key={idx}
-              ref={el => { pageRefs.current[idx] = el }}
+              data-page={idx + 1}
+              ref={el => { holderRefs.current[idx] = el }}
               className="relative rounded-xl overflow-hidden shadow-2xl bg-white"
-            >
-              <img
-                src={src}
-                alt={`${idx + 1}-sahifa`}
-                className="w-full block"
-                draggable={false}
-                style={{ pointerEvents: 'none', display: 'block' }}
-              />
-              {/* Transparent overlay — blocks right-click, drag, selection */}
-              <div
-                className="absolute inset-0"
-                onContextMenu={e => e.preventDefault()}
-                onDragStart={e => e.preventDefault()}
-                onMouseDown={e => e.preventDefault()}
-              />
-            </div>
+              style={{ aspectRatio: String(aspect || 0.707) }}
+            />
           ))}
         </div>
-
-        {/* Rendering progress */}
-        {loadingPage > 0 && pages.length < total && (
-          <div className="flex items-center justify-center gap-3 py-6 text-gray-500 text-sm">
-            <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-            {loadingPage}/{total} sahifa render bo'lmoqda...
-          </div>
-        )}
       </div>
 
       <style>{`
         @media print { body { display: none !important; } }
-        img { -webkit-user-drag: none; user-drag: none; }
+        canvas, img { -webkit-user-drag: none; user-drag: none; }
       `}</style>
     </div>
   )
