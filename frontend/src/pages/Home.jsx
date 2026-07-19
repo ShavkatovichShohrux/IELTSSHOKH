@@ -64,10 +64,20 @@ export default function Home() {
         // Inject watermark style
         html = html.replace('</head>',
           '<style>#_ielts_wm{color:#0d1b4b;opacity:.15;}[data-theme="dark"] #_ielts_wm{color:#fff;opacity:.10;}</style></head>')
-        // Inject watermark div + auto-reveal script before </body>
+        // Inject watermark + auto-reveal + Android TTS fix before </body>
         html = html.replace('</body>',
           '<div id="_ielts_wm" style="position:fixed;bottom:14px;right:16px;font-size:10px;font-weight:700;letter-spacing:2px;pointer-events:none;z-index:9999;user-select:none;font-family:sans-serif;">IELTSSHOKH</div>' +
-          '<scr' + 'ipt>!function(){var m=document.getElementById("mainContent");if(m){m.classList.add("revealed");m.style.maxHeight="none";m.style.opacity="1";m.style.overflow="visible";}}();</' + 'script>' +
+          '<scr' + 'ipt>' +
+          // 1. Reveal mainContent unconditionally
+          '!function(){var m=document.getElementById("mainContent");if(m){m.classList.add("revealed");m.style.maxHeight="none";m.style.opacity="1";m.style.overflow="visible";}}();' +
+          // 2. Android TTS fix: disable pause/resume keepAlive (triggers onerror → stops speech early)
+          '!function(){if(!window.speechSynthesis)return;' +
+          'window.startKeepAlive=function(){};' + // no-op: prevents onerror cascade on Android
+          'document.addEventListener("visibilitychange",function(){' +
+          'if(document.hidden&&typeof window.stopAllSpeech==="function")window.stopAllSpeech();' +
+          '});' +
+          '}();' +
+          '</' + 'script>' +
           '</body>')
         // Blob URL: scripts execute + X-Frame-Options bypassed + audio works
         if (blobRef[0]) URL.revokeObjectURL(blobRef[0])
