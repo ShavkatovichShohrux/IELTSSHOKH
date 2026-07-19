@@ -182,7 +182,6 @@ export default function LoginPage() {
   const submit = async e => {
     e.preventDefault()
     if (!form.username || !form.password) return toast.error("Barcha maydonlarni to'ldiring")
-    playSound()
     setLoading(true)
     try {
       const res = await api.login(form)
