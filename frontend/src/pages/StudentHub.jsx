@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Mic, BookOpen, HelpCircle, ChevronRight, ChevronDown,
-  Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Smartphone, Wifi, WifiOff,
+  Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Smartphone, Wifi, WifiOff, LogOut,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 import { useAuthStore } from '../store/authStore'
 import { api } from '../api/client'
 import { useChallenge } from '../hooks/useChallenge'
@@ -97,6 +98,18 @@ function hasAccess(userPlan, requiredPlan, userRole) {
   return (PLAN_RANK[userPlan] ?? 0) >= (PLAN_RANK[requiredPlan] ?? 0)
 }
 
+// Shared logout handler — invalidate server session, clear store, go to login
+function useLogout() {
+  const navigate = useNavigate()
+  const { logout } = useAuthStore()
+  return async () => {
+    try { await api.logout() } catch (_) {}
+    logout()
+    toast.success('Chiqildi')
+    navigate('/login')
+  }
+}
+
 const FEATURES = [
   { emoji: '📋', label: 'Real IELTS Questions', sub: 'Updated regularly' },
   { emoji: '🤖', label: 'AI-Powered Feedback',  sub: 'Get smarter every time' },
@@ -162,6 +175,7 @@ const light = {
 /* ═══════════════════════════ ROOT ══════════════════════════════ */
 export default function StudentHub() {
   const { user, theme } = useAuthStore()
+  const handleLogout = useLogout()
   const [activeNav, setActiveNav] = useState('Home')
   const [showUpgrade, setShowUpgrade] = useState(false)
   const isDark = theme === 'dark'
@@ -234,6 +248,16 @@ export default function StudentHub() {
                 <ExternalLink size={20} color={c.navClr} />
                 <span style={{ fontSize: 10, color: c.navClr, fontWeight: 500 }}>Telegram</span>
               </TgLink>
+              <button
+                onClick={handleLogout}
+                style={{
+                  background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+                }}
+              >
+                <LogOut size={20} color="#ef4444" />
+                <span style={{ fontSize: 10, color: '#ef4444', fontWeight: 600 }}>Chiqish</span>
+              </button>
             </div>
           )}
         </div>
@@ -244,6 +268,7 @@ export default function StudentHub() {
 
 /* ═══════════════════════════ SIDEBAR ════════════════════════════ */
 function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
+  const handleLogout = useLogout()
   return (
     <aside style={{
       width: 196, minWidth: 196,
@@ -341,6 +366,24 @@ function Sidebar({ active, setActive, c, isDark, onUpgrade }) {
           Go Elite <ChevronRight size={12} />
         </button>
       </div>
+
+      {/* Log out */}
+      <button
+        onClick={handleLogout}
+        style={{
+          marginTop: 10, width: '100%',
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '10px 12px', borderRadius: 9,
+          background: 'transparent',
+          border: `1px solid ${isDark ? 'rgba(239,68,68,0.22)' : 'rgba(239,68,68,0.28)'}`,
+          color: '#ef4444', fontSize: 13, fontWeight: 600, cursor: 'pointer',
+          transition: 'background 0.15s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(239,68,68,0.1)' : 'rgba(239,68,68,0.06)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+      >
+        <LogOut size={15} /> Chiqish
+      </button>
     </aside>
   )
 }
