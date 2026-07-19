@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { ChevronRight, Mic, Lock, ArrowLeft, Crown, Zap, X } from 'lucide-react'
+import { Capacitor } from '@capacitor/core'
 import { api, API_ORIGIN } from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
@@ -48,11 +49,15 @@ export default function Home() {
     }),
   })
 
-  const isAndroid = /android/i.test(navigator.userAgent)
+  // Only the Capacitor APK needs the in-app blob overlay (window.open would launch
+  // an external browser inside the WebView). Regular browsers — including Android
+  // Chrome — open the topic as a full page so mic / TTS / audio work with no iframe
+  // permission restrictions (blob iframes can block getUserMedia on Android).
+  const isNative = Capacitor?.isNativePlatform?.() === true
 
   const openTopic = async (id) => {
     const url = `${API_ORIGIN}/api/topics/${id}/content?t=${token}`
-    if (isAndroid) {
+    if (isNative) {
       history.pushState({ topicOverlay: true }, '', location.href)
       setTopicLoading(true)
       try {
@@ -122,6 +127,8 @@ export default function Home() {
             src={topicUrl}
             style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
             title="Speaking Topic"
+            allow="microphone; camera; autoplay; clipboard-write; encrypted-media; fullscreen"
+            allowFullScreen
           />
         )}
         <button
