@@ -9,10 +9,10 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // FLAG_SECURE blocks screenshots and screen recording at the OS level.
-        // Must be set before super.onCreate() on Samsung One UI devices.
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-
         super.onCreate(savedInstanceState);
+        // Block screenshots — applied after super.onCreate() for broad ROM compatibility
+        try {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        } catch (Exception ignored) {}
     }
 }
