@@ -508,23 +508,6 @@ export default function LoginPage() {
                   {loading ? 'LOADING...' : 'ACCESS DASHBOARD'}
                 </button>
               </form>
-
-              {/* OR divider */}
-              <div style={{ display:'flex',alignItems:'center',gap:12,margin:'12px 0' }}>
-                <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
-                <span style={{ fontSize:12,color:'rgba(255,255,255,.28)',fontWeight:500 }}>or</span>
-                <div style={{ flex:1,height:1,background:'rgba(255,255,255,.07)' }}/>
-              </div>
-
-              {/* Create account link */}
-              <div style={{ textAlign:'center' }}>
-                <span style={{ fontSize:13,color:'rgba(255,255,255,.38)' }}>
-                  Don't have an account?{' '}
-                </span>
-                <Link to="/register" style={{ fontSize:13,color:'#4a90ff',fontWeight:600,textDecoration:'none' }}>
-                  Create one
-                </Link>
-              </div>
             </div>
           </div>
 

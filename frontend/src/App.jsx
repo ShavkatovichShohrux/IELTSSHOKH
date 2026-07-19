@@ -17,7 +17,6 @@ import Vocabulary from './pages/Vocabulary'
 import PdfReader from './pages/PdfReader'
 import AuthGate from './pages/AuthGate'
 import LoginPage from './pages/LoginPage'
-import Register from './pages/Register'
 import ListeningTest from './pages/ListeningTest'
 import ReadingTest from './pages/ReadingTest'
 import MyResults from './pages/MyResults'
@@ -88,7 +87,7 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/speaking" element={<Landing />} />
         <Route path="/download" element={<DownloadApp />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Navigate to="/login" replace />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
 
         {/* Protected user pages */}
