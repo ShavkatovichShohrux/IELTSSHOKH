@@ -78,18 +78,18 @@ export default function PdfReader({
       const canvas = document.createElement('canvas')
       canvas.width = Math.floor(viewport.width)
       canvas.height = Math.floor(viewport.height)
-      canvas.style.width = '100%'
-      canvas.style.display = 'block'
+      canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:block'
       canvas.setAttribute('draggable', 'false')
 
       const task = page.render({ canvasContext: canvas.getContext('2d', { alpha: false }), viewport })
       rendered.current.set(n, { task })
       await task.promise
 
-      holder.replaceChildren(canvas)
+      holder.innerHTML = ''
+      holder.appendChild(canvas)
       // Transparent overlay blocks right-click / drag / long-press save
       const ov = document.createElement('div')
-      ov.style.cssText = 'position:absolute;inset:0'
+      ov.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%'
       ov.addEventListener('contextmenu', e => e.preventDefault())
       ov.addEventListener('dragstart', e => e.preventDefault())
       holder.appendChild(ov)
@@ -106,7 +106,7 @@ export default function PdfReader({
     try { rec.task?.cancel() } catch {}
     rendered.current.delete(n)
     const holder = holderRefs.current[n - 1]
-    if (holder) holder.replaceChildren()
+    if (holder) holder.innerHTML = ''
   }, [])
 
   // Load the PDF document
@@ -244,7 +244,7 @@ export default function PdfReader({
               data-page={idx + 1}
               ref={el => { holderRefs.current[idx] = el }}
               className="relative rounded-xl overflow-hidden shadow-2xl bg-white"
-              style={{ aspectRatio: String(aspect || 0.707) }}
+              style={{ height: 0, paddingBottom: `${(1 / (aspect || 0.707)) * 100}%` }}
             />
           ))}
         </div>
