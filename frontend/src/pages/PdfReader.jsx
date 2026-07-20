@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 // Legacy build: transpiled for broad compatibility (older Android WebView / mobile
-// Chrome) where the modern ESM build or its module worker can fail to run.
+// Chrome) where the modern ESM build can fail to run.
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.min.mjs'
-import workerSrc from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs?url'
+// Statically bundle the worker into the main chunk and expose it as the
+// main-thread worker handler. pdf.js then runs on the main thread WITHOUT
+// spawning a module worker or dynamically importing the .mjs — both of which
+// fail on some Android WebViews ("Failed to fetch dynamically imported module").
+import * as pdfjsWorker from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs'
 import { ArrowLeft, BookOpen, ChevronUp, ChevronDown } from 'lucide-react'
 import client from '../api/client'
 import { useAuthStore } from '../store/authStore'
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc
+globalThis.pdfjsWorker = pdfjsWorker
 
 export default function PdfReader({
   apiPath = 'vocab',
