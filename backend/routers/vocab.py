@@ -81,10 +81,18 @@ def view_vocab_pdf(
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="Fayl topilmadi")
     safe_name = f"{vt.name}.pdf".encode("ascii", errors="ignore").decode()
+    st = os.stat(path)
+    etag = f'"{int(st.st_mtime)}-{st.st_size}"'
     return FileResponse(
         path=path,
         media_type="application/pdf",
-        headers={"Content-Disposition": f'inline; filename="{safe_name}"'},
+        headers={
+            "Content-Disposition": f'inline; filename="{safe_name}"',
+            # Bytes rarely change (admin re-upload gives a new file → new ETag).
+            # Let the browser/WebView cache them so re-opens skip the network.
+            "Cache-Control": "private, max-age=86400",
+            "ETag": etag,
+        },
     )
 
 

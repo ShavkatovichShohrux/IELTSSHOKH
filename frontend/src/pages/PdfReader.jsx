@@ -11,6 +11,7 @@ import * as pdfjsWorker from 'pdfjs-dist/legacy/build/pdf.worker.min.mjs'
 import { ArrowLeft, BookOpen, ChevronUp, ChevronDown } from 'lucide-react'
 import client from '../api/client'
 import { useAuthStore } from '../store/authStore'
+import { getCachedPdf, putCachedPdf } from '../utils/pdfCache'
 
 globalThis.pdfjsWorker = pdfjsWorker
 
@@ -72,54 +73,86 @@ export default function PdfReader({
     setCurrent(1)
     setDownloadPct(0)
 
+    // Render width follows the on-screen width (× devicePixelRatio, capped) so
+    // mobile draws a right-sized, memory-light page instead of a fixed one.
+    const cssW = Math.min(window.innerWidth, 768) - 24
+    const cacheKey = `${apiPath}:${id}`
+
+    const renderPdf = async (bytes, { progressive }) => {
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(bytes) }).promise
+      if (cancelled) { try { pdf.destroy() } catch {} ; return null }
+
+      setTotal(pdf.numPages)
+      setLoading(false)
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      const rendered = []
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        if (cancelled) { try { pdf.destroy() } catch {} ; return null }
+        setLoadingPage(i)
+        const page = await pdf.getPage(i)
+        const base = page.getViewport({ scale: 1 })
+        const scale = Math.min(Math.max((cssW * dpr) / base.width, 0.5), 3)
+        const viewport = page.getViewport({ scale })
+        const canvas = document.createElement('canvas')
+        canvas.width = Math.floor(viewport.width)
+        canvas.height = Math.floor(viewport.height)
+        const ctx = canvas.getContext('2d', { alpha: false })
+        await page.render({ canvasContext: ctx, viewport }).promise
+        if (cancelled) { try { pdf.destroy() } catch {} ; return null }
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85)
+        // Free the canvas + page memory before moving on
+        canvas.width = canvas.height = 0
+        try { page.cleanup() } catch {}
+        rendered.push(dataUrl)
+        // For a fresh open show pages as they come; when silently refreshing an
+        // already-shown cached copy, swap all at once at the end (no flicker).
+        if (progressive) setPages([...rendered])
+        // Yield so the browser can paint / GC between heavy pages
+        await new Promise(r => setTimeout(r, 0))
+      }
+      setLoadingPage(0)
+      try { pdf.destroy() } catch {}
+      if (!progressive && !cancelled) setPages(rendered)
+      return rendered
+    }
+
     const load = async () => {
+      // 1) Instant paint from cache if we have matching rendered pages.
+      let cached = null
+      try {
+        cached = await getCachedPdf(cacheKey)
+      } catch { cached = null }
+      const haveCache = cached && cached.width === cssW && Array.isArray(cached.pages) && cached.pages.length > 0
+      if (haveCache && !cancelled) {
+        setTotal(cached.pages.length)
+        setPages(cached.pages)
+        setLoading(false)
+      }
+
+      // 2) Fetch bytes (served from the WebView HTTP cache on repeat) and use the
+      //    ETag to decide whether the cached render is still valid.
       try {
         const res = await client.get(`/${apiPath}/${id}/${pathSuffix}?t=${token}`, {
           responseType: 'arraybuffer',
           timeout: 120000,
           onDownloadProgress: evt => {
-            if (evt.total) setDownloadPct(Math.round((evt.loaded / evt.total) * 100))
+            if (!haveCache && evt.total) setDownloadPct(Math.round((evt.loaded / evt.total) * 100))
           },
         })
         if (cancelled) return
 
-        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(res.data) }).promise
-        if (cancelled) { try { pdf.destroy() } catch {} ; return }
+        const etag = res.headers?.etag || res.headers?.ETag || ''
+        // Cache still fresh → nothing to re-render.
+        if (haveCache && etag && cached.etag === etag) return
 
-        setTotal(pdf.numPages)
-        setLoading(false)
-
-        // Render pages one by one, show as they come. Scale follows the on-screen
-        // width (× devicePixelRatio, capped) so mobile draws a right-sized,
-        // memory-light page instead of a fixed oversized one.
-        const cssW = Math.min(window.innerWidth, 768) - 24
-        const dpr = Math.min(window.devicePixelRatio || 1, 2)
-
-        for (let i = 1; i <= pdf.numPages; i++) {
-          if (cancelled) return
-          setLoadingPage(i)
-          const page = await pdf.getPage(i)
-          const base = page.getViewport({ scale: 1 })
-          const scale = Math.min(Math.max((cssW * dpr) / base.width, 0.5), 3)
-          const viewport = page.getViewport({ scale })
-          const canvas = document.createElement('canvas')
-          canvas.width = Math.floor(viewport.width)
-          canvas.height = Math.floor(viewport.height)
-          const ctx = canvas.getContext('2d', { alpha: false })
-          await page.render({ canvasContext: ctx, viewport }).promise
-          if (cancelled) return
-          const dataUrl = canvas.toDataURL('image/jpeg', 0.85)
-          // Free the canvas + page memory before moving on
-          canvas.width = canvas.height = 0
-          try { page.cleanup() } catch {}
-          setPages(prev => [...prev, dataUrl])
-          // Yield so the browser can paint / GC between heavy pages
-          await new Promise(r => setTimeout(r, 0))
+        const rendered = await renderPdf(res.data, { progressive: !haveCache })
+        if (rendered && etag && !cancelled) {
+          putCachedPdf(cacheKey, etag, cssW, rendered)
         }
-        setLoadingPage(0)
-        try { pdf.destroy() } catch {}
       } catch (e) {
-        if (!cancelled) {
+        // If we already painted a cached copy, keep it (works offline too).
+        if (!cancelled && !haveCache) {
           const detail = (e && (e.message || e.name)) ? ` (${e.message || e.name})` : ''
           setError('PDF yuklab bo\'lmadi' + detail + '. Sahifani yangilab qaytadan urinib ko\'ring.')
           setLoading(false)

@@ -96,10 +96,17 @@ def view_content(
     if qt.html_file.lower().endswith(".pdf"):
         with open(path, "rb") as f:
             data = f.read()
+        st = os.stat(path)
+        etag = f'"{int(st.st_mtime)}-{st.st_size}"'
         return Response(
             content=data,
             media_type="application/pdf",
-            headers={"Content-Disposition": f'inline; filename="{qt.html_file}"'},
+            headers={
+                "Content-Disposition": f'inline; filename="{qt.html_file}"',
+                # Let the WebView cache the bytes; ETag changes on re-upload.
+                "Cache-Control": "private, max-age=86400",
+                "ETag": etag,
+            },
         )
 
     with open(path, encoding="utf-8") as f:
