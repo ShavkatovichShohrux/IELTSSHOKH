@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   Mic, BookOpen, HelpCircle, ChevronRight, ChevronDown,
-  Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Smartphone, Wifi, WifiOff, LogOut,
+  Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Wifi, WifiOff, LogOut, Target,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
@@ -1114,55 +1114,75 @@ function ChallengeBanner({ c, isDark, isMobile }) {
   return (
     <Link to="/tests/challenge" style={{ textDecoration: 'none', display: 'block', marginBottom: 14 }}>
       <div style={{
-        background: 'linear-gradient(120deg,rgba(124,58,237,0.13) 0%,rgba(59,130,246,0.08) 100%)',
-        border: '1px solid rgba(124,58,237,0.22)',
-        borderRadius: 16, padding: isMobile ? '14px 14px' : '16px 20px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: isMobile ? 8 : 16,
-        transition: 'border-color 0.2s',
+        background: isDark ? 'rgba(255,255,255,0.025)' : 'rgba(0,0,0,0.025)',
+        border: `1px solid ${isDark ? 'rgba(124,58,237,0.18)' : 'rgba(124,58,237,0.14)'}`,
+        borderLeft: '3px solid #7c3aed',
+        borderRadius: 12,
+        padding: isMobile ? '13px 14px 13px 16px' : '14px 18px 14px 20px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14,
+        transition: 'background 0.15s, border-color 0.15s',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 14, flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: isMobile ? 26 : 34, flexShrink: 0 }}>🎯</div>
-          <div>
-            <div style={{ fontSize: 14, fontWeight: 900, color: c.text, marginBottom: 3, display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-              {isStarted ? `Day ${currentDay} / 30` : '30-Day Speaking Challenge'}
+
+        {/* Left */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flex: 1, minWidth: 0 }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+            background: 'rgba(124,58,237,0.1)',
+            border: `1px solid rgba(124,58,237,0.2)`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Target size={17} color="#7c3aed" />
+          </div>
+
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 13, fontWeight: 800, color: c.text, letterSpacing: -0.1 }}>
+                {isStarted ? `Day ${currentDay} / 30` : '30-Day Speaking Challenge'}
+              </span>
               {isStarted && (
-                <>
-                  <span style={{ color: c.textFaint, fontWeight: 400 }}>/</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#a78bfa', letterSpacing: 0.2 }}>
-                    Study In Monster Mode, Achieve Monster Results!
-                  </span>
-                </>
+                <span style={{
+                  fontSize: 10, fontWeight: 700, letterSpacing: 0.8, textTransform: 'uppercase',
+                  color: '#a78bfa', background: 'rgba(167,139,250,0.1)',
+                  border: '1px solid rgba(167,139,250,0.18)',
+                  padding: '1px 7px', borderRadius: 4,
+                }}>Active</span>
               )}
             </div>
-            <div style={{ fontSize: 12, color: c.textMuted }}>
+            <div style={{ fontSize: 12, color: c.textMuted, lineHeight: 1.4 }}>
               {isStarted
-                ? `${totalCompleted} days done${todayChecked ? ' · ✓ Today complete' : ' · Practice today!'}`
-                : 'Build a daily habit. Speak every day for 30 days.'
-              }
+                ? `${totalCompleted} sessions completed · ${todayChecked ? "Today's session done" : 'Session pending'}`
+                : 'Build consistency. 30 days of focused speaking practice.'}
             </div>
             {isStarted && (
-              <div style={{ marginTop: 8, width: isMobile ? '100%' : 180, height: 4, background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)', borderRadius: 99, overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#7c3aed,#3b82f6)', borderRadius: 99 }} />
+              <div style={{ marginTop: 7, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ flex: 1, maxWidth: isMobile ? '100%' : 160, height: 3, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)', borderRadius: 99 }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#7c3aed,#3b82f6)', borderRadius: 99 }} />
+                </div>
+                <span style={{ fontSize: 11, color: c.textFaint, fontWeight: 600, flexShrink: 0 }}>{pct}%</span>
               </div>
             )}
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+        {/* Right */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           {isStarted && streak > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 10px', borderRadius: 999, background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.25)' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 5,
+              padding: '5px 10px', borderRadius: 7,
+              background: 'rgba(249,115,22,0.09)', border: '1px solid rgba(249,115,22,0.2)',
+            }}>
               <Flame size={13} color="#f97316" />
               <span style={{ fontSize: 13, fontWeight: 800, color: '#f97316' }}>{streak}</span>
             </div>
           )}
           <div style={{
-            padding: isStarted ? '8px 14px' : '9px 16px',
-            borderRadius: 10,
-            background: isStarted ? 'rgba(124,58,237,0.12)' : 'linear-gradient(135deg,rgba(124,58,237,0.25),rgba(59,130,246,0.15))',
-            border: '1px solid rgba(124,58,237,0.28)',
-            color: '#a78bfa', fontSize: 12, fontWeight: 800,
+            padding: '7px 13px', borderRadius: 8,
+            background: 'rgba(124,58,237,0.09)', border: '1px solid rgba(124,58,237,0.2)',
+            color: '#a78bfa', fontSize: 12, fontWeight: 700,
+            display: 'flex', alignItems: 'center',
           }}>
-            {isStarted ? <ChevronRight size={16} /> : 'Start →'}
+            {isStarted ? <ChevronRight size={16} /> : 'Begin →'}
           </div>
         </div>
       </div>
