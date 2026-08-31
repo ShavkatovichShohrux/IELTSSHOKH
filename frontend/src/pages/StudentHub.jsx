@@ -44,7 +44,7 @@ const HERO_BG   = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?
 const SPEAK_BG  = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
 const QTYPE_BG  = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
 const VOCAB_BG  = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
-const WINTER_BG = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80'
+const WINTER_BG = 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1400&q=80'
 
 const NAV = [{ icon: HomeIcon, label: 'Home', to: '/tests' }]
 
@@ -845,50 +845,47 @@ function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titl
 
 /* ══════════════════════ GLASS CALENDAR ════════════════════════════ */
 function GlassCalendar() {
-  return (
-    <div style={{ position: 'relative', width: 230, height: 210, flexShrink: 0 }}>
-      {/* Back page shadow */}
-      <div style={{
-        position: 'absolute', top: 12, left: 18,
-        width: 200, height: 185,
-        borderRadius: 18,
-        background: 'rgba(30,70,180,0.13)',
-        border: '1.5px solid rgba(100,170,255,0.18)',
-        backdropFilter: 'blur(6px)',
-      }} />
-      {/* Main calendar */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0,
-        width: 200, height: 185,
-        borderRadius: 18,
-        background: 'rgba(10,40,130,0.22)',
-        border: '1.5px solid rgba(130,200,255,0.32)',
-        backdropFilter: 'blur(18px)',
-        boxShadow: '0 8px 40px rgba(0,60,200,0.25)',
-        padding: '28px 14px 14px',
-        boxSizing: 'border-box',
-      }}>
-        {/* Ring binders */}
-        <div style={{ position: 'absolute', top: -13, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 56 }}>
-          {[0, 1].map(i => (
-            <div key={i} style={{
-              width: 14, height: 26, borderRadius: 7,
-              border: '2.5px solid rgba(150,210,255,0.55)',
-              background: 'rgba(80,150,255,0.15)',
-            }} />
-          ))}
-        </div>
-        {/* Cell grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 5 }}>
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i} style={{
-              height: 22, borderRadius: 5,
-              background: 'rgba(100,170,255,0.11)',
-              border: '1px solid rgba(120,190,255,0.18)',
-            }} />
-          ))}
-        </div>
+  const CalPage = ({ offset, opacity }) => (
+    <div style={{
+      position: 'absolute',
+      top: offset, left: offset,
+      width: 210, height: 196,
+      borderRadius: 22,
+      background: `rgba(12,38,120,${opacity * 0.22})`,
+      border: `1.5px solid rgba(110,185,255,${opacity * 0.38})`,
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
+      boxShadow: `0 12px 48px rgba(0,50,200,${opacity * 0.28})`,
+      boxSizing: 'border-box',
+      padding: '32px 16px 16px',
+    }}>
+      {/* Rings */}
+      <div style={{ position: 'absolute', top: -15, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 60 }}>
+        {[0, 1].map(i => (
+          <div key={i} style={{
+            width: 16, height: 28, borderRadius: 8,
+            border: `2.5px solid rgba(160,215,255,${opacity * 0.6})`,
+            background: `rgba(90,160,255,${opacity * 0.15})`,
+          }} />
+        ))}
       </div>
+      {/* Cell grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 5 }}>
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div key={i} style={{
+            height: 22, borderRadius: 5,
+            background: `rgba(100,175,255,${opacity * 0.13})`,
+            border: `1px solid rgba(130,195,255,${opacity * 0.2})`,
+          }} />
+        ))}
+      </div>
+    </div>
+  )
+
+  return (
+    <div style={{ position: 'relative', width: 250, height: 230, flexShrink: 0 }}>
+      <CalPage offset={18} opacity={0.55} />
+      <CalPage offset={0} opacity={1} />
     </div>
   )
 }
@@ -913,24 +910,27 @@ function WideModuleCard({ to, locked, isMobile }) {
         display: 'flex', alignItems: 'stretch',
       }}
     >
-      {/* BG image */}
+      {/* BG image — NYC skyline at night, cold-processed */}
       <img src={WINTER_BG} alt="" style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
         objectFit: 'cover',
-        filter: 'brightness(0.28) saturate(0.5) hue-rotate(195deg)',
+        filter: 'brightness(0.22) saturate(0.35) hue-rotate(210deg) contrast(1.05)',
       }} />
-      {/* Blue gradient overlay */}
+      {/* Deep navy overlay — matches reference dark blue */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(115deg, rgba(3,12,50,0.92) 0%, rgba(8,28,95,0.78) 52%, rgba(4,18,75,0.55) 100%)',
+        background: 'linear-gradient(115deg, rgba(2,8,42,0.96) 0%, rgba(5,18,72,0.88) 50%, rgba(3,14,62,0.72) 100%)',
       }} />
-      {/* Right fade for calendar */}
-      {!isMobile && (
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to right, rgba(3,12,50,0.0) 45%, rgba(4,18,75,0.35) 100%)',
-        }} />
-      )}
+      {/* Subtle ambient glow — mimics building lights in reference */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse 70% 80% at 75% 60%, rgba(20,60,160,0.18) 0%, transparent 65%)',
+      }} />
+      {/* Left text area gradient */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to right, rgba(2,8,42,0.5) 0%, transparent 60%)',
+      }} />
 
       {/* LEFT — text content */}
       <div style={{
