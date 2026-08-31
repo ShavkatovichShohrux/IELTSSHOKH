@@ -226,7 +226,7 @@ export default function StudentHub() {
 
           <div style={{ padding: isMobile ? '0 12px 16px' : '0 24px 20px' }}>
             <ChallengeBanner c={c} isDark={isDark} isMobile={isMobile} />
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? 10 : 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4,1fr)', gap: isMobile ? 10 : 14 }}>
               {MODULES.map((m, i) => (
                 <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan, user?.role)} c={c} isDark={isDark} isMobile={isMobile} />
               ))}
