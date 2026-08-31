@@ -44,7 +44,7 @@ const HERO_BG   = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?
 const SPEAK_BG  = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
 const QTYPE_BG  = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
 const VOCAB_BG  = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
-const WINTER_BG = 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=80'
+const WINTER_BG = 'https://images.unsplash.com/photo-1467803738586-46b7eb7b16a1?w=1400&q=80'
 
 const NAV = [{ icon: HomeIcon, label: 'Home', to: '/tests' }]
 
@@ -890,6 +890,31 @@ function GlassCalendar() {
   )
 }
 
+/* ═══════════════════════════ SNOW ══════════════════════════════════ */
+const FLAKES = [
+  [7,2,0,8],[13,1.5,2,7],[20,2.5,4,9],[27,1,0.8,6],[34,2,3,8],
+  [41,1.5,5,7],[49,2,1.5,9],[56,1,3.5,6],[63,2.5,0.5,8],[70,1.5,2.5,7],
+  [77,2,4.5,9],[84,1,1,6],[91,2,3,8],[4,1.5,4.5,7],[17,2,2,9],
+  [31,1,0.3,6],[46,2.5,3.5,8],[60,1.5,1.8,7],[74,1,5,9],[88,2,2.3,6],
+]
+function SnowLayer() {
+  return (
+    <>
+      <style>{`@keyframes sf{0%{transform:translateY(-12px) translateX(0);opacity:0}15%{opacity:.7}85%{opacity:.25}100%{transform:translateY(310px) translateX(8px);opacity:0}}`}</style>
+      <div style={{ position:'absolute', inset:0, overflow:'hidden', zIndex:1, pointerEvents:'none' }}>
+        {FLAKES.map(([x,s,d,dur],i) => (
+          <div key={i} style={{
+            position:'absolute', left:`${x}%`, top:0,
+            width:s, height:s, borderRadius:'50%',
+            background:'rgba(210,232,255,0.8)',
+            animation:`sf ${dur}s linear ${d}s infinite`,
+          }} />
+        ))}
+      </div>
+    </>
+  )
+}
+
 /* ════════════════════ WIDE MODULE CARD (Sep–Dec 2026) ═════════════ */
 function WideModuleCard({ to, locked, isMobile }) {
   const [hov, setHov] = useState(false)
@@ -910,27 +935,29 @@ function WideModuleCard({ to, locked, isMobile }) {
         display: 'flex', alignItems: 'stretch',
       }}
     >
-      {/* BG image — NYC night skyline, lightly processed so it shows through */}
+      {/* BG — winter city, cold-processed but visible */}
       <img src={WINTER_BG} alt="" style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
         objectFit: 'cover',
-        filter: 'brightness(0.52) saturate(0.72) hue-rotate(200deg)',
+        filter: 'brightness(0.48) saturate(0.55) hue-rotate(205deg) contrast(1.08)',
       }} />
-      {/* Thin navy tint — let the image breathe like reference */}
+      {/* Cold blue night tint */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(115deg, rgba(4,14,58,0.62) 0%, rgba(6,20,78,0.48) 50%, rgba(3,12,55,0.28) 100%)',
+        background: 'linear-gradient(115deg, rgba(3,10,48,0.55) 0%, rgba(4,16,64,0.38) 55%, rgba(2,10,44,0.22) 100%)',
       }} />
-      {/* Left panel: slightly darker so text stays readable */}
+      {/* Warm amber glow from buildings — left side like reference */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to right, rgba(3,10,48,0.68) 0%, rgba(3,10,48,0.4) 45%, transparent 70%)',
+        background: 'radial-gradient(ellipse 40% 60% at 18% 65%, rgba(255,165,40,0.10) 0%, transparent 70%)',
       }} />
-      {/* Bottom gradient for NEW SEASON label */}
+      {/* Text area: readable dark zone on left */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to top, rgba(3,10,48,0.55) 0%, transparent 35%)',
+        background: 'linear-gradient(to right, rgba(2,8,40,0.72) 0%, rgba(2,8,40,0.38) 42%, transparent 65%)',
       }} />
+      {/* Snow particles */}
+      <SnowLayer />
 
       {/* LEFT — text content */}
       <div style={{
