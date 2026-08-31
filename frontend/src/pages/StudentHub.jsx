@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {
   Mic, BookOpen, HelpCircle, ChevronRight, ChevronDown,
   Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Wifi, WifiOff, LogOut, Target,
+  User, Hash, CreditCard, Calendar, Globe, FileText, Cpu, Check, AlertTriangle, Send,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
@@ -117,10 +118,10 @@ function useLogout() {
 }
 
 const FEATURES = [
-  { emoji: '📋', label: 'Real IELTS Questions', sub: 'Updated regularly' },
-  { emoji: '🤖', label: 'AI-Powered Feedback',  sub: 'Get smarter every time' },
-  { emoji: '📊', label: 'Track Your Progress',  sub: 'See your improvement' },
-  { emoji: '🌐', label: 'Learn Anywhere',        sub: 'Mobile & desktop ready' },
+  { Icon: FileText, clr: '#60a5fa', label: 'Real IELTS Questions', sub: 'Updated regularly' },
+  { Icon: Cpu,      clr: '#a78bfa', label: 'AI-Powered Feedback',  sub: 'Smarter every session' },
+  { Icon: BarChart2,clr: '#34d399', label: 'Track Your Progress',  sub: 'See your improvement' },
+  { Icon: Globe,    clr: '#f97316', label: 'Learn Anywhere',        sub: 'Mobile & desktop ready' },
 ]
 
 // Color palettes
@@ -466,7 +467,7 @@ function TopBar({ user, lastBand, streak, c, isDark, isMobile, onUpgrade }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 20 }}>
       {/* Streak */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-        <span style={{ fontSize: 20 }}>🔥</span>
+        <Flame size={20} color="#f97316" />
         <div>
           <div style={{ fontSize: 15, fontWeight: 800, color: c.text, lineHeight: 1 }}>{streak || 0}</div>
           <div style={{ fontSize: 10, color: c.textFaint, fontWeight: 500, lineHeight: 1, marginTop: 2 }}>Day Streak</div>
@@ -593,19 +594,19 @@ function TopBar({ user, lastBand, streak, c, isDark, isMobile, onUpgrade }) {
               {/* Fields */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {[
-                  { label: 'Name',     value: user?.username || '—', icon: '👤' },
-                  { label: 'Username', value: user?.username || '—', icon: '🔖' },
-                  { label: 'Password', value: '••••••••',             icon: '🔒', mono: true },
-                  { label: 'Plan',     value: user?.plan === 'elite' ? '👑 Elite' : user?.plan === 'basic' ? '⚡ Basic' : '🚫 Free', icon: '🎫' },
-                  { label: 'Joined',   value: joinedDate,             icon: '📅' },
-                ].map(({ label, value, icon, mono }) => (
+                  { label: 'Name',     value: user?.username || '—', Icon: User },
+                  { label: 'Username', value: user?.username || '—', Icon: Hash },
+                  { label: 'Password', value: '••••••••',             Icon: Lock, mono: true },
+                  { label: 'Plan',     value: user?.plan === 'elite' ? 'Elite' : user?.plan === 'basic' ? 'Basic' : 'Free', Icon: CreditCard },
+                  { label: 'Joined',   value: joinedDate,             Icon: Calendar },
+                ].map(({ label, value, Icon: RowIcon, mono }) => (
                   <div key={label} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     padding: '11px 14px', borderRadius: 10,
                     background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 14 }}>{icon}</span>
+                      <RowIcon size={14} color={isDark ? '#6b7280' : '#94a3b8'} />
                       <span style={{ fontSize: 12, color: isDark ? '#6b7280' : '#64748b', fontWeight: 500 }}>{label}</span>
                     </div>
                     <span style={{
@@ -1257,7 +1258,7 @@ function TopicsAdModal({ isMobile, onClose, onUpgrade }) {
             background:'rgba(77,166,255,0.15)', border:'1px solid rgba(77,166,255,0.35)',
             borderRadius:999, padding:'5px 14px', marginBottom:20,
           }}>
-            <span style={{ fontSize:13 }}>🗓</span>
+            <Calendar size={13} color="#4da6ff" />
             <span style={{ fontSize:11, fontWeight:800, color:'#4da6ff', letterSpacing:1.5, textTransform:'uppercase' }}>
               Yangi mavzu — 2026
             </span>
@@ -1287,13 +1288,15 @@ function TopicsAdModal({ isMobile, onClose, onUpgrade }) {
           {/* Feature list */}
           <div style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:28 }}>
             {[
-              ['✅', 'Real imtihon topiklari — bashorat emas, haqiqiy'],
-              ['✅', 'Part 2 cue card + Part 3 savollar to\'plami'],
-              ['✅', 'Har bir mavzu uchun band 7+ javob namunasi'],
-              ['✅', 'Yangi topiklar qo\'shilib boriladi'],
-            ].map(([icon, text], i) => (
+              'Real imtihon topiklari — bashorat emas, haqiqiy',
+              'Part 2 cue card + Part 3 savollar to\'plami',
+              'Har bir mavzu uchun band 7+ javob namunasi',
+              'Yangi topiklar qo\'shilib boriladi',
+            ].map((text, i) => (
               <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
-                <span style={{ fontSize:14, flexShrink:0, marginTop:1 }}>{icon}</span>
+                <div style={{ width:18, height:18, borderRadius:5, background:'rgba(77,166,255,0.15)', border:'1px solid rgba(77,166,255,0.3)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1 }}>
+                  <Check size={11} color="#4da6ff" strokeWidth={3} />
+                </div>
                 <span style={{ fontSize: isMobile ? 13 : 14, color:'rgba(255,255,255,0.75)', lineHeight:1.5 }}>{text}</span>
               </div>
             ))}
@@ -1310,7 +1313,7 @@ function TopicsAdModal({ isMobile, onClose, onUpgrade }) {
               boxShadow:'0 4px 24px rgba(26,111,212,0.45)',
               display:'flex', alignItems:'center', justifyContent:'center', gap:8,
             }}>
-              👑 Elite olish — Kirish
+              <Crown size={15} /> Elite olish — Kirish
             </button>
             <button onClick={onClose} style={{
               padding: isMobile ? '13px 20px' : '15px 24px',
@@ -1418,8 +1421,8 @@ function UpgradeModal({ isDark, onClose }) {
             background: 'linear-gradient(135deg,rgba(124,58,237,0.2),rgba(79,70,229,0.15))',
             border: '1px solid rgba(124,58,237,0.3)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto 14px', fontSize: 26,
-          }}>💳</div>
+            margin: '0 auto 14px',
+          }}><CreditCard size={24} color="#a78bfa" /></div>
           <div style={{ fontSize: 18, fontWeight: 900, color: isDark ? '#fafafa' : '#0f172a' }}>
             Tarifni tanlang
           </div>
@@ -1431,8 +1434,8 @@ function UpgradeModal({ isDark, onClose }) {
         {/* Plan selector */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
           {[
-            { id: 'basic', icon: '⚡', label: basicName, price: basicPrice, color: '#3b82f6', desc: 'Speaking, Vocabulary, Q-Types' },
-            { id: 'elite', icon: '👑', label: eliteName, price: elitePrice, color: '#7c3aed', desc: `${basicName} + Listening & Reading`, hot: true },
+            { id: 'basic', PlanIcon: Zap,   label: basicName, price: basicPrice, color: '#3b82f6', desc: 'Speaking, Vocabulary, Q-Types' },
+            { id: 'elite', PlanIcon: Crown, label: eliteName, price: elitePrice, color: '#7c3aed', desc: `${basicName} + Listening & Reading`, hot: true },
           ].map(plan => (
             <div
               key={plan.id}
@@ -1454,7 +1457,7 @@ function UpgradeModal({ isDark, onClose }) {
                   padding: '2px 7px', borderRadius: 999,
                 }}>TOP</span>
               )}
-              <div style={{ fontSize: 20, marginBottom: 6 }}>{plan.icon}</div>
+              <div style={{ marginBottom: 6 }}><plan.PlanIcon size={20} color={plan.color} /></div>
               <div style={{ fontSize: 14, fontWeight: 900, color: plan.color, marginBottom: 2 }}>{plan.label}</div>
               <div style={{ fontSize: 13, fontWeight: 800, color: isDark ? '#e4e4e7' : '#0f172a', marginBottom: 4 }}>
                 {plan.price}
@@ -1521,7 +1524,7 @@ function UpgradeModal({ isDark, onClose }) {
             borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 12,
             color: '#f97316', fontWeight: 600, textAlign: 'center',
           }}>
-            ⚠️ Karta raqami admin tomonidan kiritilmagan
+            <AlertTriangle size={14} style={{display:'inline',marginRight:6}} /> Karta raqami admin tomonidan kiritilmagan
           </div>
         )}
 
@@ -1562,7 +1565,7 @@ function UpgradeModal({ isDark, onClose }) {
             boxShadow: '0 4px 20px rgba(124,58,237,0.35)',
           }}
         >
-          ✈️ To'lov qildim — Telegramga o'tish
+          <Send size={15} /> To'lov qildim — Telegramga o'tish
         </button>
         <p style={{ fontSize: 10, color: isDark ? '#52525b' : '#94a3b8', textAlign: 'center', marginTop: 10 }}>
           @{tg} ga murojaat qiling
@@ -1584,7 +1587,9 @@ function FeatureStrip({ c, isMobile }) {
           borderRadius: 12, padding: '14px 16px',
           transition: 'background 0.2s',
         }}>
-          <span style={{ fontSize: 20 }}>{f.emoji}</span>
+          <div style={{ width:34, height:34, borderRadius:9, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, background:`${f.clr}18`, border:`1px solid ${f.clr}30` }}>
+            <f.Icon size={17} color={f.clr} />
+          </div>
           <div>
             <div style={{ fontSize: 12, fontWeight: 700, color: c.textSub, lineHeight: 1.25 }}>{f.label}</div>
             <div style={{ fontSize: 11, color: c.textFaint, marginTop: 2 }}>{f.sub}</div>
