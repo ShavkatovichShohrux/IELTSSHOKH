@@ -44,7 +44,7 @@ const HERO_BG   = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?
 const SPEAK_BG  = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
 const QTYPE_BG  = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
 const VOCAB_BG  = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
-const WINTER_BG = 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=1400&q=80'
+const WINTER_BG = 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1400&q=80'
 
 const NAV = [{ icon: HomeIcon, label: 'Home', to: '/tests' }]
 
@@ -910,26 +910,26 @@ function WideModuleCard({ to, locked, isMobile }) {
         display: 'flex', alignItems: 'stretch',
       }}
     >
-      {/* BG image — NYC skyline at night, cold-processed */}
+      {/* BG image — NYC night skyline, lightly processed so it shows through */}
       <img src={WINTER_BG} alt="" style={{
         position: 'absolute', inset: 0, width: '100%', height: '100%',
         objectFit: 'cover',
-        filter: 'brightness(0.22) saturate(0.35) hue-rotate(210deg) contrast(1.05)',
+        filter: 'brightness(0.52) saturate(0.72) hue-rotate(200deg)',
       }} />
-      {/* Deep navy overlay — matches reference dark blue */}
+      {/* Thin navy tint — let the image breathe like reference */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(115deg, rgba(2,8,42,0.96) 0%, rgba(5,18,72,0.88) 50%, rgba(3,14,62,0.72) 100%)',
+        background: 'linear-gradient(115deg, rgba(4,14,58,0.62) 0%, rgba(6,20,78,0.48) 50%, rgba(3,12,55,0.28) 100%)',
       }} />
-      {/* Subtle ambient glow — mimics building lights in reference */}
+      {/* Left panel: slightly darker so text stays readable */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'radial-gradient(ellipse 70% 80% at 75% 60%, rgba(20,60,160,0.18) 0%, transparent 65%)',
+        background: 'linear-gradient(to right, rgba(3,10,48,0.68) 0%, rgba(3,10,48,0.4) 45%, transparent 70%)',
       }} />
-      {/* Left text area gradient */}
+      {/* Bottom gradient for NEW SEASON label */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to right, rgba(2,8,42,0.5) 0%, transparent 60%)',
+        background: 'linear-gradient(to top, rgba(3,10,48,0.55) 0%, transparent 35%)',
       }} />
 
       {/* LEFT — text content */}
