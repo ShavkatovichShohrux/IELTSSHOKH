@@ -184,6 +184,7 @@ export default function StudentHub() {
   const handleLogout = useLogout()
   const [activeNav, setActiveNav] = useState('Home')
   const [showUpgrade, setShowUpgrade] = useState(false)
+  const [showTopicsAd, setShowTopicsAd] = useState(false)
   const isDark = theme === 'dark'
   const c = isDark ? dark : light
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768)
@@ -193,6 +194,13 @@ export default function StudentHub() {
     window.addEventListener('resize', h, { passive: true })
     return () => window.removeEventListener('resize', h)
   }, [])
+
+  useEffect(() => {
+    const isElite = user?.role === 'admin' || user?.plan === 'elite'
+    if (isElite) return
+    const seen = localStorage.getItem('sept_dec_2026_ad_v1')
+    if (!seen) setShowTopicsAd(true)
+  }, [user])
 
   const { data: results = [] } = useQuery({
     queryKey: ['myResults'],
@@ -212,6 +220,13 @@ export default function StudentHub() {
     }}>
       {!isMobile && <Sidebar active={activeNav} setActive={setActiveNav} c={c} isDark={isDark} onUpgrade={() => setShowUpgrade(true)} />}
       {showUpgrade && <UpgradeModal isDark={isDark} onClose={() => setShowUpgrade(false)} />}
+      {showTopicsAd && (
+        <TopicsAdModal
+          isMobile={isMobile}
+          onClose={() => { localStorage.setItem('sept_dec_2026_ad_v1','1'); setShowTopicsAd(false) }}
+          onUpgrade={() => { localStorage.setItem('sept_dec_2026_ad_v1','1'); setShowTopicsAd(false); setShowUpgrade(true) }}
+        />
+      )}
 
       <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <TopBar user={user} lastBand={lastBand} streak={challengeStreak} c={c} isDark={isDark} isMobile={isMobile} onUpgrade={() => setShowUpgrade(true)} />
@@ -1152,6 +1167,155 @@ function ChallengeBanner({ c, isDark, isMobile }) {
         </div>
       </div>
     </Link>
+  )
+}
+
+/* ══════════════════════ TOPICS AD MODAL ════════════════════════════ */
+const AD_SNOW = [
+  [8,2.5,0,7],[16,1.5,1.8,8],[24,3,3.5,6],[33,2,0.6,9],[41,1.5,4.2,7],
+  [50,2.5,2,8],[58,1.5,0.3,6],[67,3,3,9],[75,2,1.5,7],[83,1.5,4.8,8],
+  [91,2,0.9,6],[5,1.5,3.2,9],[20,2,2.5,7],[38,3,1,8],[55,1.5,4,6],
+  [72,2,0.4,9],[88,2.5,2.8,7],[13,1.5,3.8,8],[45,2,1.3,6],[80,3,0.7,9],
+]
+
+function TopicsAdModal({ isMobile, onClose, onUpgrade }) {
+  return createPortal(
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 99999,
+      background: 'rgba(0,0,0,0.75)',
+      backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: isMobile ? 16 : 24,
+    }}>
+      <div style={{
+        position: 'relative',
+        width: '100%', maxWidth: 580,
+        borderRadius: 24,
+        overflow: 'hidden',
+        border: '1.5px solid rgba(80,150,255,0.38)',
+        boxShadow: '0 32px 80px rgba(0,40,180,0.45), 0 0 0 1px rgba(100,180,255,0.1)',
+      }}>
+        {/* BG image */}
+        <img src={WINTER_BG} alt="" style={{
+          position:'absolute', inset:0, width:'100%', height:'100%',
+          objectFit:'cover',
+          filter:'brightness(0.42) saturate(0.5) hue-rotate(205deg) contrast(1.1)',
+        }} />
+        {/* Navy overlay */}
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg,rgba(3,10,50,0.72) 0%,rgba(5,18,72,0.55) 100%)' }} />
+        {/* Warm glow */}
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 55% 50% at 15% 70%, rgba(255,160,40,0.09) 0%,transparent 70%)' }} />
+        {/* Snow */}
+        <style>{`@keyframes adSf{0%{transform:translateY(-10px);opacity:0}15%{opacity:.75}85%{opacity:.25}100%{transform:translateY(440px);opacity:0}}`}</style>
+        <div style={{ position:'absolute', inset:0, overflow:'hidden', pointerEvents:'none' }}>
+          {AD_SNOW.map(([x,s,d,dur],i) => (
+            <div key={i} style={{
+              position:'absolute', left:`${x}%`, top:0,
+              width:s, height:s, borderRadius:'50%',
+              background:'rgba(210,232,255,0.8)',
+              animation:`adSf ${dur}s linear ${d}s infinite`,
+            }} />
+          ))}
+        </div>
+
+        {/* Close */}
+        <button onClick={onClose} style={{
+          position:'absolute', top:14, right:14, zIndex:10,
+          width:32, height:32, borderRadius:'50%',
+          border:'1px solid rgba(255,255,255,0.15)',
+          background:'rgba(255,255,255,0.08)',
+          color:'rgba(255,255,255,0.7)', fontSize:18, fontWeight:700,
+          cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
+          lineHeight:1,
+        }}>×</button>
+
+        {/* Content */}
+        <div style={{ position:'relative', zIndex:2, padding: isMobile ? '36px 24px 28px' : '44px 48px 36px' }}>
+          {/* Badge */}
+          <div style={{
+            display:'inline-flex', alignItems:'center', gap:7,
+            background:'rgba(77,166,255,0.15)', border:'1px solid rgba(77,166,255,0.35)',
+            borderRadius:999, padding:'5px 14px', marginBottom:20,
+          }}>
+            <span style={{ fontSize:13 }}>🗓</span>
+            <span style={{ fontSize:11, fontWeight:800, color:'#4da6ff', letterSpacing:1.5, textTransform:'uppercase' }}>
+              Yangi mavzu — 2026
+            </span>
+          </div>
+
+          {/* Heading */}
+          <h2 style={{
+            margin:'0 0 14px',
+            fontSize: isMobile ? 26 : 36,
+            fontWeight:900, color:'#ffffff', lineHeight:1.1,
+            letterSpacing:-0.5,
+          }}>
+            September–December<br />
+            <span style={{
+              background:'linear-gradient(90deg,#60b3ff,#a78bfa)',
+              WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent',
+            }}>2026 Speaking Topics</span>
+          </h2>
+
+          {/* Body */}
+          <p style={{ margin:'0 0 24px', fontSize: isMobile ? 14 : 15, color:'rgba(255,255,255,0.65)', lineHeight:1.65 }}>
+            IELTS September–December 2026 imtihonlarida chiqadigan<br />
+            <strong style={{ color:'rgba(255,255,255,0.9)' }}>real Part 2 & 3 topiklar</strong> platformaga qo'shildi.
+            Har bir mavzu bo'yicha tayyorgarlik materiallari bilan.
+          </p>
+
+          {/* Feature list */}
+          <div style={{ display:'flex', flexDirection:'column', gap:10, marginBottom:28 }}>
+            {[
+              ['✅', 'Real imtihon topiklari — bashorat emas, haqiqiy'],
+              ['✅', 'Part 2 cue card + Part 3 savollar to\'plami'],
+              ['✅', 'Har bir mavzu uchun band 7+ javob namunasi'],
+              ['✅', 'Yangi topiklar qo\'shilib boriladi'],
+            ].map(([icon, text], i) => (
+              <div key={i} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                <span style={{ fontSize:14, flexShrink:0, marginTop:1 }}>{icon}</span>
+                <span style={{ fontSize: isMobile ? 13 : 14, color:'rgba(255,255,255,0.75)', lineHeight:1.5 }}>{text}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* CTAs */}
+          <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
+            <button onClick={onUpgrade} style={{
+              flex:1, minWidth:180,
+              padding: isMobile ? '13px 16px' : '15px 28px',
+              borderRadius:14, border:'none', cursor:'pointer',
+              background:'linear-gradient(135deg,#1a6fd4,#7c3aed)',
+              color:'#fff', fontSize: isMobile ? 14 : 15, fontWeight:800,
+              boxShadow:'0 4px 24px rgba(26,111,212,0.45)',
+              display:'flex', alignItems:'center', justifyContent:'center', gap:8,
+            }}>
+              👑 Elite olish — Kirish
+            </button>
+            <button onClick={onClose} style={{
+              padding: isMobile ? '13px 20px' : '15px 24px',
+              borderRadius:14, cursor:'pointer',
+              background:'rgba(255,255,255,0.07)',
+              border:'1px solid rgba(255,255,255,0.14)',
+              color:'rgba(255,255,255,0.55)', fontSize: isMobile ? 13 : 14, fontWeight:600,
+            }}>
+              Keyinroq
+            </button>
+          </div>
+        </div>
+
+        {/* Decorative calendar — top right */}
+        {!isMobile && (
+          <div style={{
+            position:'absolute', top:'-10px', right:'-20px',
+            opacity:0.18, pointerEvents:'none', transform:'rotate(8deg) scale(0.9)',
+          }}>
+            <GlassCalendar />
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
   )
 }
 
