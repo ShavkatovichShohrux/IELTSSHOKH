@@ -40,11 +40,11 @@ function timeAgo(dateStr) {
   return new Date(dateStr).toLocaleDateString('uz-UZ')
 }
 
-const HERO_BG  = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80'
+const HERO_BG   = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80'
 const SPEAK_BG  = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
 const QTYPE_BG  = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
 const VOCAB_BG  = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
-const EXAM_BG   = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80'
+const WINTER_BG = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80'
 
 const NAV = [{ icon: HomeIcon, label: 'Home', to: '/tests' }]
 
@@ -56,14 +56,6 @@ const MODULES = [
     desc: 'Describe, compare, discuss and express your ideas with confidence.',
     btnBg: '#dc2626', stat: '24', statLbl: 'Recent Sessions',
     requiredPlan: 'basic',
-  },
-  {
-    to: '/tests/speaking-topics-2026', bg: EXAM_BG, overlay: 'rgba(30,10,60,0.65)',
-    Icon: Crown, iconClr: '#a855f7', iconBg: 'rgba(168,85,247,0.18)',
-    group: 'Speaking', title: 'Part 2/3 topics for September & December 2026', titleClr: '#c084fc',
-    desc: 'Real exam topics predicted for Sep & Dec 2026. Prepare with actual cue cards.',
-    btnBg: '#7c3aed', stat: 'Elite', statLbl: 'Access',
-    requiredPlan: 'elite',
   },
   {
     to: '/tests/question-types', bg: QTYPE_BG, overlay: 'rgba(10,5,30,0.6)',
@@ -226,7 +218,12 @@ export default function StudentHub() {
 
           <div style={{ padding: isMobile ? '0 12px 16px' : '0 24px 20px' }}>
             <ChallengeBanner c={c} isDark={isDark} isMobile={isMobile} />
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4,1fr)', gap: isMobile ? 10 : 14 }}>
+            <WideModuleCard
+              to="/tests/speaking-topics-2026"
+              locked={!hasAccess(user?.plan, 'elite', user?.role)}
+              isMobile={isMobile}
+            />
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? 10 : 14, marginTop: isMobile ? 10 : 14 }}>
               {MODULES.map((m, i) => (
                 <ModuleCard key={i} {...m} locked={!hasAccess(user?.plan, m.requiredPlan, user?.role)} c={c} isDark={isDark} isMobile={isMobile} />
               ))}
@@ -770,7 +767,7 @@ function CircleProgress({ pct }) {
 }
 
 /* ═══════════════════════════ MODULE CARD ════════════════════════ */
-function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titleClr, desc, btnBg, stat, statLbl, locked, isMobile }) {
+function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titleSub, titleClr, desc, btnBg, stat, statLbl, locked, isMobile }) {
   const [hov, setHov] = useState(false)
 
   const card = (
@@ -820,7 +817,14 @@ function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titl
 
       <div style={{ position: 'relative', zIndex: 1, padding: '18px 20px' }}>
         <p style={{ margin: '0 0 3px', fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{group}</p>
-        <h3 style={{ margin: '0 0 9px', fontSize: 21, fontWeight: 900, color: titleClr, lineHeight: 1.15 }}>{title}</h3>
+        <h3 style={{ margin: '0 0 9px', fontSize: titleSub ? 18 : 21, fontWeight: 900, color: titleClr, lineHeight: 1.15 }}>
+          {title}
+          {titleSub && (
+            <span style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'rgba(192,132,252,0.75)', marginTop: 3, letterSpacing: 0.1 }}>
+              {titleSub}
+            </span>
+          )}
+        </h3>
         <p style={{ margin: '0 0 14px', fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.6 }}>{desc}</p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <AudioWave />
@@ -837,6 +841,207 @@ function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titl
 
   if (locked) return <div style={{ textDecoration: 'none', display: 'block' }}>{card}</div>
   return <Link to={to} style={{ textDecoration: 'none', display: 'block' }}>{card}</Link>
+}
+
+/* ══════════════════════ GLASS CALENDAR ════════════════════════════ */
+function GlassCalendar() {
+  return (
+    <div style={{ position: 'relative', width: 230, height: 210, flexShrink: 0 }}>
+      {/* Back page shadow */}
+      <div style={{
+        position: 'absolute', top: 12, left: 18,
+        width: 200, height: 185,
+        borderRadius: 18,
+        background: 'rgba(30,70,180,0.13)',
+        border: '1.5px solid rgba(100,170,255,0.18)',
+        backdropFilter: 'blur(6px)',
+      }} />
+      {/* Main calendar */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0,
+        width: 200, height: 185,
+        borderRadius: 18,
+        background: 'rgba(10,40,130,0.22)',
+        border: '1.5px solid rgba(130,200,255,0.32)',
+        backdropFilter: 'blur(18px)',
+        boxShadow: '0 8px 40px rgba(0,60,200,0.25)',
+        padding: '28px 14px 14px',
+        boxSizing: 'border-box',
+      }}>
+        {/* Ring binders */}
+        <div style={{ position: 'absolute', top: -13, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 56 }}>
+          {[0, 1].map(i => (
+            <div key={i} style={{
+              width: 14, height: 26, borderRadius: 7,
+              border: '2.5px solid rgba(150,210,255,0.55)',
+              background: 'rgba(80,150,255,0.15)',
+            }} />
+          ))}
+        </div>
+        {/* Cell grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 5 }}>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} style={{
+              height: 22, borderRadius: 5,
+              background: 'rgba(100,170,255,0.11)',
+              border: '1px solid rgba(120,190,255,0.18)',
+            }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ════════════════════ WIDE MODULE CARD (Sep–Dec 2026) ═════════════ */
+function WideModuleCard({ to, locked, isMobile }) {
+  const [hov, setHov] = useState(false)
+
+  const waveH = [3,6,11,7,15,9,5,12,8,4,10,6,14,7,9,12,5,8,11,6,9,4,13,7,10]
+
+  const inner = (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        position: 'relative', borderRadius: 20, overflow: 'hidden',
+        height: isMobile ? 200 : 300,
+        border: `1.5px solid ${hov && !locked ? 'rgba(80,160,255,0.55)' : 'rgba(60,130,255,0.3)'}`,
+        boxShadow: hov && !locked ? '0 24px 60px rgba(20,80,220,0.35)' : '0 8px 32px rgba(0,0,0,0.28)',
+        transition: 'box-shadow 0.2s, border-color 0.2s',
+        cursor: locked ? 'default' : 'pointer',
+        display: 'flex', alignItems: 'stretch',
+      }}
+    >
+      {/* BG image */}
+      <img src={WINTER_BG} alt="" style={{
+        position: 'absolute', inset: 0, width: '100%', height: '100%',
+        objectFit: 'cover',
+        filter: 'brightness(0.28) saturate(0.5) hue-rotate(195deg)',
+      }} />
+      {/* Blue gradient overlay */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(115deg, rgba(3,12,50,0.92) 0%, rgba(8,28,95,0.78) 52%, rgba(4,18,75,0.55) 100%)',
+      }} />
+      {/* Right fade for calendar */}
+      {!isMobile && (
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(to right, rgba(3,12,50,0.0) 45%, rgba(4,18,75,0.35) 100%)',
+        }} />
+      )}
+
+      {/* LEFT — text content */}
+      <div style={{
+        position: 'relative', zIndex: 2, flex: 1,
+        padding: isMobile ? '20px 20px' : '32px 44px',
+        display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
+        minWidth: 0,
+      }}>
+        {/* Group label */}
+        <div style={{
+          fontSize: 11, fontWeight: 800, color: '#4da6ff',
+          letterSpacing: 2.5, textTransform: 'uppercase',
+        }}>
+          Speaking
+        </div>
+
+        {/* Title block */}
+        <div>
+          <h2 style={{
+            margin: '0 0 10px',
+            fontSize: isMobile ? 26 : 46,
+            fontWeight: 900,
+            color: '#ffffff',
+            lineHeight: 1.06,
+            letterSpacing: -0.5,
+          }}>
+            September–<br />December Topics
+          </h2>
+          <p style={{
+            margin: 0,
+            fontSize: isMobile ? 13 : 15,
+            color: 'rgba(255,255,255,0.6)',
+            fontWeight: 400,
+            lineHeight: 1.5,
+          }}>
+            Fresh part 2 &amp; 3 topics for the new season.
+          </p>
+          {/* Audio wave */}
+          <div style={{ marginTop: 18, display: 'flex', alignItems: 'center', gap: 2.5 }}>
+            {waveH.map((ht, i) => (
+              <div key={i} style={{
+                width: 2.5, height: ht,
+                background: 'rgba(77,166,255,0.65)',
+                borderRadius: 1.5,
+              }} />
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom label */}
+        <div style={{
+          fontSize: 11, fontWeight: 800, color: '#4da6ff',
+          letterSpacing: 2.5, textTransform: 'uppercase',
+        }}>
+          New Season • 2026
+        </div>
+      </div>
+
+      {/* RIGHT — glass calendar */}
+      {!isMobile && (
+        <div style={{
+          position: 'relative', zIndex: 2,
+          width: 320,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          paddingRight: 36,
+          flexShrink: 0,
+        }}>
+          <GlassCalendar />
+        </div>
+      )}
+
+      {/* Arrow button */}
+      <div style={{
+        position: 'absolute', bottom: 26, right: 28, zIndex: 3,
+        width: 46, height: 46, borderRadius: '50%',
+        background: locked ? 'rgba(255,255,255,0.1)' : '#1a6fd4',
+        border: locked ? '1px solid rgba(255,255,255,0.15)' : 'none',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: locked ? 'none' : '0 4px 20px rgba(26,111,212,0.55)',
+      }}>
+        {locked
+          ? <Lock size={18} color="rgba(255,255,255,0.5)" />
+          : <ChevronRight size={21} color="#fff" />
+        }
+      </div>
+
+      {/* Lock overlay */}
+      {locked && (
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 4,
+          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10,
+          background: 'rgba(0,0,0,0.48)',
+        }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <Lock size={24} color="rgba(255,255,255,0.7)" />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'rgba(255,255,255,0.85)' }}>Elite tarifdan</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', marginTop: 2 }}>Admin bilan bog'laning</div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+
+  if (locked) return <div style={{ marginBottom: 0 }}>{inner}</div>
+  return <Link to={to} style={{ textDecoration: 'none', display: 'block' }}>{inner}</Link>
 }
 
 function AudioWave() {
