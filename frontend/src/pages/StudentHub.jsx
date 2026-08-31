@@ -93,6 +93,11 @@ function TgLink({ username, style, children }) {
   )
 }
 
+function hexGlow(hex, a) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16)
+  return `rgba(${r},${g},${b},${a})`
+}
+
 const PLAN_RANK = { none: 0, basic: 1, elite: 2 }
 function hasAccess(userPlan, requiredPlan, userRole) {
   if (userRole === 'admin') return true
@@ -774,8 +779,10 @@ function ModuleCard({ to, bg, overlay, Icon, iconClr, iconBg, group, title, titl
     <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{
       position: 'relative', borderRadius: 16, overflow: 'hidden',
       minHeight: isMobile ? 180 : 270, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-      transform: !locked && hov ? 'translateY(-4px)' : 'none',
-      boxShadow: !locked && hov ? '0 20px 40px rgba(0,0,0,0.4)' : '0 4px 16px rgba(0,0,0,0.15)',
+      transform: !locked && hov ? 'translateY(-5px)' : 'none',
+      boxShadow: !locked && hov
+        ? `0 20px 40px rgba(0,0,0,0.35), 0 0 55px ${hexGlow(iconClr,0.45)}, 0 0 25px ${hexGlow(iconClr,0.25)}`
+        : '0 4px 16px rgba(0,0,0,0.15)',
       transition: 'transform 0.2s, box-shadow 0.2s', cursor: locked ? 'default' : 'pointer',
       opacity: locked ? 0.7 : 1,
     }}>
@@ -929,7 +936,9 @@ function WideModuleCard({ to, locked, isMobile }) {
         position: 'relative', borderRadius: 20, overflow: 'hidden',
         height: isMobile ? 200 : 300,
         border: `1.5px solid ${hov && !locked ? 'rgba(80,160,255,0.55)' : 'rgba(60,130,255,0.3)'}`,
-        boxShadow: hov && !locked ? '0 24px 60px rgba(20,80,220,0.35)' : '0 8px 32px rgba(0,0,0,0.28)',
+        boxShadow: hov && !locked
+          ? '0 24px 60px rgba(0,0,0,0.35), 0 0 70px rgba(30,110,255,0.5), 0 0 30px rgba(30,110,255,0.28)'
+          : '0 8px 32px rgba(0,0,0,0.28)',
         transition: 'box-shadow 0.2s, border-color 0.2s',
         cursor: locked ? 'default' : 'pointer',
         display: 'flex', alignItems: 'stretch',
