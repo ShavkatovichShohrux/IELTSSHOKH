@@ -16,6 +16,17 @@ class Topic(Base):
     tests = relationship("Test", back_populates="topic")
 
 
+class ExamTopic(Base):
+    __tablename__ = "exam_topics"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(200), nullable=False)
+    description = Column(Text, default="")
+    html_file = Column(String(200), default="")
+    order = Column(Integer, default=0)
+    is_published = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)

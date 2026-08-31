@@ -10,7 +10,7 @@ from sqlalchemy import text
 from dotenv import load_dotenv
 
 from database import engine, Base
-from routers import tests, users, results, audio, topics, speaking, vocab, question_types, settings
+from routers import tests, users, results, audio, topics, speaking, vocab, question_types, settings, exam_topics
 
 load_dotenv()
 Base.metadata.create_all(bind=engine)
@@ -169,6 +169,7 @@ app.include_router(speaking.router, tags=["Speaking"])
 app.include_router(vocab.router, prefix="/api/vocab", tags=["Vocabulary"])
 app.include_router(question_types.router, prefix="/api/question-types", tags=["Question Types"])
 app.include_router(settings.router, prefix="/api/settings", tags=["Settings"])
+app.include_router(exam_topics.router, prefix="/api/exam-topics", tags=["Exam Topics"])
 
 
 @app.get("/api/health")

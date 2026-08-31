@@ -23,6 +23,7 @@ import MyResults from './pages/MyResults'
 
 import SpeakingQuestionTypes from './pages/SpeakingQuestionTypes'
 import Challenge from './pages/Challenge'
+import SpeakingTopics2026 from './pages/SpeakingTopics2026'
 
 import AdminLayout from './pages/admin/AdminLayout'
 import QuestionTypeManager from './pages/admin/QuestionTypeManager'
@@ -36,6 +37,7 @@ import TopicManager from './pages/admin/TopicManager'
 import SpeakingManager from './pages/admin/SpeakingManager'
 import VocabManager from './pages/admin/VocabManager'
 import AdminSettings from './pages/admin/AdminSettings'
+import ExamTopicManager from './pages/admin/ExamTopicManager'
 
 export default function App() {
   const { theme, user, token, setAuth } = useAuthStore()
@@ -111,6 +113,11 @@ export default function App() {
             <Challenge />
           </ProtectedRoute>
         } />
+        <Route path="/tests/speaking-topics-2026" element={
+          <ProtectedRoute>
+            <SpeakingTopics2026 />
+          </ProtectedRoute>
+        } />
         <Route path="/vocabulary" element={
           <ProtectedRoute>
             <Vocabulary />
@@ -160,6 +167,7 @@ export default function App() {
           <Route path="audio" element={<AudioManager />} />
           <Route path="question-types" element={<QuestionTypeManager />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="exam-topics" element={<ExamTopicManager />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
-import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library, HelpCircle, ExternalLink, Settings, Menu, X } from 'lucide-react'
+import { LayoutDashboard, BookOpen, Users, BarChart2, Music, Sun, Moon, LogOut, Tag, Mic, Library, HelpCircle, ExternalLink, Settings, Menu, X, Crown } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 import { api } from '../../api/client'
 import toast from 'react-hot-toast'
@@ -11,6 +11,7 @@ const nav = [
   { to: '/admin/vocabulary', icon: Library, label: 'Vocabulary' },
   { to: '/admin/tests', icon: BookOpen, label: 'Testlar' },
   { to: '/admin/topics', icon: Tag, label: 'Topiclar' },
+  { to: '/admin/exam-topics', icon: Crown, label: 'Exam Topics 2026' },
   { to: '/admin/question-types', icon: HelpCircle, label: 'Question Types' },
   { to: '/admin/users', icon: Users, label: 'Foydalanuvchilar' },
   { to: '/admin/stats', icon: BarChart2, label: 'Statistika' },

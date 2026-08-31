@@ -120,4 +120,13 @@ export const api = {
   updateVocabTopic: (id, d) => client.put(`/vocab/${id}`, d),
   deleteVocabTopic: id => client.delete(`/vocab/${id}`),
   uploadVocabPdf: (id, fd) => client.post(`/vocab/${id}/upload`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
+
+  // Exam Topics (Sep & Dec 2026 — Elite only)
+  getExamTopics: () => client.get('/exam-topics/'),
+  getExamTopicsAll: () => client.get('/exam-topics/all'),
+  createExamTopic: d => client.post('/exam-topics/', d),
+  updateExamTopic: (id, d) => client.put(`/exam-topics/${id}`, d),
+  toggleExamTopicPublish: id => client.put(`/exam-topics/${id}/publish`),
+  uploadExamTopicFile: (id, fd) => client.post(`/exam-topics/${id}/upload`, fd, { headers: { 'Content-Type': 'multipart/form-data' } }),
+  deleteExamTopic: id => client.delete(`/exam-topics/${id}`),
 }

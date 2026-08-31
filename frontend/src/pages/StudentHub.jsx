@@ -41,9 +41,10 @@ function timeAgo(dateStr) {
 }
 
 const HERO_BG  = 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1400&q=80'
-const SPEAK_BG = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
-const QTYPE_BG = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
-const VOCAB_BG = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
+const SPEAK_BG  = 'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&q=80'
+const QTYPE_BG  = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80'
+const VOCAB_BG  = 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80'
+const EXAM_BG   = 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80'
 
 const NAV = [{ icon: HomeIcon, label: 'Home', to: '/tests' }]
 
@@ -55,6 +56,14 @@ const MODULES = [
     desc: 'Describe, compare, discuss and express your ideas with confidence.',
     btnBg: '#dc2626', stat: '24', statLbl: 'Recent Sessions',
     requiredPlan: 'basic',
+  },
+  {
+    to: '/tests/speaking-topics-2026', bg: EXAM_BG, overlay: 'rgba(30,10,60,0.65)',
+    Icon: Crown, iconClr: '#a855f7', iconBg: 'rgba(168,85,247,0.18)',
+    group: 'Speaking', title: 'Part 2/3 topics for September & December 2026', titleClr: '#c084fc',
+    desc: 'Real exam topics predicted for Sep & Dec 2026. Prepare with actual cue cards.',
+    btnBg: '#7c3aed', stat: 'Elite', statLbl: 'Access',
+    requiredPlan: 'elite',
   },
   {
     to: '/tests/question-types', bg: QTYPE_BG, overlay: 'rgba(10,5,30,0.6)',
