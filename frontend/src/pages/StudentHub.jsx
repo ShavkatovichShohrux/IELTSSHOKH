@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {
   Mic, BookOpen, HelpCircle, ChevronRight, ChevronDown,
   Gem, Home as HomeIcon, ExternalLink, Sun, Moon, Flame, Lock, Crown, Zap, Ban, Monitor, Wifi, WifiOff, LogOut, Target,
-  User, Hash, CreditCard, Calendar, Globe, FileText, Cpu, Check, AlertTriangle, Send,
+  User, Hash, CreditCard, Calendar, Globe, FileText, Cpu, Check, AlertTriangle, Send, BarChart2,
 } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import toast from 'react-hot-toast'

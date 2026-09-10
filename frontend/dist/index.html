@@ -1,16 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="uz">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="index,follow" />
-  <title>IELTSSHOKH — IELTS Speaking Practice Platform</title>
-  <meta name="description" content="IELTSSHOKH — IELTS Speaking testlarini tayyorlash platformasi. Band 6, 7, 8, 9 namunalar, audio va mashqlar bilan o'zbek tilida." />
-  <meta name="keywords" content="IELTS, speaking, practice, uzbekistan, ieltsshokh, band 7, band 9, IELTS tayyorgarlik" />
-  <meta property="og:title" content="IELTSSHOKH — IELTS Speaking Practice" />
-  <meta property="og:description" content="IELTS Speaking testlarini tayyorlash uchun eng yaxshi platforma. Band 6-9 namunalar." />
+
+  <title>IELTSSHOKH - IELTS Speaking va Listening Tayyorgarlik Platformasi</title>
+  <meta name="description" content="O'zbekistondagi IELTS tayyorgarlik platformasi. Speaking, Listening, Vocabulary mashqlari. Band 6, 7, 8, 9 uchun real topiklar, audio testlar va AI feedback. ieltsshokhspeaking.uz" />
+  <meta name="keywords" content="IELTS, IELTS speaking, IELTS listening, IELTS tayyorgarlik, IELTS uzbekistan, band 7, band 9, speaking practice, IELTS online, o'zbek tilida IELTS, ieltsshokh" />
+  <link rel="canonical" href="https://ieltsshokhspeaking.uz/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="IELTSSHOKH - IELTS Speaking va Listening Platformasi" />
+  <meta property="og:description" content="O'zbekistondagi eng yaxshi IELTS tayyorgarlik platformasi. Real topiklar, audio testlar, band 7-9 namunalar." />
   <meta property="og:url" content="https://ieltsshokhspeaking.uz/" />
   <meta property="og:type" content="website" />
+  <meta property="og:locale" content="uz_UZ" />
+  <meta property="og:site_name" content="IELTSSHOKH" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="IELTSSHOKH - IELTS Tayyorgarlik" />
+  <meta name="twitter:description" content="IELTS Speaking, Listening, Vocabulary — real topiklar va audio testlar bilan." />
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "IELTSSHOKH",
+    "url": "https://ieltsshokhspeaking.uz",
+    "description": "O'zbekistondagi IELTS tayyorgarlik platformasi. Speaking, Listening, Vocabulary mashqlari va real exam topiklari.",
+    "inLanguage": "uz",
+    "offers": {
+      "@type": "Offer",
+      "category": "IELTS Preparation"
+    },
+    "sameAs": [
+      "https://t.me/ieltsshokh"
+    ]
+  }
+  </script>
 
   <!-- PWA -->
   <link rel="manifest" href="/manifest.json" />
@@ -24,16 +54,35 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/icon-192.png" />
   <link rel="icon" type="image/png" href="/logo.png" />
+
   <style>
-    /* Global copy protection */
     body { -webkit-user-select: none; -moz-user-select: none; user-select: none; }
     @media print { body * { display: none !important; } body::before { content: "Printing is not allowed."; display: block; text-align: center; font-size: 24px; margin-top: 40px; } }
   </style>
-  <script type="module" crossorigin src="/assets/index-NJYT1vk0.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DBoTTMH3.css">
+  <script type="module" crossorigin src="/assets/index-DDRBjYvE.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DS9haSlY.css">
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root"></div>
+
+  <!-- SEO content for crawlers without JavaScript -->
+  <noscript>
+    <div style="max-width:800px;margin:40px auto;padding:20px;font-family:sans-serif">
+      <h1>IELTSSHOKH - IELTS Speaking va Listening Tayyorgarlik Platformasi</h1>
+      <p>O'zbekistondagi IELTS tayyorgarlik platformasi. Speaking, Listening, Vocabulary mashqlari. Band 6, 7, 8, 9 uchun real topiklar.</p>
+      <h2>Nima taklif qilinadi?</h2>
+      <ul>
+        <li>IELTS Speaking Part 2 va Part 3 topiklari - September va December 2026</li>
+        <li>IELTS Listening audio testlari - Cambridge materiallari</li>
+        <li>Vocabulary - 1200+ so'z topikal guruhlar bo'yicha</li>
+        <li>Question Types - barcha savol turlarini o'rganish</li>
+        <li>30 kunlik Speaking challenge - kunlik mashq</li>
+      </ul>
+      <p>Kirish uchun: <a href="https://ieltsshokhspeaking.uz/login">Login qiling</a></p>
+      <p>Telegram: <a href="https://t.me/ieltsshokh">@ieltsshokh</a></p>
+    </div>
+  </noscript>
+
   <script>
     (function() {
       var OVERLAY = '__g_protect__';
@@ -47,7 +96,6 @@
       }
       function hideBlack(delay) { setTimeout(function(){ var e=document.getElementById(OVERLAY); if(e) e.remove(); }, delay||0); }
 
-      // PrintScreen → black screen
       document.addEventListener('keydown', function(e) {
         if (e.key === 'PrintScreen' || e.code === 'PrintScreen' || e.keyCode === 44) {
           e.preventDefault(); showBlack(); navigator.clipboard && navigator.clipboard.writeText('').catch(function(){});
@@ -63,7 +111,6 @@
         }
       });
 
-      // Screen share / recording via getDisplayMedia → show black while active
       if (navigator.mediaDevices) {
         var orig = navigator.mediaDevices.getDisplayMedia && navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices);
         if (orig) navigator.mediaDevices.getDisplayMedia = function(c) {
@@ -75,12 +122,10 @@
         };
       }
 
-      // visibilitychange — title change to deter screen recorders indexing the tab
       document.addEventListener('visibilitychange', function() {
-        document.title = document.hidden ? '■ IELTSSHOKH' : 'IELTSSHOKH — Practice Platform';
+        document.title = document.hidden ? 'IELTSSHOKH' : 'IELTSSHOKH - IELTS Speaking va Listening Tayyorgarlik';
       });
 
-      // Disable right-click, copy, drag
       document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
       document.addEventListener('copy', function(e){ if(e.clipboardData) e.clipboardData.setData('text/plain',''); e.preventDefault(); });
       document.addEventListener('cut', function(e){ if(e.clipboardData) e.clipboardData.setData('text/plain',''); e.preventDefault(); });

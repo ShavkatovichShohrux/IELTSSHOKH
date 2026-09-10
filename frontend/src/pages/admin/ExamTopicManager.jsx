@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Plus, Pencil, Trash2, Check, X, Upload, FileCheck, FileWarning, Eye, EyeOff, Crown } from 'lucide-react'
+import { Plus, Pencil, Trash2, Check, X, Upload, FileCheck, FileWarning, Eye, EyeOff, Crown, FileText, File } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { api } from '../../api/client'
 
 export default function ExamTopicManager() {
   const qc = useQueryClient()
-  const fileInputRef = useRef({})
+  const htmlInputRef = useRef({})
+  const pdfInputRef = useRef({})
 
   const [creating, setCreating] = useState(false)
   const [editingId, setEditingId] = useState(null)
@@ -19,7 +20,6 @@ export default function ExamTopicManager() {
   })
 
   const refetch = () => qc.invalidateQueries(['exam-topics-all'])
-
   const resetForm = () => { setForm({ title: '', description: '', order: 0 }); setCreating(false); setEditingId(null) }
 
   const handleSave = async () => {
@@ -47,14 +47,17 @@ export default function ExamTopicManager() {
     catch { toast.error('Xatolik') }
   }
 
-  const handleUpload = async (id, file) => {
-    const fd = new FormData(); fd.append('file', file)
-    setUploading(p => ({ ...p, [id]: true }))
+  const handleUpload = async (id, file, type) => {
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('file_type', type)
+    setUploading(p => ({ ...p, [`${id}_${type}`]: true }))
     try {
       await api.uploadExamTopicFile(id, fd)
-      refetch(); toast.success('Fayl yuklandi')
+      refetch()
+      toast.success(`${type.toUpperCase()} yuklandi`)
     } catch { toast.error('Yuklashda xatolik') }
-    finally { setUploading(p => ({ ...p, [id]: false })) }
+    finally { setUploading(p => ({ ...p, [`${id}_${type}`]: false })) }
   }
 
   const startEdit = (t) => {
@@ -62,6 +65,8 @@ export default function ExamTopicManager() {
     setForm({ title: t.title, description: t.description || '', order: t.order || 0 })
     setCreating(false)
   }
+
+  const fileExt = (path) => path?.split('.').pop()?.toLowerCase()
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
@@ -135,57 +140,90 @@ export default function ExamTopicManager() {
         </div>
       ) : (
         <div className="flex flex-col gap-3">
-          {topics.map(t => (
-            <div key={t.id} className="p-4 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs font-black text-purple-600 dark:text-purple-400">{t.order}</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-bold text-gray-900 dark:text-gray-100 text-sm">{t.title}</p>
-                {t.description && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.description}</p>}
-                <div className="flex items-center gap-2 mt-2">
-                  {t.html_file ? (
-                    <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400 font-medium">
-                      <FileCheck size={12} /> Fayl yuklangan
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-1 text-xs text-amber-500 font-medium">
-                      <FileWarning size={12} /> Fayl yo'q
-                    </span>
-                  )}
-                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${t.is_published ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-500 dark:bg-gray-800'}`}>
-                    {t.is_published ? 'Aktiv' : 'Yashirin'}
-                  </span>
+          {topics.map(t => {
+            const ext = fileExt(t.html_file)
+            const hasPdf = ext === 'pdf'
+            const hasHtml = ext === 'html'
+            return (
+              <div key={t.id} className="p-4 rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                <div className="flex items-start gap-3">
+                  {/* Order number */}
+                  <div className="w-9 h-9 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-black text-purple-600 dark:text-purple-400">{t.order}</span>
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-gray-900 dark:text-gray-100 text-sm">{t.title}</p>
+                    {t.description && <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t.description}</p>}
+
+                    {/* File status badges */}
+                    <div className="flex items-center gap-2 mt-2 flex-wrap">
+                      {t.html_file ? (
+                        <span className={`flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full ${hasPdf ? 'bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400' : 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'}`}>
+                          {hasPdf ? <File size={11} /> : <FileText size={11} />}
+                          {hasPdf ? 'PDF yuklangan' : 'HTML yuklangan'}
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-xs text-amber-500 font-medium">
+                          <FileWarning size={12} /> Fayl yo'q
+                        </span>
+                      )}
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${t.is_published ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-500 dark:bg-gray-800'}`}>
+                        {t.is_published ? 'Aktiv' : 'Yashirin'}
+                      </span>
+                    </div>
+
+                    {/* Upload buttons row */}
+                    <div className="flex items-center gap-2 mt-3">
+                      {/* HTML upload */}
+                      <label className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border cursor-pointer transition-colors text-xs font-bold
+                        ${hasHtml ? 'border-blue-400 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600'}`}
+                        title="HTML fayl yuklash">
+                        {uploading[`${t.id}_html`]
+                          ? <div className="w-3 h-3 border border-blue-400 border-t-transparent rounded-full animate-spin" />
+                          : <FileText size={13} />
+                        }
+                        HTML
+                        <input type="file" accept=".html" className="hidden"
+                          ref={el => htmlInputRef.current[t.id] = el}
+                          onChange={e => e.target.files[0] && handleUpload(t.id, e.target.files[0], 'html')}
+                        />
+                      </label>
+
+                      {/* PDF upload */}
+                      <label className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border cursor-pointer transition-colors text-xs font-bold
+                        ${hasPdf ? 'border-red-400 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-red-400 hover:text-red-600'}`}
+                        title="PDF fayl yuklash">
+                        {uploading[`${t.id}_pdf`]
+                          ? <div className="w-3 h-3 border border-red-400 border-t-transparent rounded-full animate-spin" />
+                          : <File size={13} />
+                        }
+                        PDF
+                        <input type="file" accept=".pdf" className="hidden"
+                          ref={el => pdfInputRef.current[t.id] = el}
+                          onChange={e => e.target.files[0] && handleUpload(t.id, e.target.files[0], 'pdf')}
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    <button onClick={() => handleTogglePublish(t.id)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title={t.is_published ? 'Yashirish' : 'Ko\'rsatish'}>
+                      {t.is_published ? <Eye size={16} className="text-green-500" /> : <EyeOff size={16} className="text-gray-400" />}
+                    </button>
+                    <button onClick={() => startEdit(t)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                      <Pencil size={16} className="text-blue-500" />
+                    </button>
+                    <button onClick={() => handleDelete(t.id)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                      <Trash2 size={16} className="text-red-500" />
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0">
-                {/* Upload */}
-                <label className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer transition-colors" title="HTML yuklash">
-                  {uploading[t.id]
-                    ? <div className="w-4 h-4 border border-purple-400 border-t-transparent rounded-full animate-spin" />
-                    : <Upload size={16} className="text-gray-500" />
-                  }
-                  <input
-                    type="file" accept=".html" className="hidden"
-                    ref={el => fileInputRef.current[t.id] = el}
-                    onChange={e => e.target.files[0] && handleUpload(t.id, e.target.files[0])}
-                  />
-                </label>
-                {/* Publish toggle */}
-                <button onClick={() => handleTogglePublish(t.id)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" title={t.is_published ? 'Yashirish' : 'Ko\'rsatish'}>
-                  {t.is_published ? <Eye size={16} className="text-green-500" /> : <EyeOff size={16} className="text-gray-400" />}
-                </button>
-                {/* Edit */}
-                <button onClick={() => startEdit(t)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                  <Pencil size={16} className="text-blue-500" />
-                </button>
-                {/* Delete */}
-                <button onClick={() => handleDelete(t.id)} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                  <Trash2 size={16} className="text-red-500" />
-                </button>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

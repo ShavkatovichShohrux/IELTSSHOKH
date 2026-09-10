@@ -584,6 +584,33 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
+
+          {/* SEO content — visible to Google */}
+          <div style={{
+            padding:'10px 24px 18px',
+            borderTop:'1px solid rgba(74,108,247,.08)',
+            display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center',
+          }}>
+            {[
+              'IELTS Speaking', 'IELTS Listening', 'Vocabulary', 'Band 7', 'Band 9',
+              'Part 2 Topics', 'Part 3 Topics', "O'zbekiston", '30-Day Challenge',
+            ].map(tag => (
+              <span key={tag} style={{
+                fontSize:10, color:'rgba(74,144,255,.45)',
+                padding:'3px 10px',
+                border:'1px solid rgba(74,108,247,.15)',
+                borderRadius:20, letterSpacing:0.5,
+              }}>{tag}</span>
+            ))}
+            <p style={{
+              width:'100%', margin:'6px 0 0',
+              fontSize:10.5, color:'rgba(255,255,255,.18)',
+              textAlign:'center', lineHeight:1.6,
+            }}>
+              IELTSSHOKH — O'zbekistondagi IELTS Speaking va Listening tayyorgarlik platformasi.
+              Real topiklar, audio testlar, band 6–9 namunalar va 30 kunlik speaking challenge.
+            </p>
+          </div>
         </div>
       </div>
     </>
