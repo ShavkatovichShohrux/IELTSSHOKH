@@ -10,19 +10,19 @@ const isNative = Capacitor?.isNativePlatform?.() === true
 
 function PlanGate() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 text-center px-4">
-      <div className="w-16 h-16 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-5">
-        <Lock size={32} className="text-purple-500" />
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '96px 16px', textAlign: 'center' }}>
+      <div style={{ width: 64, height: 64, borderRadius: 18, background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+        <Lock size={32} color="#a78bfa" />
       </div>
-      <h2 className="text-xl font-black text-gray-900 dark:text-gray-100 mb-2">Elite tarif kerak</h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs mb-5">
-        September & December 2026 exam topiclariga kirish uchun <strong className="text-purple-600 dark:text-purple-400">Elite</strong> tarifga ega bo'lishingiz kerak.
+      <h2 style={{ margin: '0 0 10px', fontSize: 20, fontWeight: 900, color: '#fafafa' }}>Elite tarif kerak</h2>
+      <p style={{ margin: '0 0 20px', fontSize: 14, color: '#6b7280', maxWidth: 280 }}>
+        September &amp; December 2026 exam topiclariga kirish uchun <strong style={{ color: '#a78bfa' }}>Elite</strong> tarifga ega bo'lishingiz kerak.
       </p>
-      <div className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800">
-        <Crown size={15} className="text-purple-500" />
-        <span className="text-sm font-bold text-purple-600 dark:text-purple-400">Elite</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 12, background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)' }}>
+        <Crown size={15} color="#a78bfa" />
+        <span style={{ fontSize: 13, fontWeight: 700, color: '#a78bfa' }}>Elite</span>
       </div>
-      <p className="text-xs text-gray-400 mt-4">Admin bilan bog'laning yoki platformadan tarif sotib oling.</p>
+      <p style={{ marginTop: 16, fontSize: 12, color: '#3f3f46' }}>Admin bilan bog'laning yoki platformadan tarif sotib oling.</p>
     </div>
   )
 }
@@ -68,80 +68,110 @@ export default function SpeakingTopics2026() {
     history.back()
   }
 
+  const BG    = '#0a0a0f'
+  const CARD  = '#111115'
+  const BDR   = 'rgba(255,255,255,0.06)'
+  const PURP  = '#7c3aed'
+  const PURPL = '#a78bfa'
+  const TEXT  = '#fafafa'
+  const MUTED = '#6b7280'
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div style={{ minHeight: '100vh', background: BG, fontFamily: "'Inter',system-ui,sans-serif", color: TEXT }}>
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex items-center gap-3">
-        <button onClick={() => navigate('/tests')} className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-          <ArrowLeft size={20} className="text-gray-600 dark:text-gray-300" />
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 40,
+        background: 'rgba(10,10,15,0.92)', backdropFilter: 'blur(12px)',
+        borderBottom: `1px solid ${BDR}`, padding: '12px 16px',
+        display: 'flex', alignItems: 'center', gap: 12,
+      }}>
+        <button onClick={() => navigate('/tests')} style={{
+          padding: 8, borderRadius: 12, border: 'none', cursor: 'pointer',
+          background: 'rgba(255,255,255,0.05)', color: TEXT,
+          display: 'flex', alignItems: 'center',
+        }}>
+          <ArrowLeft size={20} />
         </button>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <Crown size={16} className="text-purple-500 flex-shrink-0" />
-            <span className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">Elite</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+            <Crown size={14} color={PURPL} />
+            <span style={{ fontSize: 10, fontWeight: 700, color: PURPL, letterSpacing: 2, textTransform: 'uppercase' }}>Elite</span>
           </div>
-          <h1 className="text-base font-black text-gray-900 dark:text-gray-100 leading-tight truncate">
-            Part 2/3 · Sep & Dec 2026
+          <h1 style={{ margin: 0, fontSize: 15, fontWeight: 900, color: TEXT, letterSpacing: -0.3 }}>
+            Part 2/3 · Sep &amp; Dec 2026
           </h1>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 16px' }}>
         {!isElite ? (
           <PlanGate />
         ) : isLoading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '80px 0' }}>
+            <div style={{ width: 32, height: 32, border: `2px solid ${PURP}`, borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
           </div>
         ) : topics.length === 0 ? (
-          <div className="text-center py-20">
-            <div className="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mx-auto mb-4">
-              <FileText size={26} className="text-purple-400" />
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <div style={{ width: 56, height: 56, borderRadius: 16, background: 'rgba(124,58,237,0.15)', border: `1px solid rgba(124,58,237,0.25)`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+              <FileText size={26} color={PURPL} />
             </div>
-            <p className="text-gray-500 dark:text-gray-400 font-medium">Topiclar tez orada qo'shiladi</p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Admin yangi materiallar yuklashini kuting</p>
+            <p style={{ color: MUTED, fontWeight: 600, margin: '0 0 4px' }}>Topiclar tez orada qo'shiladi</p>
+            <p style={{ color: '#3f3f46', fontSize: 12, margin: 0 }}>Admin yangi materiallar yuklashini kuting</p>
           </div>
         ) : (
           <>
             {/* Info banner */}
-            <div className="mb-5 p-4 rounded-2xl bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 flex items-start gap-3">
-              <Crown size={18} className="text-purple-500 mt-0.5 flex-shrink-0" />
+            <div style={{
+              marginBottom: 20, padding: '14px 16px', borderRadius: 16,
+              background: 'rgba(124,58,237,0.12)', border: '1px solid rgba(124,58,237,0.25)',
+              display: 'flex', alignItems: 'flex-start', gap: 12,
+            }}>
+              <Crown size={18} color={PURPL} style={{ marginTop: 1, flexShrink: 0 }} />
               <div>
-                <p className="text-sm font-bold text-purple-800 dark:text-purple-200">September & December 2026</p>
-                <p className="text-xs text-purple-600 dark:text-purple-400 mt-0.5">
+                <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 800, color: PURPL }}>September &amp; December 2026</p>
+                <p style={{ margin: 0, fontSize: 12, color: '#8b5cf6' }}>
                   Real exam topiklari. Har bir mavzuni o'qib, o'zingizning javobingizni tayyorlang.
                 </p>
               </div>
             </div>
 
             {/* Topic list */}
-            <div className="flex flex-col gap-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {topics.map((topic, i) => (
                 <button
                   key={topic.id}
                   onClick={() => topic.html_file ? openTopic(topic.id) : null}
                   disabled={!topic.html_file}
-                  className={`w-full text-left flex items-center gap-4 p-4 rounded-2xl border transition-all
-                    ${topic.html_file
-                      ? 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-purple-400 dark:hover:border-purple-600 hover:shadow-md active:scale-[0.99]'
-                      : 'bg-gray-50 dark:bg-gray-900/50 border-gray-100 dark:border-gray-800/50 opacity-60 cursor-not-allowed'
-                    }`}
+                  style={{
+                    width: '100%', textAlign: 'left',
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    padding: '14px 16px', borderRadius: 16,
+                    background: CARD, border: `1px solid ${BDR}`,
+                    cursor: topic.html_file ? 'pointer' : 'not-allowed',
+                    opacity: topic.html_file ? 1 : 0.5,
+                    transition: 'border-color 0.15s, box-shadow 0.15s',
+                    outline: 'none',
+                  }}
+                  onMouseEnter={e => { if (topic.html_file) { e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.12)' }}}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = BDR; e.currentTarget.style.boxShadow = 'none' }}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center flex-shrink-0">
-                    <span className="text-sm font-black text-purple-600 dark:text-purple-400">{i + 1}</span>
+                  <div style={{
+                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
+                    background: 'rgba(124,58,237,0.18)', border: '1px solid rgba(124,58,237,0.3)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ fontSize: 13, fontWeight: 900, color: PURPL }}>{i + 1}</span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-900 dark:text-gray-100 text-sm leading-snug">{topic.title}</p>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 14, color: TEXT }}>{topic.title}</p>
                     {topic.description && (
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-1">{topic.description}</p>
+                      <p style={{ margin: 0, fontSize: 12, color: MUTED, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{topic.description}</p>
                     )}
                     {!topic.html_file && (
-                      <p className="text-xs text-amber-500 mt-0.5">Tez orada</p>
+                      <p style={{ margin: 0, fontSize: 11, color: '#f59e0b' }}>Tez orada</p>
                     )}
                   </div>
-                  {topic.html_file && (
-                    <ChevronRight size={18} className="text-gray-400 flex-shrink-0" />
-                  )}
+                  {topic.html_file && <ChevronRight size={18} color={MUTED} style={{ flexShrink: 0 }} />}
                 </button>
               ))}
             </div>
