@@ -103,7 +103,7 @@ export default function SpeakingTopics2026() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 16px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '24px 16px' }}>
         {!isElite ? (
           <PlanGate />
         ) : isLoading ? (
@@ -135,46 +135,66 @@ export default function SpeakingTopics2026() {
               </div>
             </div>
 
-            {/* Topic list */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {/* Topic grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 14,
+            }}
+              className="topics-grid"
+            >
               {topics.map((topic, i) => (
                 <button
                   key={topic.id}
                   onClick={() => topic.html_file ? openTopic(topic.id) : null}
                   disabled={!topic.html_file}
                   style={{
-                    width: '100%', textAlign: 'left',
-                    display: 'flex', alignItems: 'center', gap: 14,
-                    padding: '14px 16px', borderRadius: 16,
+                    textAlign: 'left', display: 'flex', flexDirection: 'column',
+                    padding: '16px', borderRadius: 16,
                     background: CARD, border: `1px solid ${BDR}`,
                     cursor: topic.html_file ? 'pointer' : 'not-allowed',
                     opacity: topic.html_file ? 1 : 0.5,
                     transition: 'border-color 0.15s, box-shadow 0.15s',
-                    outline: 'none',
+                    outline: 'none', minHeight: 110,
                   }}
-                  onMouseEnter={e => { if (topic.html_file) { e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(124,58,237,0.12)' }}}
+                  onMouseEnter={e => { if (topic.html_file) { e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(124,58,237,0.15)' }}}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = BDR; e.currentTarget.style.boxShadow = 'none' }}
                 >
-                  <div style={{
-                    width: 40, height: 40, borderRadius: 12, flexShrink: 0,
-                    background: 'rgba(124,58,237,0.18)', border: '1px solid rgba(124,58,237,0.3)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <span style={{ fontSize: 13, fontWeight: 900, color: PURPL }}>{i + 1}</span>
+                  {/* Top row: badge + arrow */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      padding: '4px 10px', borderRadius: 20,
+                      background: 'rgba(124,58,237,0.2)', border: '1px solid rgba(124,58,237,0.3)',
+                    }}>
+                      <FileText size={11} color={PURPL} />
+                      <span style={{ fontSize: 11, fontWeight: 700, color: PURPL, letterSpacing: 0.5 }}>Speaking</span>
+                    </div>
+                    {topic.html_file && <ChevronRight size={16} color={MUTED} />}
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 14, color: TEXT }}>{topic.title}</p>
-                    {topic.description && (
-                      <p style={{ margin: 0, fontSize: 12, color: MUTED, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{topic.description}</p>
-                    )}
-                    {!topic.html_file && (
-                      <p style={{ margin: 0, fontSize: 11, color: '#f59e0b' }}>Tez orada</p>
-                    )}
-                  </div>
-                  {topic.html_file && <ChevronRight size={18} color={MUTED} style={{ flexShrink: 0 }} />}
+
+                  {/* Title */}
+                  <p style={{ margin: '0 0 6px', fontWeight: 800, fontSize: 13, color: TEXT, lineHeight: 1.4 }}>
+                    <span style={{ color: MUTED, fontWeight: 700 }}>TOPIC {i + 1}</span>
+                    {' · '}
+                    {topic.title}
+                  </p>
+
+                  {/* Meta */}
+                  <p style={{ margin: 0, fontSize: 11, color: MUTED }}>
+                    {topic.description || 'Part 2 & 3 · Band 6/7/8/9'}
+                  </p>
+
+                  {!topic.html_file && (
+                    <p style={{ margin: '6px 0 0', fontSize: 11, color: '#f59e0b' }}>Tez orada</p>
+                  )}
                 </button>
               ))}
             </div>
+            <style>{`
+              @media (max-width: 768px) { .topics-grid { grid-template-columns: 1fr !important; } }
+              @media (max-width: 1024px) and (min-width: 769px) { .topics-grid { grid-template-columns: repeat(2,1fr) !important; } }
+            `}</style>
           </>
         )}
       </div>
