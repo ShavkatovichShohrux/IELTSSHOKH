@@ -8,10 +8,13 @@ export default function ExamTopicManager() {
   const qc = useQueryClient()
   const htmlInputRef = useRef({})
   const pdfInputRef = useRef({})
+  const formFileRef = useRef(null)
 
   const [creating, setCreating] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState({ title: '', description: '', order: 0 })
+  const [formFile, setFormFile] = useState(null)
+  const [formSaving, setFormSaving] = useState(false)
   const [uploading, setUploading] = useState({})
 
   const { data: topics = [], isLoading } = useQuery({
@@ -20,20 +23,38 @@ export default function ExamTopicManager() {
   })
 
   const refetch = () => qc.invalidateQueries(['exam-topics-all'])
-  const resetForm = () => { setForm({ title: '', description: '', order: 0 }); setCreating(false); setEditingId(null) }
+  const resetForm = () => {
+    setForm({ title: '', description: '', order: 0 })
+    setFormFile(null)
+    if (formFileRef.current) formFileRef.current.value = ''
+    setCreating(false)
+    setEditingId(null)
+  }
 
   const handleSave = async () => {
     if (!form.title.trim()) return toast.error('Sarlavha kiritilmagan')
+    setFormSaving(true)
     try {
+      let id = editingId
       if (editingId) {
         await api.updateExamTopic(editingId, form)
         toast.success('Yangilandi')
       } else {
-        await api.createExamTopic(form)
+        const res = await api.createExamTopic(form)
+        id = res.data.id
         toast.success('Qo\'shildi')
+      }
+      // Upload file if selected
+      if (formFile && id) {
+        const fd = new FormData()
+        fd.append('file', formFile)
+        fd.append('file_type', formFile.name.endsWith('.pdf') ? 'pdf' : 'html')
+        await api.uploadExamTopicFile(id, fd)
+        toast.success('Fayl yuklandi')
       }
       refetch(); resetForm()
     } catch { toast.error('Xatolik') }
+    finally { setFormSaving(false) }
   }
 
   const handleDelete = async (id) => {
@@ -117,12 +138,40 @@ export default function ExamTopicManager() {
               value={form.order}
               onChange={e => setForm(p => ({ ...p, order: parseInt(e.target.value) || 0 }))}
             />
+
+            {/* File upload in form */}
+            <div>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1.5 font-medium">
+                Fayl yuklash (HTML yoki PDF) — ixtiyoriy
+              </label>
+              <label className="flex items-center gap-2 px-3 py-2 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500 cursor-pointer transition-colors">
+                <Upload size={15} className="text-gray-400 flex-shrink-0" />
+                <span className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                  {formFile ? formFile.name : 'HTML yoki PDF tanlang...'}
+                </span>
+                <input
+                  type="file" accept=".html,.pdf" className="hidden"
+                  ref={formFileRef}
+                  onChange={e => setFormFile(e.target.files[0] || null)}
+                />
+              </label>
+              {formFile && (
+                <button onClick={() => { setFormFile(null); if (formFileRef.current) formFileRef.current.value = '' }}
+                  className="mt-1 text-xs text-red-500 hover:text-red-600">
+                  × Faylni olib tashlash
+                </button>
+              )}
+            </div>
           </div>
+
           <div className="flex gap-2 mt-3">
-            <button onClick={handleSave} className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold rounded-xl transition-colors">
-              <Check size={15} /> Saqlash
+            <button onClick={handleSave} disabled={formSaving} className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white text-sm font-bold rounded-xl transition-colors">
+              {formSaving
+                ? <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                : <Check size={15} />}
+              Saqlash
             </button>
-            <button onClick={resetForm} className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-xl transition-colors">
+            <button onClick={resetForm} disabled={formSaving} className="flex items-center gap-1.5 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-bold rounded-xl transition-colors">
               <X size={15} /> Bekor
             </button>
           </div>
