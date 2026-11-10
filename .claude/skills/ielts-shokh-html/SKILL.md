@@ -20,6 +20,8 @@ The user writes in Uzbek (often fast, with typos). Answer in Uzbek.
 | `templates/listening_v7_shell.html` | The Listening v7 file with the MP3 replaced by `{{AUDIO_SRC}}` (reference for listening tests). |
 | `scripts/build_reading.py` | `python3 scripts/build_reading.py specs/<test>.json <out>.html` builds a Reading test. |
 | `scripts/make_reading_shell_from_listening.py` | Re-derives `reading_shell.html` when the user sends a newer Listening design (v8...). |
+| `scripts/build_pdf.py` | `python3 scripts/build_pdf.py specs/<test>.json <out>.pdf [--no-key]` builds the printable A4 question paper from the same spec. |
+| `assets/shokh_logo.png` | shokh logo used in the PDF header and cover. |
 | `specs/real_exams_v10_t07.json` | Full worked example (3 passages, every question type). Copy it as the starting point. |
 
 Built tests go in the repository root as `reading_<source>_<test>.html`
@@ -61,6 +63,17 @@ Built tests go in the repository root as `reading_<source>_<test>.html`
 5. **Answer key honesty**: if the source has no key, you solved it yourself. Say so, and name the
    doubtful items (in Test 07: Q30 and Q38–40). Never present a self-made key as official.
 6. Deliver the file (SendUserFile, `display: "render"` so it opens in the panel) and commit it.
+
+## Printable PDF ("savollarning PDF varianti", "ustoz style")
+
+The channel attaches a "📂 Printable PDF" to each mock. Build it from the same spec:
+`python3 .claude/skills/ielts-shokh-html/scripts/build_pdf.py <spec> IELTSSHOKH_Reading_<name>.pdf`.
+Layout: cover (IELTS ACADEMIC PRACTICE / READING / QUESTION PAPER, candidate lines, instructions,
+shokh logo + IELTSSHOKH brand), each passage on new pages, its questions on new pages with dotted
+answer lines, answer key on the last page (`--no-key` for a student copy). Header on every page:
+shokh logo, IELTSSHOKH, `pdf.series` (e.g. VOLUME 10 / TEST 07); footer: IELTSSHOKH / T.ME/IELTSSHOKH, page x / y.
+Spec needs `"pdf": {"series": ..., "kind": ..., "paper": "READING", "subtitle": "QUESTION PAPER"}`.
+Check the pages (pdftoppm → images) so no question group is split from its heading.
 
 ## Listening workflow
 
