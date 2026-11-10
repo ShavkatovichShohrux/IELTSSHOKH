@@ -20,7 +20,7 @@ The user writes in Uzbek (often fast, with typos). Answer in Uzbek.
 | `templates/listening_v7_shell.html` | The Listening v7 file with the MP3 replaced by `{{AUDIO_SRC}}` (reference for listening tests). |
 | `scripts/build_reading.py` | `python3 scripts/build_reading.py specs/<test>.json <out>.html` builds a Reading test. |
 | `scripts/make_reading_shell_from_listening.py` | Re-derives `reading_shell.html` when the user sends a newer Listening design (v8...). |
-| `scripts/build_pdf.py` | `python3 scripts/build_pdf.py specs/<test>.json <out>.pdf [--no-key]` builds the printable A4 question paper from the same spec. |
+| `scripts/build_pdf.py` | `python3 scripts/build_pdf.py specs/<test>.json "sh_kh - REAL EXAMS V10 Reading Test 07"` writes `<base> - Questions.pdf` and `<base> - Answers.pdf`. |
 | `assets/shokh_logo.png` | shokh logo used in the PDF header and cover. |
 | `specs/real_exams_v10_t07.json` | Full worked example (3 passages, every question type). Copy it as the starting point. |
 
@@ -64,16 +64,23 @@ Built tests go in the repository root as `reading_<source>_<test>.html`
    doubtful items (in Test 07: Q30 and Q38–40). Never present a self-made key as official.
 6. Deliver the file (SendUserFile, `display: "render"` so it opens in the panel) and commit it.
 
-## Printable PDF ("savollarning PDF varianti", "ustoz style")
+## Printable PDFs (Questions + Answers)
 
-The channel attaches a "📂 Printable PDF" to each mock. Build it from the same spec:
-`python3 .claude/skills/ielts-shokh-html/scripts/build_pdf.py <spec> IELTSSHOKH_Reading_<name>.pdf`.
-Layout: cover (IELTS ACADEMIC PRACTICE / READING / QUESTION PAPER, candidate lines, instructions,
-shokh logo + IELTSSHOKH brand), each passage on new pages, its questions on new pages with dotted
-answer lines, answer key on the last page (`--no-key` for a student copy). Header on every page:
-shokh logo, IELTSSHOKH, `pdf.series` (e.g. VOLUME 10 / TEST 07); footer: IELTSSHOKH / T.ME/IELTSSHOKH, page x / y.
-Spec needs `"pdf": {"series": ..., "kind": ..., "paper": "READING", "subtitle": "QUESTION PAPER"}`.
-Check the pages (pdftoppm → images) so no question group is split from its heading.
+Reference: the owner's `sh_kh - REAL EXAMS V10 Listening Test 09 - Questions.pdf` / `- Answers.pdf`.
+`build_pdf.py` reproduces that style from the same JSON spec, for Reading and Listening:
+- Arial only, black/grey, no cover page. Small centred shokh logo at the top of every page;
+  footer `t.me/ieltsshokh | IELTSSHOKH | Page N`.
+- Questions: page 1 = "READING TEST" / "LISTENING TEST", series in italics ("REAL EXAMS Volume 10 Test 07"),
+  bold "40 questions · 60 minutes", Name / Date / Score ___ / 40 box, italic lead line, then the test.
+  Grey letter-spaced "READING PASSAGE 1" / "LISTENING PART 1" labels, "Questions 1–5" headings,
+  italic instructions, boxed notes with centred title and ruled sub-headings, gaps "(6) ______".
+  Reading: passage text first, its questions on the next page.
+- Answers: title block "· Answer Key", italic "Also accepted: ..." line (from `accept`), "Answers"
+  boxes per passage/part, band table, then "ANALYSIS" with one entry per question
+  (`N answer stmt` / `Keyword: kw → passage|heard: ...` / italic quote / explanation), grey left rule.
+- Spec needs `"pdf": {"kind": "reading"|"listening", "test_title", "series", "meta", "lead"}`.
+- File names: `sh_kh - REAL EXAMS V10 Reading Test 07 - Questions.pdf` (PDFs are git-ignored; send them as files).
+- Check every page as images (pdftoppm) before sending.
 
 ## Listening workflow
 

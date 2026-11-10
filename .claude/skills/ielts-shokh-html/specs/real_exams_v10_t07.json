@@ -781,9 +781,10 @@
     }
   ],
   "pdf": {
-    "series": "VOLUME 10  /  TEST 07",
-    "kind": "IELTS ACADEMIC PRACTICE",
-    "paper": "READING",
-    "subtitle": "QUESTION PAPER"
+    "kind": "reading",
+    "test_title": "READING TEST",
+    "series": "REAL EXAMS Volume 10 Test 07",
+    "meta": "40 questions · 60 minutes",
+    "lead": "There are three passages. Write your answers on this paper while you read, then copy them to the answer sheet."
   }
 }
