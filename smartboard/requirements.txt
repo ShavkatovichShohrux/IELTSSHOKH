@@ -1,0 +1,6 @@
+numpy>=1.24
+# GUI build of OpenCV. Do NOT also install opencv-python / opencv-python-headless:
+# mediapipe depends on opencv-contrib-python and two cv2 packages break each other.
+opencv-contrib-python>=4.8
+# Hand mode only (Tasks API, mediapipe>=0.10.14). Pen mode works without it.
+mediapipe>=0.10.14
