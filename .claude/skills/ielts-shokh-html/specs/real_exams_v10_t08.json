@@ -1,0 +1,322 @@
+{
+  "title": "IELTS Reading — Real Exams Volume 10 Test 08 | IELTSSHOKH",
+  "hd_sub": "Academic · Reading · Full Test",
+  "minutes": 60,
+  "section_word": "Passage",
+  "result_title": "Your Result — Reading",
+  "pdf": {
+    "kind": "reading",
+    "test_title": "READING TEST",
+    "series": "REAL EXAMS Volume 10 Test 08",
+    "meta": "40 questions · 60 minutes",
+    "lead": "There are three passages. Write your answers on this paper while you read, then copy them to the answer sheet."
+  },
+  "passages": [
+    {
+      "label": "Reading Passage 1",
+      "heading": "The Life of Louis Braille",
+      "caption": "You should spend about 20 minutes on Questions 1&ndash;13, which are based on Reading Passage 1 below.",
+      "paras": [
+        ["", "<i>Teacher and advocate for the blind, Louis Braille designed the coding system, based on patterns of raised dots, by which the blind can read through touch</i>"],
+        ["", "Louis Braille was born in Coupvray, France on January 4, 1809, the only child of Louis and Constance Braille. His father made leather saddles and harnesses for farmers in the area. At the age of three, while playing in his father's shop, young Louis was struck in the eye by a tool. {{ev:1}}Within weeks of the accident, the infection that had developed in his eyes took away his sight completely.{{/ev}} Although there were few options for blind people at that time, Braille's parents wanted their son to be educated. He attended school in their village with sighted children and followed the lessons through listening alone. He was an excellent student, mostly because of his exceptional memory."],
+        ["", "In 1819 Braille received a scholarship that enabled him to attend the Institut National des Jeunes Aveugles (National Institute of Blind Youth) in Paris, France. He continued to excel in his studies and also began playing the piano and organ. The same year Braille entered the school, {{ev:2}}Captain Charles Barbier invented sonography, or night writing, a system of embossed symbols (standing out from the surface) that soldiers adopted to communicate silently at night on the battlefield.{{/ev}} {{ev:3}}The fifteen-year-old Braille was inspired by a lecture Barbier gave at the Institute a few years later.{{/ev}} Braille adapted Barbier's system to replace the awkward embossed-word books in the Institute's library, which were the only thing he and his classmates could use up to that point."],
+        ["", "Louis Braille was one of many people at the school who found Barbier's system promising; but he also discovered its shortcomings. {{ev:4}}It was quite complex (soldiers had difficulty learning it) and it was based on sounds rather than letters.{{/ev}} Braille spent three years developing a much simpler system. Braille began experimenting with shapes cut from leather as well as nails and tacks hammered into boards. {{ev:5}}He finally settled on a six-dot code, based on the twenty-six letters of the alphabet, which could be recognized with a single contact of one finger.{{/ev}}"],
+        ["", "By changing the number and placement of dots, he coded letters, punctuation, numbers, familiar words, scientific symbols, mathematical and musical notation, and capitalization. {{ev:6}}With the right hand the reader touched individual dots, and with the left hand he or she moved toward the next line,{{/ev}} grasping the text as smoothly and rapidly as sighted readers. Using the Braille system, students were also able to take notes and write essays by punching dots into paper with a pointed instrument that was lined up with a metal guide. {{ev:7}}This writing technique devised by Braille was known as 'decapoint'{{/ev}} and it was later developed by one of his colleagues into a machine that operated like a typewriter."],
+        ["", "At the age of twenty, Braille published a written account describing the use of his coded system. In 1837 he issued a second publication featuring an expanded system of coding text. {{ev:8}}King Louis Philippe (1773-1850) praised the system publicly after a demonstration at the Paris Exposition of Industry in 1834,{{/ev}} {{ev:9}}and Braille's fellow students loved it.{{/ev}} However, Braille's system proved to be controversial at the Institute. The school's director, Alexandre Francois Pignier, supported using the Braille system, but Pierre-Armand Dufau banned it when he became director of the school in 1840. {{ev:10}}Sighted instructors and school board members worried that growing numbers of well-educated blind individuals might take away their jobs{{/ev}} so they decided to stick with the embossed-letter system. Nonetheless, {{ev:11}}by 1850, when illness forced Louis Braille to retire from teaching,{{/ev}} his six-dot method was well on its way to widespread acceptance."],
+        ["", "Braille's ear for music enabled him to become an accomplished cellist and organist. Later in life, his musical talents led him to play the organ all over France, where he became famous as a musician, composer, and teacher. Unfortunately, he grew seriously ill with incurable tuberculosis (a lung infection) in 1835. {{ev:12}}Shortly before his death, a former student of his, a blind musician, gave a performance in Paris. She made a point of letting the audience know that she had learned everything she knew using the forgotten system developed by the now-dying Braille. This created renewed interest and a revival of the Braille system,{{/ev}} although it was not fully accepted until 1854, two years after the inventor's death. {{ev:13}}The system underwent alteration from time to time.{{/ev}} The version employed today was first used in the United States in 1860 at the Missouri School for the Blind."]
+      ],
+      "groups": [
+        {
+          "type": "notes", "range": "1-7", "title": "Louis Braille",
+          "desc": "Complete the notes below.<br>Write <b>ONE WORD ONLY</b> from the passage for each answer.",
+          "sections": [
+            {"h": "Early life · In Coupvray", "lines": [
+              "was born in 1809",
+              "became blind as the result of an {1} in the eye",
+              "excelled at the local school on account of his outstanding memory"]},
+            {"h": "National Institute of Blind Youth, Paris", "lines": [
+              "Braille was awarded a scholarship",
+              "Captain Charles Barbier developed sonography, based on a system originally used by {2}",
+              "Braille became aware of sonography after attending Barbier's {3}"]},
+            {"h": "The development of the Braille system", "lines": [
+              "Problems with Barbier's system: too complex; {4} were used as its basis instead of letters",
+              "Braille's system: was based on the alphabet",
+              "could be recognised with the touch of an individual's {5}",
+              "the left hand takes readers to the following {6} while the right hand touches dots",
+              "blind students could write using Braille's method called {7}"]}
+          ],
+          "items": [
+            {"n": 1, "ans": "infection", "accept": ["infection"],
+             "stmt": "became blind as the result of an ___ in the eye",
+             "kw": ["became blind as the result of", "the infection that had developed in his eyes took away his sight"],
+             "ev": "\"Within weeks of the accident, the infection that had developed in his eyes took away his sight completely.\"",
+             "ex": "The blow from the tool caused an infection, and the infection took his sight → <b>infection</b>. Trap: \"accident\" happened <i>to</i> the eye, but the gap says what in the eye made him blind."},
+            {"n": 2, "ans": "soldiers", "accept": ["soldiers"],
+             "stmt": "sonography, based on a system originally used by ___",
+             "kw": ["originally used by", "soldiers adopted to communicate silently at night"],
+             "ev": "\"a system of embossed symbols (standing out from the surface) that soldiers adopted to communicate silently at night on the battlefield.\"",
+             "ex": "→ <b>soldiers</b>."},
+            {"n": 3, "ans": "lecture", "accept": ["lecture"],
+             "stmt": "Braille became aware of sonography after attending Barbier's ___",
+             "kw": ["after attending Barbier's", "inspired by a lecture Barbier gave at the Institute"],
+             "ev": "\"The fifteen-year-old Braille was inspired by a lecture Barbier gave at the Institute a few years later.\"",
+             "ex": "→ <b>lecture</b>."},
+            {"n": 4, "ans": "sounds", "accept": ["sounds"],
+             "stmt": "___ were used as its basis instead of letters",
+             "kw": ["used as its basis instead of letters", "based on sounds rather than letters"],
+             "ev": "\"It was quite complex (soldiers had difficulty learning it) and it was based on sounds rather than letters.\"",
+             "ex": "instead of = rather than → <b>sounds</b>."},
+            {"n": 5, "ans": "finger", "accept": ["finger"],
+             "stmt": "could be recognised with the touch of an individual's ___",
+             "kw": ["the touch of an individual's", "a single contact of one finger"],
+             "ev": "\"a six-dot code, based on the twenty-six letters of the alphabet, which could be recognized with a single contact of one finger.\"",
+             "ex": "touch = contact → <b>finger</b>."},
+            {"n": 6, "ans": "line", "accept": ["line"],
+             "stmt": "the left hand takes readers to the following ___",
+             "kw": ["left hand takes readers to the following", "with the left hand he or she moved toward the next line"],
+             "ev": "\"With the right hand the reader touched individual dots, and with the left hand he or she moved toward the next line\"",
+             "ex": "following = next → <b>line</b>."},
+            {"n": 7, "ans": "decapoint", "accept": ["decapoint"],
+             "stmt": "blind students could write using Braille's method called ___",
+             "kw": ["method called", "this writing technique ... was known as"],
+             "ev": "\"This writing technique devised by Braille was known as 'decapoint'\"",
+             "ex": "→ <b>decapoint</b>."}
+          ]
+        },
+        {
+          "type": "tfng", "mode": "TFNG", "range": "8-13",
+          "desc": "Do the following statements agree with the information given in Reading Passage 1?<br>In boxes 8&ndash;13 on your answer sheet, write:",
+          "items": [
+            {"n": 8, "text": "Braille received financial assistance from King Louis Philippe.", "ans": "NOT GIVEN",
+             "kw": ["financial assistance from the King", "the King only \"praised the system publicly\""],
+             "ev": "\"King Louis Philippe (1773-1850) praised the system publicly after a demonstration at the Paris Exposition of Industry in 1834\"",
+             "ex": "Praise is mentioned, money is not. (The scholarship is not linked to the King.) → <b>NOT GIVEN</b>."},
+            {"n": 9, "text": "Braille's invention was rejected by students at the National Institute of Blind Youth.", "ans": "FALSE",
+             "kw": ["rejected by students", "Braille's fellow students loved it"],
+             "ev": "\"and Braille's fellow students loved it.\"",
+             "ex": "The students loved it; it was the director and sighted staff who rejected it → <b>FALSE</b>."},
+            {"n": 10, "text": "Sighted teachers at the National Institute of Blind Youth felt threatened by Braille's reading system.", "ans": "TRUE",
+             "kw": ["felt threatened", "worried that ... blind individuals might take away their jobs"],
+             "ev": "\"Sighted instructors and school board members worried that growing numbers of well-educated blind individuals might take away their jobs\"",
+             "ex": "Fear for their jobs = felt threatened → <b>TRUE</b>."},
+            {"n": 11, "text": "Braille's students visited him after his retirement.", "ans": "NOT GIVEN",
+             "kw": ["visited him after his retirement", "only \"illness forced Louis Braille to retire\""],
+             "ev": "\"by 1850, when illness forced Louis Braille to retire from teaching, his six-dot method was well on its way to widespread acceptance.\"",
+             "ex": "His retirement is mentioned, but nothing about visits → <b>NOT GIVEN</b>."},
+            {"n": 12, "text": "Braille's system became popular again after it was promoted by a musician.", "ans": "TRUE",
+             "kw": ["became popular again / promoted by a musician", "a blind musician ... renewed interest and a revival"],
+             "ev": "\"a former student of his, a blind musician, gave a performance in Paris ... This created renewed interest and a revival of the Braille system\"",
+             "ex": "popular again = revival; promoted = made a point of letting the audience know → <b>TRUE</b>."},
+            {"n": 13, "text": "The Braille system that is currently used is unchanged from Braille's original invention.", "ans": "FALSE",
+             "kw": ["unchanged from the original", "the system underwent alteration from time to time"],
+             "ev": "\"The system underwent alteration from time to time. The version employed today was first used in the United States in 1860\"",
+             "ex": "It was altered, so today's version is not the original → <b>FALSE</b>."}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Reading Passage 2",
+      "heading": "Storytelling, from prehistoric caves to modern cinemas",
+      "caption": "You should spend about 20 minutes on Questions 14&ndash;26, which are based on Reading Passage 2 below.",
+      "paras": [
+        ["A", "It was told, we suppose, to people crouched around a fire: a tale of adventure, most likely - relating perhaps a remarkable hunt, an escape from mortal danger, or something else out of the ordinary. {{ev:17}}Whatever its thread, the weaving of this story was done with a prime purpose. The listeners must keep listening. They must not fall asleep.{{/ev}} So, as the story went on, its audience should be sustained by one question above all: What happens next?"],
+        ["B", "The first fireside stories in human history can never be known. They were kept in the heads of those who told them. This method of storage is not necessarily inefficient. {{ev:16}}From documented oral traditions in Australia and elsewhere we know that specialised storytellers and poets can recite from memory literally thousands of lines, in verse or prose, word for word.{{/ev}} But while memory is rightly considered an art in itself, it is clear that a primary purpose of making signs is to have a system of reminders or mnemonic cues - signs that help us to recall certain information in the mind's eye. {{ev:22}}For example, in some Polynesian communities a notched memory stick may be used to help to guide a storyteller through successive stages of recitation.{{/ev}}"],
+        ["C", "But in other parts of the world, the activity of storytelling historically resulted in the development or even the invention of writing systems. One theory about the arrival of literacy in ancient Greece, for example, argues that the epic tales traditionally attributed to Homer, a storyteller of the eighth century BC, were just so enchanting to hear that they had to be preserved. {{ev:20}}So the Greeks borrowed an alphabet from their neighbours in the eastern Mediterranean, the Phoenicians.{{/ev}}"],
+        ["D", "The custom of recording stories can be found around the world, {{ev:19}}from the archives of ancient Egypt which were written on paper derived from papyrus plants,{{/ev}} {{ev:21}}to the scrolls made from the bark of trees on which the North American Ojibway Indians set down their creation myth.{{/ev}} It is a well tried and universal practice: so much so that to this day storytime is probably most often associated with words on paper. {{ev:14}}Nowadays the formal practice of narrating a story aloud would seem - so we assume - to have given way to newspapers, novels and comic strips. This, however, is not the case.{{/ev}} Statistically it is doubtful that the majority of humans currently rely upon the written word to get access to stories. So what is the alternative source?"],
+        ["E", "Each year, millions of people across the world go to the cinema, now the supreme storyteller. Any account of visual storytelling must begin with the recognition that a 'good story' relies upon formal patterns of plot and characterisation that have been embedded in the practice of storytelling over many generations."],
+        ["F", "Aspiring screenwriters really need look no further for essential advice than the fourth century BC Greek philosopher Aristotle. {{ev:23}}He left some incomplete lecture notes on the art of telling stories in various literary and dramatic modes, a slim volume known as Poetics.{{/ev}} Though he can never have imagined a modern cinema, Aristotle is very accurate about the key elements required to get the crowds flocking to such a cultural centre. He analysed the process with cool rationalism. When a story enchants us, we lose the sense of where we are; we are drawn into the story so thoroughly that we forget it is a story being told, and react as though it is real. This is, in Aristotle's phrase, \"the suspension of disbelief\". We know the feeling. If we ever have stayed in our seats, stunned with grief, as the credits roll by, or for days after seeing that vivid evocation of horror have kept looking over our shoulders, then we have suspended disbelief. We have been caught in the storyteller's web. Did it all really happen? We really thought so - for a while."],
+        ["G", "Aristotle must have witnessed this experience often enough. He taught in Athens, the city where theatre developed as a primary form of civic ritual and recreation. {{ev:15}}Two theatrical types of storytelling, tragedy and comedy, caused Athenian audiences to lose themselves in sadness and laughter respectively.{{/ev}} {{ev:24}}Tragedy, for Aristotle, was particularly potent in its capacity to enlist and then purge the emotions of those watching the story unfold on the stage,{{/ev}} so he tried to identify those factors in the storyteller's art that brought about such engagement. {{ev:25}}For analysis he had not only the masterpieces of classical Greek tragedy, but also Homer, whose Iliad and Odyssey were already considered landmarks{{/ev}} - stories by which all other stories should be measured. So, what was the secret of Homer's narrative art?"],
+        ["H", "It was not hard to find. Homer created credible heroes. His heroes belonged to the past, they were mighty and magnificent, yet they were not fantasy figures. Homer reported the speeches of his heroes as if he had heard them himself. He made his heroes sulk, argue, cheat, and cry. {{ev:18}}They were, in short, people who seemed real, though in a story, and audiences could care about them, follow them, and want to know what happened to them next.{{/ev}} {{ev:26}}As Aristotle saw, the hero who shows some weaknesses is intrinsically dramatic.{{/ev}}"]
+      ],
+      "groups": [
+        {
+          "type": "chip", "range": "14-18", "letters": "ABCDEFGH",
+          "desc": "Reading Passage 2 has eight paragraphs, <b>A&ndash;H</b>. Which paragraph contains the following information?<br>Write the correct letter, <b>A&ndash;H</b>, in boxes 14&ndash;18 on your answer sheet.<br><b>NB</b> You may choose any paragraph more than once.",
+          "items": [
+            {"n": 14, "text": "reference to a mistaken view of storytelling today", "ans": "D",
+             "kw": ["a mistaken view ... today", "would seem - so we assume - ... This, however, is not the case"],
+             "ev": "\"Nowadays the formal practice of narrating a story aloud would seem - so we assume - to have given way to newspapers, novels and comic strips. This, however, is not the case.\"",
+             "ex": "\"so we assume ... is not the case\" = a mistaken view → Paragraph <b>D</b>."},
+            {"n": 15, "text": "a categorisation of stories", "ans": "G",
+             "kw": ["categorisation", "two theatrical types of storytelling, tragedy and comedy"],
+             "ev": "\"Two theatrical types of storytelling, tragedy and comedy, caused Athenian audiences to lose themselves in sadness and laughter respectively.\"",
+             "ex": "types = categories → Paragraph <b>G</b>."},
+            {"n": 16, "text": "mention of the ability to recall complete stories without assistance", "ans": "B",
+             "kw": ["recall complete stories without assistance", "recite from memory literally thousands of lines ... word for word"],
+             "ev": "\"specialised storytellers and poets can recite from memory literally thousands of lines, in verse or prose, word for word.\"",
+             "ex": "from memory = without assistance → Paragraph <b>B</b>."},
+            {"n": 17, "text": "a reference to the fundamental aim of storytelling", "ans": "A",
+             "kw": ["fundamental aim", "a prime purpose. The listeners must keep listening"],
+             "ev": "\"Whatever its thread, the weaving of this story was done with a prime purpose. The listeners must keep listening.\"",
+             "ex": "fundamental aim = prime purpose → Paragraph <b>A</b>."},
+            {"n": 18, "text": "how characters in a story can be made appealing to listeners", "ans": "H",
+             "kw": ["characters made appealing", "people who seemed real ... audiences could care about them"],
+             "ev": "\"They were, in short, people who seemed real, though in a story, and audiences could care about them, follow them, and want to know what happened to them next.\"",
+             "ex": "Homer made heroes credible, so audiences cared → Paragraph <b>H</b>."}
+          ]
+        },
+        {
+          "type": "chip", "range": "19-22", "letters": "ABC",
+          "desc": "Choose the correct practice, <b>A&ndash;C</b>, for each person.<br><b>NB</b> You may choose any practice more than once.",
+          "box": {"title": "List of practices", "rows": [["A", "adopting a means of writing from elsewhere"], ["B", "recording stories on organic materials"], ["C", "using tools while telling stories"]]},
+          "items": [
+            {"n": 19, "text": "Ancient Egyptians", "ans": "B",
+             "kw": ["organic materials", "paper derived from papyrus plants"],
+             "ev": "\"from the archives of ancient Egypt which were written on paper derived from papyrus plants\"",
+             "ex": "Papyrus is a plant = organic material → <b>B</b>."},
+            {"n": 20, "text": "Ancient Greeks", "ans": "A",
+             "kw": ["adopting a means of writing from elsewhere", "borrowed an alphabet from their neighbours"],
+             "ev": "\"So the Greeks borrowed an alphabet from their neighbours in the eastern Mediterranean, the Phoenicians.\"",
+             "ex": "borrowed an alphabet = adopted a means of writing → <b>A</b>."},
+            {"n": 21, "text": "Ojibway Indians", "ans": "B",
+             "kw": ["organic materials", "scrolls made from the bark of trees"],
+             "ev": "\"the scrolls made from the bark of trees on which the North American Ojibway Indians set down their creation myth.\"",
+             "ex": "Tree bark = organic material → <b>B</b>."},
+            {"n": 22, "text": "Polynesians", "ans": "C",
+             "kw": ["using tools while telling stories", "a notched memory stick ... guide a storyteller"],
+             "ev": "\"in some Polynesian communities a notched memory stick may be used to help to guide a storyteller through successive stages of recitation.\"",
+             "ex": "memory stick = a tool used during recitation → <b>C</b>."}
+          ]
+        },
+        {
+          "type": "notes", "range": "23-26", "title": "Aristotle", "width": 150,
+          "desc": "Complete the sentences.<br>Write <b>ONE WORD ONLY</b> from the text for each answer.",
+          "sections": [{"lines": [
+            "Aristotle's work on storytelling is called {23}.",
+            "Aristotle saw {24} as a very powerful type of drama.",
+            "In Aristotle's time, Homer's works were already regarded as {25} of literature.",
+            "Aristotle recognised the dramatic potential of a hero who has several {26}."]}],
+          "items": [
+            {"n": 23, "ans": "Poetics", "accept": ["poetics"],
+             "stmt": "Aristotle's work on storytelling is called ___",
+             "kw": ["work on storytelling is called", "a slim volume known as"],
+             "ev": "\"He left some incomplete lecture notes on the art of telling stories ... a slim volume known as Poetics.\"",
+             "ex": "→ <b>Poetics</b>."},
+            {"n": 24, "ans": "tragedy", "accept": ["tragedy"],
+             "stmt": "Aristotle saw ___ as a very powerful type of drama",
+             "kw": ["very powerful", "particularly potent"],
+             "ev": "\"Tragedy, for Aristotle, was particularly potent in its capacity to enlist and then purge the emotions\"",
+             "ex": "powerful = potent → <b>tragedy</b>."},
+            {"n": 25, "ans": "landmarks", "accept": ["landmarks", "landmark"],
+             "stmt": "Homer's works were already regarded as ___ of literature",
+             "kw": ["already regarded as", "were already considered landmarks"],
+             "ev": "\"Homer, whose Iliad and Odyssey were already considered landmarks - stories by which all other stories should be measured.\"",
+             "ex": "regarded = considered → <b>landmarks</b>."},
+            {"n": 26, "ans": "weaknesses", "accept": ["weaknesses"],
+             "stmt": "the dramatic potential of a hero who has several ___",
+             "kw": ["dramatic potential / several", "intrinsically dramatic / shows some weaknesses"],
+             "ev": "\"As Aristotle saw, the hero who shows some weaknesses is intrinsically dramatic.\"",
+             "ex": "several = some → <b>weaknesses</b>."}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Reading Passage 3",
+      "heading": "Reducing exposure to indoor air pollution in developing countries",
+      "caption": "You should spend about 20 minutes on Questions 27&ndash;40, which are based on Reading Passage 3 below.",
+      "paras": [
+        ["", "<i>In a review of ways of reducing smoke levels, interventions were considered in three areas: the source of smoke, the living environment and the user</i>"],
+        ["", "<b>Cooking on a cleaner fuel</b>"],
+        ["", "{{ev:37}}The most effective means of reducing indoor air pollution is to switch from biomass* to cleaner fuel that produces significantly lower emissions.{{/ev}} For those who are able to switch to fuels such as kerosene or Liquified Petroleum Gas (LPG), the benefits are great. In many urban areas these fuels cost less per unit than biomass. However, there is often a larger initial investment needed to purchase the fuels and the stoves. {{ev:27}}For example, LPG must be purchased each week or month by the cylinder, but many people can only afford to get a little fuel daily.{{/ev}} Making fuel available in smaller units would benefit poorer customers. In rural areas there is less incentive to switch fuels, as biomass is gathered at no financial cost to the user."],
+        ["", "Another alternative fuel, biogas, is extremely effective, as it converts a renewable material (dung and other organic waste materials) into a gaseous, clean fuel. {{ev:28}}While biogas is being introduced in parts of Asia very successfully - there are over 120,000 biogas plants in Nepal alone - traditional attitudes in other regions make it harder to introduce.{{/ev}}"],
+        ["", "<b>Getting smoke out of the house</b>"],
+        ["", "For those trapped into using biomass as their main domestic fuel for the foreseeable future, options for reducing exposure to indoor air pollution will entail safe ways of getting smoke out of the home. Substantial reductions to smoke exposure have been obtained with relatively simple methods. For example, one project in Kenya reduced particulate and carbon monoxide pollution in homes by nearly 80% through the use of smoke hoods. These work on the same principle as chimneys but have the advantage of being freestanding and independent of the stove. Substantial benefits were also achieved by increasing the roof spaces in traditional houses and installing better-fitting doors. {{ev:29}}However, the enlargement of windows in the same project seemed to have little impact.{{/ev}}"],
+        ["", "<b>Cutting smoke volumes in improved biomass stoves</b>"],
+        ["", "Improved stoves were primarily designed to increase energy efficiency. As the Upesi stove incorporates a chimney, one would anticipate smoke would be reduced. {{ev:30}}There are some very effective chimney stoves which, when tested in the home, show a significant reduction in smoke.{{/ev}} Good examples are the rocket stove and Ecostove, which are increasingly being used in Central America."],
+        ["", "However, there are also potential problems with many chimney stoves: {{ev:38}}they may not perform well if they are not installed properly, or are poorly designed.{{/ev}} Chimneys are expensive and may be ineffective if the smoke returns through doors and windows. They can also block up quickly with soot and require regular cleaning."],
+        ["", "<b>Reducing the need for fire</b>"],
+        ["", "A very simple technology can reduce the need for fuel for cooking - this is the fireless cooker, or 'hay box'. This acts like a slow cooker, and is good for making soups, rice or stews. {{ev:31}}The food is heated to boiling, then placed in a box filled with insulating material, such as hay or crumpled newspaper. The food continues to cook slowly.{{/ev}} {{ev:39}}The development organization - Winrock found that the hay box was in demand with women's groups in Nairobi, where they are proving as popular as improved stoves.{{/ev}}"],
+        ["", "As much of the need for improved cooking comes from countries with abundant sunshine, it would seem a logical step to move towards solar power, and {{ev:32}}there are some passionate advocates for this technology.{{/ev}} Solar cookers, which concentrate sunlight directly to cook food, have been seen as a clean, alternative way of cooking. {{ev:33}}Unfortunately, there has been limited success in practice.{{/ev}} The use of solar energy means preparing a meal at midday, which does not coincide with the main family mealtime in many cultures. It also requires the cook to work outdoors."],
+        ["", "<b>Changing patterns of behaviour</b>"],
+        ["", "Simple changes in the way the cook behaves can reduce exposure to smoke. For example, making sure that fuel wood is dry cuts emissions. {{ev:34}}The use of a pot lid can reduce the fuel consumed during simmering by a factor of three, and overall emission levels by almost a half.{{/ev}} {{ev:35}}On the other hand, keeping children away from the fire may seem an obvious way of reducing their exposure, but as many children are habitually carried on their mother's back, this can be very difficult, especially where the mother is the only childminder.{{/ev}} {{ev:36}}Cooking outdoors would also reduce exposure to indoor air pollution, and in some parts of the world, for example amongst the aborigines in Australia, this is standard practice.{{/ev}} However, for most cultures, cooking indoors is standard."],
+        ["", "<b>Identifying appropriate solutions</b>"],
+        ["", "Experience has indicated that there is no point trying to dictate a solution to a community. This is a view supported by a World Health Organization and US aid-supported consultation on indoor air pollution and health: 'A single-issue, technology-driven approach to indoor air quality is doomed to failure... Such an approach frequently demands changes of the local community that affect numerous aspects of their lives.' {{ev:40}}The authors argue that 'the key to success is to adopt project approaches that broaden the range of secure and sustainable choices available locally, and thus enable people to devise their own solutions'.{{/ev}}"],
+        ["", "<small><i>Biomass*: Biomass is renewable organic material that comes from plants and animals. Biomass can be burned directly for heat or converted to liquid and gaseous fuels through various processes.</i></small>"]
+      ],
+      "groups": [
+        {
+          "type": "mc", "range": "27-31",
+          "desc": "Choose the correct letter, <b>A</b>, <b>B</b>, <b>C</b> or <b>D</b>.",
+          "items": [
+            {"n": 27, "text": "For many people living in towns, one problem with switching to kerosene or LPG is that", "ans": "A",
+             "options": [["A", "these have to be bought in relatively large quantities."], ["B", "these are usually more expensive than biomass fuel."], ["C", "the fuel containers are too heavy to carry very far."], ["D", "the right types of stove are often unavailable."]],
+             "kw": ["bought in relatively large quantities", "purchased each week or month by the cylinder ... only afford ... a little fuel daily"],
+             "ev": "\"For example, LPG must be purchased each week or month by the cylinder, but many people can only afford to get a little fuel daily.\"",
+             "ex": "A cylinder for a week or month = a large quantity → <b>A</b>. B is wrong: in urban areas these fuels \"cost less per unit than biomass\"."},
+            {"n": 28, "text": "What does the writer say about biogas?", "ans": "C",
+             "options": [["A", "It is a source of indoor pollution."], ["B", "It hasn't been tried on a large scale yet."], ["C", "There is a reluctance to use it in some places."], ["D", "A lot of energy is wasted in the production process."]],
+             "kw": ["reluctance to use it in some places", "traditional attitudes in other regions make it harder to introduce"],
+             "ev": "\"While biogas is being introduced in parts of Asia very successfully ... traditional attitudes in other regions make it harder to introduce.\"",
+             "ex": "→ <b>C</b>. B is wrong: 120,000 biogas plants in Nepal is a large scale."},
+            {"n": 29, "text": "Which of the following was ineffective in one project in Kenya?", "ans": "B",
+             "options": [["A", "installation of smoke hoods"], ["B", "bigger windows"], ["C", "better door construction"], ["D", "enlargement of space under the roof"]],
+             "kw": ["ineffective", "the enlargement of windows ... seemed to have little impact"],
+             "ev": "\"However, the enlargement of windows in the same project seemed to have little impact.\"",
+             "ex": "little impact = ineffective → <b>B</b>. Smoke hoods, doors and roof space all gave substantial benefits."},
+            {"n": 30, "text": "What does the writer say about chimneys on improved biomass stoves?", "ans": "A",
+             "options": [["A", "They can cut smoke pollution considerably."], ["B", "They generally need very little maintenance."], ["C", "They do not have to be fitted by specialists."], ["D", "They work best if the room is well ventilated."]],
+             "kw": ["cut smoke pollution considerably", "very effective chimney stoves ... show a significant reduction in smoke"],
+             "ev": "\"There are some very effective chimney stoves which, when tested in the home, show a significant reduction in smoke.\"",
+             "ex": "considerably = significant → <b>A</b>. B is wrong (they \"require regular cleaning\"), C is wrong (they must be \"installed properly\")."},
+            {"n": 31, "text": "What point does the writer make about 'hay boxes'?", "ans": "D",
+             "options": [["A", "A reliable supply of hay is essential."], ["B", "Any type of food can be cooked in them."], ["C", "People cannot be easily convinced of their usefulness."], ["D", "Fuel is only required at the start of the cooking process."]],
+             "kw": ["fuel only at the start", "heated to boiling, then placed in a box ... continues to cook slowly"],
+             "ev": "\"The food is heated to boiling, then placed in a box filled with insulating material, such as hay or crumpled newspaper. The food continues to cook slowly.\"",
+             "ex": "Heat is used only to bring the food to the boil → <b>D</b>. A is wrong (newspaper also works), C is wrong (they were \"in demand\")."}
+          ]
+        },
+        {
+          "type": "tfng", "mode": "YNNG", "range": "32-36",
+          "desc": "Do the following statements agree with the claims of the writer in Reading Passage 3?<br>In boxes 32&ndash;36 on your answer sheet, write:",
+          "items": [
+            {"n": 32, "text": "Certain people strongly recommend a change to solar power for cooking.", "ans": "YES",
+             "kw": ["strongly recommend", "there are some passionate advocates for this technology"],
+             "ev": "\"it would seem a logical step to move towards solar power, and there are some passionate advocates for this technology.\"",
+             "ex": "passionate advocates = people who strongly recommend → <b>YES</b>."},
+            {"n": 33, "text": "Solar powered ovens are unavailable in many countries.", "ans": "NOT GIVEN",
+             "kw": ["unavailable in many countries", "only \"limited success in practice\" (mealtimes, cooking outdoors)"],
+             "ev": "\"Unfortunately, there has been limited success in practice. The use of solar energy means preparing a meal at midday...\"",
+             "ex": "The writer explains why solar cookers are not popular, not whether they can be bought → <b>NOT GIVEN</b>."},
+            {"n": 34, "text": "Covering a cooking pot has little effect on smoke emissions.", "ans": "NO",
+             "kw": ["little effect on emissions", "a pot lid can reduce ... overall emission levels by almost a half"],
+             "ev": "\"The use of a pot lid can reduce the fuel consumed during simmering by a factor of three, and overall emission levels by almost a half.\"",
+             "ex": "Cutting emissions by half is a big effect → <b>NO</b>."},
+            {"n": 35, "text": "Keeping their children away from the source of heat is a practical option for most mothers.", "ans": "NO",
+             "kw": ["a practical option", "this can be very difficult"],
+             "ev": "\"keeping children away from the fire may seem an obvious way of reducing their exposure, but as many children are habitually carried on their mother's back, this can be very difficult\"",
+             "ex": "very difficult ≠ practical → <b>NO</b>."},
+            {"n": 36, "text": "There are some societies where cooking is normally done in the open.", "ans": "YES",
+             "kw": ["normally done in the open", "cooking outdoors ... amongst the aborigines in Australia, this is standard practice"],
+             "ev": "\"Cooking outdoors would also reduce exposure to indoor air pollution, and in some parts of the world, for example amongst the aborigines in Australia, this is standard practice.\"",
+             "ex": "normally = standard practice; in the open = outdoors → <b>YES</b>."}
+          ]
+        },
+        {
+          "type": "chip", "range": "37-40", "letters": "ABCDEFG",
+          "desc": "Complete each sentence with the correct ending, <b>A&ndash;G</b>, below.<br>Write the correct letter, <b>A&ndash;G</b>, in boxes 37&ndash;40 on your answer sheet.",
+          "box": {"title": "Sentence endings", "rows": [["A", "an increase in the size of windows."], ["B", "a fuel-saving method of cooking mainly without fire."], ["C", "the use of solid plant or animal matter as fuel."], ["D", "a focus on the single most effective cooking method."], ["E", "the possibility of choice for users."], ["F", "the conversion of solid organic waste into gas."], ["G", "the suitability of its design and construction."]]},
+          "items": [
+            {"n": 37, "text": "The best way to cut smoke pollution is to discourage ...", "ans": "C",
+             "kw": ["the best way ... discourage", "the most effective means ... is to switch from biomass"],
+             "ev": "\"The most effective means of reducing indoor air pollution is to switch from biomass* to cleaner fuel\"",
+             "ex": "Biomass = solid plant or animal matter (see the footnote) → <b>C</b>."},
+            {"n": 38, "text": "The effectiveness of a chimney stove depends on ...", "ans": "G",
+             "kw": ["effectiveness depends on", "may not perform well if not installed properly, or poorly designed"],
+             "ev": "\"they may not perform well if they are not installed properly, or are poorly designed.\"",
+             "ex": "installed / designed = construction / design → <b>G</b>."},
+            {"n": 39, "text": "In Nairobi, a technique which proved popular was ...", "ans": "B",
+             "kw": ["popular in Nairobi", "the hay box was in demand with women's groups in Nairobi"],
+             "ev": "\"Winrock found that the hay box was in demand with women's groups in Nairobi, where they are proving as popular as improved stoves.\"",
+             "ex": "The hay box is a fireless cooker that reduces the need for fuel → <b>B</b>."},
+            {"n": 40, "text": "Successful projects to reduce indoor pollution must involve ...", "ans": "E",
+             "kw": ["successful projects must involve", "the key to success is ... broaden the range of ... choices"],
+             "ev": "\"the key to success is to adopt project approaches that broaden the range of secure and sustainable choices available locally, and thus enable people to devise their own solutions\"",
+             "ex": "→ <b>E</b>. D is the opposite: a single-issue approach \"is doomed to failure\"."}
+          ]
+        }
+      ]
+    }
+  ]
+}
